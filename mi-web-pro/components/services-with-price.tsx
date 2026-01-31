@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { Wallet, ArrowRightLeft, TrendingUp, TrendingDown } from "lucide-react"
+import { Wallet, ArrowRightLeft, TrendingUp, TrendingDown, CheckCircle, Clock, Shield } from "lucide-react"
 import useSWR from "swr"
 
 const WHATSAPP_NUMBER = "59899123456"
@@ -46,6 +46,13 @@ const services = [
     borderColor: "hover:border-primary/50",
     priceType: "sell" as const,
   },
+]
+
+const stats = [
+  { value: "463+", label: "Operaciones en 30 dias", icon: TrendingUp },
+  { value: "97.27%", label: "Tasa completada", icon: CheckCircle },
+  { value: "3.78 min", label: "Tiempo promedio", icon: Clock },
+  { value: "100%", label: "Feedback positivo", icon: Shield },
 ]
 
 export default function ServicesWithPrice() {
@@ -141,6 +148,28 @@ export default function ServicesWithPrice() {
             )
           })}
         </div>
+
+        {/* Stats - smaller, below Comprar/Vender */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 max-w-2xl mx-auto mt-8"
+        >
+          {stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 border border-border/50"
+            >
+              <stat.icon className="w-4 h-4 text-muted-foreground shrink-0" />
+              <div>
+                <div className="text-sm font-semibold text-foreground">{stat.value}</div>
+                <div className="text-xs text-muted-foreground">{stat.label}</div>
+              </div>
+            </div>
+          ))}
+        </motion.div>
 
         {data?.lastUpdated && (
           <motion.p

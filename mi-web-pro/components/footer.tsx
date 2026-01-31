@@ -45,10 +45,10 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/#servicios"
+                  href="/#cotizacion"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Servicios
+                  Comerciar
                 </Link>
               </li>
               <li>
@@ -61,10 +61,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#soporte"
+                  href="/nosotros"
                   className="text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  Soporte
+                  Nosotros
                 </Link>
               </li>
               <li>

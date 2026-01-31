@@ -1,10 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-
-const WHATSAPP_NUMBER = "59899123456"
 
 export default function Hero() {
   return (
@@ -42,19 +38,6 @@ export default function Hero() {
 
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-8"
-          >
-            <span className="text-2xl">₮</span>
-            <span className="text-sm text-primary font-medium">
-              Compra y vende USDT al mejor precio en Uruguay
-            </span>
-          </motion.div>
-
           {/* Main Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -74,48 +57,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto text-pretty"
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty"
           >
             Tu plataforma de confianza para USDT en Uruguay.
             Asesoramiento personalizado y las mejores cotizaciones del mercado.
           </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Button
-              asChild
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 group"
-            >
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Comprar USDT
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-border hover:bg-secondary px-8 bg-transparent"
-            >
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Vender USDT
-              </a>
-            </Button>
-          </motion.div>
 
           
         </div>

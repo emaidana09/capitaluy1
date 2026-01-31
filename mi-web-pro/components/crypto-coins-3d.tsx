@@ -11,7 +11,7 @@ function createSymbolTexture(symbol: string): THREE.CanvasTexture {
   canvas.height = 256
   const ctx = canvas.getContext("2d")!
   ctx.clearRect(0, 0, 256, 256)
-  ctx.fillStyle = "rgba(0, 0, 0, 0)"
+  ctx.fillStyle = "rgba(255, 255, 255, 0)"
   ctx.fillRect(0, 0, 256, 256)
   ctx.fillStyle = "white"
   ctx.font = "bold 180px system-ui, Arial, sans-serif"
@@ -61,23 +61,15 @@ function Coin({
             emissiveIntensity={0.2}
           />
         </mesh>
-        <mesh position={[0, 0, 0.1]} scale={0.6} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.5, 0.1, 16, 32]} />
-          <meshStandardMaterial
-            color={color}
-            metalness={0.9}
-            roughness={0.1}
-          />
-        </mesh>
         <mesh position={[0, 0, 0.09]}>
           <planeGeometry args={[0.6, 0.6]} />
           <meshBasicMaterial
             map={texture}
             transparent
-            alphaTest={0.5}
-            toneMapped={false}
+            alphaTest={0.1}
             depthWrite={false}
             side={THREE.DoubleSide}
+            toneMapped={false}
           />
         </mesh>
       </group>

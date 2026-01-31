@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Shield, Clock, Headphones, Zap, TrendingUp, CheckCircle } from "lucide-react"
+import { Shield, Clock, Headphones, Zap } from "lucide-react"
 import dynamic from "next/dynamic"
 
 const CryptoCoins3D = dynamic(() => import("./crypto-coins-3d"), {
@@ -36,57 +36,10 @@ const features = [
   },
 ]
 
-const stats = [
-  { value: "463+", label: "Operaciones en 30 dias", icon: TrendingUp },
-  { value: "97.27%", label: "Tasa de Completadas", icon: CheckCircle },
-  { value: "3.78 min", label: "Tiempo Promedio Liberacion", icon: Clock },
-  { value: "100%", label: "Feedback Positivo (102)", icon: Shield },
-]
-
 export default function SupportSection() {
   return (
     <section className="py-20 px-4 relative overflow-hidden" id="nosotros">
       <div className="container mx-auto">
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-balance">
-            Sobre Nosotros
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Somos tu plataforma de confianza para comprar y vender USDT en Uruguay. 
-            Estos son nuestros numeros que nos respaldan.
-          </p>
-        </motion.div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16 max-w-4xl mx-auto">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-              className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all text-center"
-            >
-              <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-              <div className="text-2xl md:text-3xl font-bold text-primary mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs md:text-sm text-muted-foreground">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <motion.div

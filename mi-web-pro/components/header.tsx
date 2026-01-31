@@ -36,7 +36,7 @@ export default function Header() {
         <div className="hidden md:flex items-center gap-6">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 text-foreground/80 hover:text-foreground transition-colors">
-              Servicios <ChevronDown className="w-4 h-4" />
+              Comerciar <ChevronDown className="w-4 h-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="bg-card border-border">
               <DropdownMenuItem asChild>
@@ -60,32 +60,18 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-foreground/80 hover:text-foreground transition-colors">
-              Nosotros <ChevronDown className="w-4 h-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-card border-border">
-              <DropdownMenuItem asChild>
-                <Link href="/#nosotros">Sobre Nosotros</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/#contacto">Contacto</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Link 
-            href="/#cotizacion" 
-            className="text-foreground/80 hover:text-foreground transition-colors"
-          >
-            Cotizacion
-          </Link>
-
           <Link 
             href="/aprender" 
             className="text-foreground/80 hover:text-foreground transition-colors"
           >
             Cursos
+          </Link>
+
+          <Link 
+            href="/nosotros" 
+            className="text-foreground/80 hover:text-foreground transition-colors"
+          >
+            Nosotros
           </Link>
         </div>
 
@@ -120,11 +106,12 @@ export default function Header() {
         )}
       >
         <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+          <span className="text-sm text-muted-foreground font-medium py-1">Comerciar</span>
           <a
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="py-2 text-foreground/80 hover:text-foreground"
+            className="py-2 text-foreground/80 hover:text-foreground pl-4"
             onClick={() => setMobileMenuOpen(false)}
           >
             Comprar USDT
@@ -133,31 +120,24 @@ export default function Header() {
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="py-2 text-foreground/80 hover:text-foreground"
+            className="py-2 text-foreground/80 hover:text-foreground pl-4"
             onClick={() => setMobileMenuOpen(false)}
           >
             Vender USDT
           </a>
-          <Link
-            href="/#nosotros"
-            className="py-2 text-foreground/80 hover:text-foreground"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Nosotros
-          </Link>
-          <Link
-            href="/#cotizacion"
-            className="py-2 text-foreground/80 hover:text-foreground"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Cotizacion
-          </Link>
           <Link
             href="/aprender"
             className="py-2 text-foreground/80 hover:text-foreground"
             onClick={() => setMobileMenuOpen(false)}
           >
             Cursos
+          </Link>
+          <Link
+            href="/nosotros"
+            className="py-2 text-foreground/80 hover:text-foreground"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Nosotros
           </Link>
           <div className="pt-4 border-t border-border">
             <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>

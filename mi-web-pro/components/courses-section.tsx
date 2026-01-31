@@ -79,27 +79,6 @@ const courses = [
   },
 ]
 
-const workshops = [
-  {
-    id: 1,
-    title: "Taller Practico: Tu Primera Compra",
-    description: "Sesion practica donde te guiamos paso a paso en tu primera compra de criptomonedas.",
-    duration: "2 horas",
-    price: 1200,
-    currency: "UYU",
-    date: "Proxima fecha a confirmar",
-  },
-  {
-    id: 2,
-    title: "Taller de Seguridad Cripto",
-    description: "Aprende a proteger tus criptomonedas: hardware wallets, 2FA y mejores practicas.",
-    duration: "3 horas",
-    price: 1800,
-    currency: "UYU",
-    date: "Proxima fecha a confirmar",
-  },
-]
-
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
@@ -134,7 +113,7 @@ export default function CoursesSection() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
-              Cursos y talleres disenados para todos los niveles. Desde
+              Cursos disenados para todos los niveles. Desde
               principiantes hasta traders avanzados.
             </p>
           </motion.div>
@@ -164,71 +143,6 @@ export default function CoursesSection() {
                 variants={cardVariants}
               >
                 <CourseCard course={course} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Workshops Section */}
-      <section className="py-16 px-4 bg-card/50" id="talleres">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-10"
-          >
-            <h2 className="text-3xl font-bold mb-4">Talleres Presenciales</h2>
-            <p className="text-muted-foreground max-w-2xl">
-              Sesiones practicas en grupos reducidos donde aprenderas de forma
-              interactiva con nuestros expertos.
-            </p>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
-            {workshops.map((workshop, i) => (
-              <motion.div
-                key={workshop.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-all group"
-              >
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Clock className="w-4 h-4" />
-                  <span>{workshop.duration}</span>
-                  <span className="mx-2">|</span>
-                  <span>{workshop.date}</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                  {workshop.title}
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  {workshop.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-primary">
-                    ${workshop.price.toLocaleString("es-UY")}{" "}
-                    <span className="text-sm font-normal text-muted-foreground">
-                      {workshop.currency}
-                    </span>
-                  </span>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground bg-transparent"
-                  >
-                    <a
-                      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, me interesa el taller: ${workshop.title}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Inscribirme
-                    </a>
-                  </Button>
-                </div>
               </motion.div>
             ))}
           </div>
