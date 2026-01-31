@@ -1,0 +1,159 @@
+"use client"
+
+import { motion, AnimatePresence } from "framer-motion"
+import { Wallet, ArrowRightLeft, TrendingUp, TrendingDown } from "lucide-react"
+import useSWR from "swr"
+
+const WHATSAPP_NUMBER = "59899123456"
+
+interface CryptoPrice {
+  id: string
+  symbol: string
+  name: string
+  buyPrice: number
+  sellPrice: number
+  enabled: boolean
+  lastUpdated: string
+}
+
+interface PriceData {
+  cryptos: CryptoPrice[]
+  lastUpdated: string
+}
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
+const services = [
+  {
+    id: "comprar",
+    title: "Comprar",
+    description: "Compra USDT de forma segura y rapida. Te guiamos en cada paso.",
+    icon: Wallet,
+    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`,
+    color: "from-accent/20 to-accent/5",
+    iconColor: "text-accent",
+    borderColor: "hover:border-accent/50",
+    priceType: "buy" as const,
+  },
+  {
+    id: "vender",
+    title: "Vender",
+    description: "Vende tus USDT al mejor precio. Proceso simple y directo.",
+    icon: ArrowRightLeft,
+    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`,
+    color: "from-primary/20 to-primary/5",
+    iconColor: "text-primary",
+    borderColor: "hover:border-primary/50",
+    priceType: "sell" as const,
+  },
+]
+
+export default function ServicesWithPrice() {
+  const { data, isLoading } = useSWR<PriceData>("/api/prices", fetcher, {
+    refreshInterval: 30000,
+  })
+
+  const usdt = data?.cryptos.find((c) => c.id === "usdt")
+
+  return (
+    <section className="py-12 px-4" id="cotizacion">
+      <div className="container mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-balance">
+            Cotizacion USDT
+          </h2>
+          <p className="text-muted-foreground">
+            Precios actualizados en tiempo real
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {services.map((service, i) => {
+            const Icon = service.icon
+            const price = service.priceType === "buy" ? usdt?.buyPrice : usdt?.sellPrice
+            const PriceIcon = service.priceType === "buy" ? TrendingUp : TrendingDown
+
+            return (
+              <motion.a
+                key={service.id}
+                href={service.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.15 }}
+                whileHover={{ scale: 1.02, y: -5 }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-8 cursor-pointer group transition-all duration-300 ${service.borderColor} hover:shadow-xl flex flex-col min-h-[320px]`}
+              >
+                <div className="flex items-start justify-between mb-6">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                    className={`w-16 h-16 rounded-xl bg-secondary/50 flex items-center justify-center ${service.iconColor}`}
+                  >
+                    <Icon className="w-8 h-8" />
+                  </motion.div>
+                  <div className="flex items-center gap-2">
+                    <PriceIcon className={`w-5 h-5 ${service.iconColor}`} />
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                  {service.title}
+                </h3>
+
+                <p className="text-muted-foreground text-sm mb-6 flex-1">
+                  {service.description}
+                </p>
+
+                {/* Price Display */}
+                <div className="pt-4 border-t border-border/50 mt-auto">
+                  <div className="flex items-baseline gap-2">
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={`price-${price}`}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className={`text-3xl md:text-4xl font-bold ${service.iconColor}`}
+                      >
+                        {isLoading ? (
+                          <span className="animate-pulse">---</span>
+                        ) : (
+                          `$${price?.toLocaleString("es-UY", { minimumFractionDigits: 2 }) || "---"}`
+                        )}
+                      </motion.span>
+                    </AnimatePresence>
+                    <span className="text-muted-foreground text-sm">UYU / USDT</span>
+                  </div>
+                </div>
+
+                {/* Hover effects */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.a>
+            )
+          })}
+        </div>
+
+        {data?.lastUpdated && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-center text-xs text-muted-foreground mt-4"
+          >
+            Actualizado: {new Date(data.lastUpdated).toLocaleString("es-UY")}
+          </motion.p>
+        )}
+      </div>
+    </section>
+  )
+}
