@@ -80,13 +80,13 @@ const courses = [
 ]
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.15,
-      duration: 0.5,
+      delay: i * 0.05,
+      duration: 0.25,
       ease: "easeOut",
     },
   }),
@@ -123,14 +123,9 @@ export default function CoursesSection() {
       {/* Courses Section */}
       <section className="py-16 px-4">
         <div className="container mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold mb-10"
-          >
+          <h2 className="text-3xl font-bold mb-10">
             Cursos Disponibles
-          </motion.h2>
+          </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {courses.map((course, i) => (
@@ -138,8 +133,7 @@ export default function CoursesSection() {
                 key={course.id}
                 custom={i}
                 initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
+                animate="visible"
                 variants={cardVariants}
               >
                 <CourseCard course={course} />

@@ -1,4 +1,20 @@
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+
+const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
+
+function isValidToken(token: string): boolean {
+  if (!token) return false
+  const parts = token.split("-")
+  if (parts.length < 3) return false
+  return parts[2] === SESSION_SECRET.substring(0, 8)
+}
+
+async function isAdminAuthenticated(): Promise<boolean> {
+  const cookieStore = await cookies()
+  const token = cookieStore.get("admin_session")?.value
+  return !!(token && isValidToken(token))
+}
 
 export interface CryptoPrice {
   id: string
@@ -32,6 +48,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const authenticated = await isAdminAuthenticated()
+    if (!authenticated) {
+      return NextResponse.json(
+        { error: "No autorizado. Inicia sesion como administrador." },
+        { status: 401 }
+      )
+    }
+
     const body = await request.json()
     const { action, data } = body
 

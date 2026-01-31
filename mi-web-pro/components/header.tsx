@@ -4,16 +4,8 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { ChevronDown, Menu, X, Settings } from "lucide-react"
+import { Menu, X, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-const WHATSAPP_NUMBER = "59899123456"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -34,31 +26,12 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1 text-foreground/80 hover:text-foreground transition-colors">
-              Comerciar <ChevronDown className="w-4 h-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-card border-border">
-              <DropdownMenuItem asChild>
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Comprar USDT
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Vender USDT
-                </a>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Link 
+            href="/#cotizacion" 
+            className="text-foreground/80 hover:text-foreground transition-colors"
+          >
+            Comerciar
+          </Link>
 
           <Link 
             href="/aprender" 
@@ -106,25 +79,13 @@ export default function Header() {
         )}
       >
         <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-          <span className="text-sm text-muted-foreground font-medium py-1">Comerciar</span>
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="py-2 text-foreground/80 hover:text-foreground pl-4"
+          <Link
+            href="/#cotizacion"
+            className="py-2 text-foreground/80 hover:text-foreground"
             onClick={() => setMobileMenuOpen(false)}
           >
-            Comprar USDT
-          </a>
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="py-2 text-foreground/80 hover:text-foreground pl-4"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Vender USDT
-          </a>
+            Comerciar
+          </Link>
           <Link
             href="/aprender"
             className="py-2 text-foreground/80 hover:text-foreground"
