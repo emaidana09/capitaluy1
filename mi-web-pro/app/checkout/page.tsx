@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -40,7 +40,7 @@ function buildMessage(
   )
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const searchParams = useSearchParams()
   const type = (searchParams.get("type") === "sell" ? "sell" : "buy") as "buy" | "sell"
   const { config } = useConfig()
@@ -150,5 +150,17 @@ export default function CheckoutPage() {
       <Footer />
       <WhatsAppButton />
     </main>
+  )
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+      </main>
+    }>
+      <CheckoutContent />
+    </Suspense>
   )
 }
