@@ -1,9 +1,9 @@
 "use client"
 
+import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Wallet, ArrowRightLeft, TrendingUp, TrendingDown, CheckCircle, Clock, Shield } from "lucide-react"
 import useSWR from "swr"
-import { useConfig } from "@/lib/config-context"
 
 interface CryptoPrice {
   id: string
@@ -22,13 +22,13 @@ interface PriceData {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-const getServices = (whatsapp: string) => [
+const getServices = () => [
   {
     id: "comprar",
     title: "Comprar",
     description: "Compra USDT de forma segura y rapida. Te guiamos en cada paso.",
     icon: Wallet,
-    href: `https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, me interesa comprar")}`,
+    href: "/checkout?type=buy",
     color: "from-accent/20 to-accent/5",
     iconColor: "text-accent",
     borderColor: "hover:border-accent/50",
@@ -39,7 +39,7 @@ const getServices = (whatsapp: string) => [
     title: "Vender",
     description: "Vende tus USDT al mejor precio. Proceso simple y directo.",
     icon: ArrowRightLeft,
-    href: `https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, me interesa vender")}`,
+    href: "/checkout?type=sell",
     color: "from-primary/20 to-primary/5",
     iconColor: "text-primary",
     borderColor: "hover:border-primary/50",
@@ -55,8 +55,7 @@ const stats = [
 ]
 
 export default function ServicesWithPrice() {
-  const config = useConfig()
-  const services = getServices(config.whatsapp_number)
+  const services = getServices()
   const { data, isLoading } = useSWR<PriceData>("/api/prices", fetcher, {
     refreshInterval: 30000,
   })
@@ -64,16 +63,16 @@ export default function ServicesWithPrice() {
   const usdt = data?.cryptos.find((c) => c.id === "usdt")
 
   return (
-    <section className="pt-4 sm:pt-6 px-4 sm:px-6 lg:px-8" id="cotizacion">
-      <div className="w-full max-w-5xl mx-auto">
+    <section className="pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 scroll-mt-24 overflow-visible" id="cotizacion">
+      <div className="w-full max-w-5xl mx-auto overflow-visible">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-center mb-8"
+          className="text-center mb-8 overflow-visible px-3 py-2"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 text-balance">
+          <h2 className="text-3xl md:text-4xl font-bold mb-3 overflow-visible leading-tight min-h-[1.2em] py-1">
             Cotizacion USDT
           </h2>
           <p className="text-muted-foreground">
@@ -88,11 +87,8 @@ export default function ServicesWithPrice() {
             const PriceIcon = service.priceType === "buy" ? TrendingUp : TrendingDown
 
             return (
-              <motion.a
-                key={service.id}
-                href={service.href}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link key={service.id} href={service.href}>
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
@@ -145,7 +141,8 @@ export default function ServicesWithPrice() {
 
                 {/* Hover effects */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </motion.a>
+              </motion.div>
+              </Link>
             )
           })}
         </div>

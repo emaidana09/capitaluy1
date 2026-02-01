@@ -6,7 +6,7 @@ const easing = [0.25, 0.46, 0.45, 0.94]
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[85vh] sm:min-h-[80vh] flex items-center justify-center pt-20 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[65vh] sm:min-h-[60vh] flex items-center justify-center pt-8 pb-0 px-4 sm:px-6 lg:px-8">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background pointer-events-none" />
       

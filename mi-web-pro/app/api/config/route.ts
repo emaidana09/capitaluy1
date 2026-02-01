@@ -1,6 +1,7 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { getConfigFromSheet, writeConfigToSheet, DEFAULT_CONFIG, type SiteConfig } from "@/lib/google-sheets"
+import { getConfigFromSheet, writeConfigToSheet, type SiteConfig } from "@/lib/google-sheets"
+import { DEFAULT_CONFIG } from "@/lib/config-context"
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
@@ -20,18 +21,27 @@ async function isAdminAuthenticated(): Promise<boolean> {
 // In-memory fallback when no Google Sheets
 let memoryConfig: SiteConfig | null = null
 
+/** Merge config: non-empty values override DEFAULT_CONFIG */
+function mergeWithDefaults(source: SiteConfig | null): SiteConfig {
+  if (!source) return DEFAULT_CONFIG
+  const merged = { ...DEFAULT_CONFIG }
+  for (const k of Object.keys(merged) as (keyof SiteConfig)[]) {
+    const v = source[k]
+    if (v != null && String(v).trim() !== "") {
+      merged[k] = String(v).trim()
+    }
+  }
+  return merged
+}
+
 export async function GET() {
   try {
     const sheetConfig = await getConfigFromSheet()
-    if (sheetConfig) {
-      return NextResponse.json(sheetConfig)
-    }
-    if (memoryConfig) {
-      return NextResponse.json(memoryConfig)
-    }
-    return NextResponse.json(DEFAULT_CONFIG)
-  } catch {
-    return NextResponse.json(memoryConfig || DEFAULT_CONFIG)
+    const config = mergeWithDefaults(sheetConfig ?? memoryConfig ?? null)
+    return NextResponse.json(config)
+  } catch (error) {
+    console.error("Error in GET /api/config:", error)
+    return NextResponse.json(mergeWithDefaults(memoryConfig))
   }
 }
 
@@ -47,14 +57,14 @@ export async function POST(request: Request) {
 
     const body = await request.json()
     const config: SiteConfig = {
-      whatsapp_number: body.whatsapp_number ?? DEFAULT_CONFIG.whatsapp_number,
-      email: body.email ?? DEFAULT_CONFIG.email,
-      phone_display: body.phone_display ?? DEFAULT_CONFIG.phone_display,
-      address: body.address ?? DEFAULT_CONFIG.address,
-      instagram_url: body.instagram_url ?? DEFAULT_CONFIG.instagram_url,
-      twitter_url: body.twitter_url ?? DEFAULT_CONFIG.twitter_url,
-      telegram_url: body.telegram_url ?? DEFAULT_CONFIG.telegram_url,
-      footer_description: body.footer_description ?? DEFAULT_CONFIG.footer_description,
+      whatsapp_number: body.whatsapp_number ? body.whatsapp_number : DEFAULT_CONFIG.whatsapp_number,
+      email: body.email ? body.email : DEFAULT_CONFIG.email,
+      phone_display: body.phone_display ? body.phone_display : DEFAULT_CONFIG.phone_display,
+      address: body.address ? body.address : DEFAULT_CONFIG.address,
+      instagram_url: body.instagram_url ? body.instagram_url : DEFAULT_CONFIG.instagram_url,
+      twitter_url: body.twitter_url ? body.twitter_url : DEFAULT_CONFIG.twitter_url,
+      telegram_url: body.telegram_url ? body.telegram_url : DEFAULT_CONFIG.telegram_url,
+      footer_description: body.footer_description ? body.footer_description : DEFAULT_CONFIG.footer_description,
     }
 
     memoryConfig = config
@@ -66,6 +76,7 @@ export async function POST(request: Request) {
       config,
     })
   } catch (error) {
+    console.error("Error in POST /api/config:", error); // Added more specific logging
     return NextResponse.json(
       { error: "Error al guardar" },
       { status: 500 }

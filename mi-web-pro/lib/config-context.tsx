@@ -13,10 +13,10 @@ export interface SiteConfig {
   footer_description: string
 }
 
-const defaultConfig: SiteConfig = {
-  whatsapp_number: "59899123456",
+export const DEFAULT_CONFIG: SiteConfig = {
+  whatsapp_number: "59899584364",
   email: "info@capitaluy.com",
-  phone_display: "+598 99 123 456",
+  phone_display: "+598 99 584 364",
   address: "Montevideo, Uruguay",
   instagram_url: "#",
   twitter_url: "#",
@@ -24,19 +24,46 @@ const defaultConfig: SiteConfig = {
   footer_description: "Tu plataforma confiable para comprar y vender USDT y criptomonedas en Uruguay.",
 }
 
-const ConfigContext = createContext<SiteConfig>(defaultConfig)
+type ConfigContextValue = {
+  config: SiteConfig
+  refreshConfig: () => void
+  updateConfig: (newConfig: SiteConfig) => void
+}
+
+const ConfigContext = createContext<ConfigContextValue>({ 
+  config: DEFAULT_CONFIG, 
+  refreshConfig: () => {},
+  updateConfig: () => {},
+})
+
+function mergeConfig(data: Partial<SiteConfig>): SiteConfig {
+  const merged = { ...DEFAULT_CONFIG }
+  for (const k of Object.keys(merged) as (keyof SiteConfig)[]) {
+    const v = data[k]
+    if (v != null && String(v).trim() !== "") merged[k] = String(v).trim()
+  }
+  return merged
+}
 
 export function ConfigProvider({ children }: { children: ReactNode }) {
-  const [config, setConfig] = useState<SiteConfig>(defaultConfig)
+  const [config, setConfig] = useState<SiteConfig>(DEFAULT_CONFIG)
 
-  useEffect(() => {
+  const refreshConfig = () => {
     fetch("/api/config")
       .then((res) => res.json())
-      .then((data) => setConfig({ ...defaultConfig, ...data }))
+      .then((data: Partial<SiteConfig>) => setConfig(mergeConfig(data)))
       .catch(() => {})
+  }
+
+  const updateConfig = (newConfig: SiteConfig) => {
+    setConfig(mergeConfig(newConfig))
+  }
+
+  useEffect(() => {
+    refreshConfig()
   }, [])
 
-  return <ConfigContext.Provider value={config}>{children}</ConfigContext.Provider>
+  return <ConfigContext.Provider value={{ config, refreshConfig, updateConfig }}>{children}</ConfigContext.Provider>
 }
 
 export function useConfig() {

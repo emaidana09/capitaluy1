@@ -1,6 +1,7 @@
 import { google } from "googleapis"
 
 export const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID || "1jnNmF47Y-aaMc6xsaRg2fNo31pG_KWpPIN1AVbGQD04"
+export const SPREADSHEET_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`
 // Primera hoja para precios (columnas: Symbol, Name, BuyPrice, SellPrice, Enabled)
 // Hoja "Config" para: whatsapp_number, email, etc. (columnas Q y R)
 const PRICES_RANGE = "A:E"
@@ -27,22 +28,14 @@ export interface SiteConfig {
   footer_description: string
 }
 
-const DEFAULT_CONFIG: SiteConfig = {
-  whatsapp_number: "59899123456",
-  email: "info@capitaluy.com",
-  phone_display: "+598 99 123 456",
-  address: "Montevideo, Uruguay",
-  instagram_url: "#",
-  twitter_url: "#",
-  telegram_url: "#",
-  footer_description: "Tu plataforma confiable para comprar y vender USDT y criptomonedas en Uruguay.",
-}
-
 function getAuth() {
   const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
   const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n")
 
-  if (!clientEmail || !privateKey) return null
+  if (!clientEmail || !privateKey) {
+    console.warn("Google Sheets API: Faltan GOOGLE_SERVICE_ACCOUNT_EMAIL o GOOGLE_PRIVATE_KEY.")
+    return null
+  }
 
   const auth = new google.auth.JWT({
     email: clientEmail,
@@ -97,7 +90,8 @@ export async function getPricesFromSheet(): Promise<CryptoPrice[] | null> {
       })
 
     return cryptos
-  } catch {
+  } catch (error) {
+    console.error("Error al obtener precios de Google Sheet:", error)
     return null
   }
 }
@@ -120,7 +114,8 @@ export async function writePricesToSheet(cryptos: CryptoPrice[]): Promise<boolea
       requestBody: { values },
     })
     return true
-  } catch {
+  } catch (error) {
+    console.error("Error al escribir precios en Google Sheet:", error)
     return false
   }
 }
@@ -139,17 +134,30 @@ export async function getConfigFromSheet(): Promise<SiteConfig | null> {
     const rows = response.data.values as string[][] | undefined
     if (!rows) return null
 
-    const config = { ...DEFAULT_CONFIG }
+    // Usar el DEFAULT_CONFIG del frontend como base
+    const config: SiteConfig = { 
+      whatsapp_number: "", 
+      email: "", 
+      phone_display: "", 
+      address: "", 
+      instagram_url: "", 
+      twitter_url: "", 
+      telegram_url: "", 
+      footer_description: "" 
+    } as SiteConfig; // Initialize with empty strings, will be merged with default later
+
     for (const row of rows.slice(1)) {
-      if (row[0] && row[1]) {
+      if (row[0] && row[1] !== undefined && row[1] !== null) {
         const key = row[0].toString().trim() as keyof SiteConfig
-        if (key in config) {
+        // Solo actualizar si el valor de la hoja no es una cadena vacía
+        if (key in config && row[1].toString().trim() !== '') {
           config[key] = row[1].toString().trim()
         }
       }
     }
     return config
-  } catch {
+  } catch (error) {
+    console.error("Error al obtener configuracion de Google Sheet:", error)
     return null
   }
 }
@@ -172,9 +180,8 @@ export async function writeConfigToSheet(config: SiteConfig): Promise<boolean> {
       requestBody: { values },
     })
     return true
-  } catch {
+  } catch (error) {
+    console.error("Error al escribir configuracion en Google Sheet:", error)
     return false
   }
 }
-
-export { DEFAULT_CONFIG }

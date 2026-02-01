@@ -2,12 +2,11 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import Image from "next/image"
 import { Mail, Phone, MapPin, Instagram, Twitter, Send } from "lucide-react"
 import { useConfig } from "@/lib/config-context"
 
 export default function Footer() {
-  const config = useConfig()
+  const { config } = useConfig()
   return (
     <footer className="bg-card border-t border-border" id="contacto">
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -20,13 +19,9 @@ export default function Footer() {
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <Link href="/" className="inline-block mb-4">
-              <Image 
-                src="/logo.png" 
-                alt="CapitalUY" 
-                width={200} 
-                height={70} 
-                className="h-20 w-auto"
-              />
+              <span className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                CAPITAL UY
+              </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {config.footer_description}

@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useConfig } from "@/lib/config-context"
@@ -14,69 +15,9 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react"
+import type { Course } from "@/app/api/courses/route"
 
-const courses = [
-  {
-    id: 1,
-    title: "Introduccion a las Criptomonedas",
-    description:
-      "Aprende los conceptos basicos del mundo cripto: que es Bitcoin, blockchain, wallets y como empezar de forma segura.",
-    level: "Principiante",
-    levelColor: "bg-accent text-accent-foreground",
-    duration: "4 horas",
-    students: 150,
-    rating: 4.9,
-    price: 2500,
-    currency: "UYU",
-    image: "/courses/intro-crypto.jpg",
-    features: [
-      "Que es Bitcoin y las criptomonedas",
-      "Como funciona la blockchain",
-      "Crear tu primera wallet",
-      "Seguridad basica",
-    ],
-  },
-  {
-    id: 2,
-    title: "Trading de Criptomonedas",
-    description:
-      "Domina las tecnicas de trading: analisis tecnico, gestion de riesgo y estrategias para operar en los mercados.",
-    level: "Intermedio",
-    levelColor: "bg-chart-3 text-background",
-    duration: "8 horas",
-    students: 89,
-    rating: 4.8,
-    price: 4500,
-    currency: "UYU",
-    image: "/courses/trading.jpg",
-    features: [
-      "Analisis tecnico avanzado",
-      "Indicadores y patrones",
-      "Gestion de riesgo",
-      "Estrategias de trading",
-    ],
-  },
-  {
-    id: 3,
-    title: "DeFi y Finanzas Descentralizadas",
-    description:
-      "Explora el mundo de las finanzas descentralizadas: protocolos DeFi, yield farming, staking y mas.",
-    level: "Avanzado",
-    levelColor: "bg-primary text-primary-foreground",
-    duration: "6 horas",
-    students: 45,
-    rating: 4.9,
-    price: 5500,
-    currency: "UYU",
-    image: "/courses/defi.jpg",
-    features: [
-      "Protocolos DeFi principales",
-      "Yield farming y staking",
-      "Liquidity pools",
-      "Riesgos y seguridad",
-    ],
-  },
-]
+const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -92,7 +33,9 @@ const cardVariants = {
 }
 
 export default function CoursesSection() {
-  const config = useConfig()
+  const { config } = useConfig()
+  const { data } = useSWR<{ courses: Course[] }>("/api/courses", fetcher)
+  const courses = data?.courses ?? []
   return (
     <>
       {/* Hero Section */}
@@ -202,7 +145,7 @@ export default function CoursesSection() {
   )
 }
 
-function CourseCard({ course, whatsappNumber }: { course: (typeof courses)[0]; whatsappNumber: string }) {
+function CourseCard({ course, whatsappNumber }: { course: Course; whatsappNumber: string }) {
   return (
     <motion.div
       whileHover={{ y: -5 }}

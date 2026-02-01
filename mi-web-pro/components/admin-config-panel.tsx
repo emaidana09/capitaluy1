@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Save, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react"
+import { useConfig } from "@/lib/config-context"
 
 interface SiteConfig {
   whatsapp_number: string
@@ -34,6 +35,8 @@ export default function AdminConfigPanel() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null)
+
+  const { refreshConfig, updateConfig } = useConfig()
 
   const fetchConfig = async () => {
     try {
@@ -64,6 +67,11 @@ export default function AdminConfigPanel() {
       const data = await res.json()
       if (data.success) {
         setStatus({ type: "success", message: "Configuracion guardada correctamente" })
+        if (data.config) {
+          updateConfig(data.config)
+        } else {
+          refreshConfig()
+        }
       } else {
         setStatus({ type: "error", message: data.error || "Error al guardar" })
       }
@@ -92,6 +100,17 @@ export default function AdminConfigPanel() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {/* Warning if Google Sheets not configured */}
+        {!isLoading && JSON.stringify(config) === JSON.stringify(defaultConfig) && (
+          <div className="flex items-start gap-3 p-4 rounded-lg bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 mb-6">
+            <AlertCircle className="w-5 h-5 shrink-0" />
+            <div>
+              <p className="font-semibold mb-1">Integracion con Google Sheets no configurada o incorrecta.</p>
+              <p className="text-sm mb-2">Los cambios se guardaran solo en esta sesion del navegador y se perderan al reiniciar el servidor.</p>
+              <p className="text-sm">Por favor, configura las variables de entorno (`GOOGLE_SHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`) y comparte la hoja de Google con el email de la cuenta de servicio como editor. Asegurate que la hoja "Config" existe y tiene columnas Q (Key) y R (Value).</p>
+            </div>
+          </div>
+        )}
         <form onSubmit={handleSave} className="space-y-6">
           {status && (
             <div

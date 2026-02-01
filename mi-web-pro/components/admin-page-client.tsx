@@ -6,6 +6,8 @@ import Footer from "@/components/footer"
 import AdminLogin from "@/components/admin-login"
 import AdminPricePanel from "@/components/admin-price-panel"
 import AdminConfigPanel from "@/components/admin-config-panel"
+import AdminCoursePanel from "@/components/admin-course-panel"
+import AdminAboutPanel from "@/components/admin-about-panel"
 import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -63,8 +65,10 @@ export default function AdminPageClient() {
       </div>
       <div className="pt-20 pb-16 space-y-12">
         <AdminPricePanel />
-        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <AdminConfigPanel />
+          <AdminCoursePanel />
+          <AdminAboutPanel />
         </div>
       </div>
       <Footer />
