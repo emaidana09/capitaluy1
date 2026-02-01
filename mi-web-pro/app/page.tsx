@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <IntroAnimation onComplete={() => setShowContent(true)} />
       {showContent && (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen bg-background w-full overflow-x-hidden">
           <Header />
           <Hero />
           <ServicesWithPrice />

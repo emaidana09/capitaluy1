@@ -38,15 +38,15 @@ const features = [
 
 export default function SupportSection() {
   return (
-    <section className="py-20 px-4 relative overflow-hidden" id="nosotros">
-      <div className="container mx-auto">
+    <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden" id="nosotros">
+      <div className="w-full max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <h3 className="text-2xl md:text-3xl font-bold mb-6 text-balance">
               Nuestro Compromiso
@@ -62,10 +62,10 @@ export default function SupportSection() {
               {features.map((feature, i) => (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="flex items-start gap-3 p-4 rounded-lg bg-card/50 border border-border hover:border-primary/30 transition-colors"
                 >
                   <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
@@ -86,10 +86,10 @@ export default function SupportSection() {
 
           {/* 3D Coins */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="relative"
           >
             <CryptoCoins3D />

@@ -84,7 +84,21 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
   }
 }
+
+/* Smooth animations - GPU accelerated */
+@layer utilities {
+  .animate-smooth {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .text-balance-legacy {
+    text-wrap: balance;
+  }
+}
+

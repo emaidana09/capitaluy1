@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function NosotrosPage() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background w-full overflow-x-hidden">
       <Header />
       <div className="pt-20">
         <NosotrosContent />

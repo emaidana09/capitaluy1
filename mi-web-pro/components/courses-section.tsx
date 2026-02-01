@@ -96,8 +96,8 @@ export default function CoursesSection() {
   return (
     <>
       {/* Hero Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto text-center">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -121,8 +121,8 @@ export default function CoursesSection() {
       </section>
 
       {/* Courses Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-10">
             Cursos Disponibles
           </h2>
@@ -144,8 +144,8 @@ export default function CoursesSection() {
       </section>
 
       {/* Why Learn Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto">
+      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

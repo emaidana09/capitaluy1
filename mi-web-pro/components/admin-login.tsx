@@ -49,7 +49,7 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-6 w-full overflow-x-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -57,17 +57,17 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        initial={{ opacity: 0, y: 24, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md relative z-10"
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="w-full max-w-md relative z-10 mx-auto"
       >
         <Card className="bg-card/90 backdrop-blur-lg border-border">
           <CardHeader className="text-center pb-2">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 180, damping: 18 }}
               className="mx-auto mb-4"
             >
               <Image 
@@ -75,7 +75,7 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
                 alt="CapitalUY" 
                 width={120} 
                 height={120}
-                className="h-24 w-auto mx-auto"
+                className="h-32 w-auto mx-auto"
               />
             </motion.div>
             <CardTitle className="text-2xl flex items-center justify-center gap-2">

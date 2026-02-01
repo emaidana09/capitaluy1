@@ -2,71 +2,92 @@
 
 import { motion } from "framer-motion"
 
+const easing = [0.25, 0.46, 0.45, 0.94]
+
 export default function Hero() {
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center pt-24 pb-8 px-4 overflow-hidden">
+    <section className="relative min-h-[85vh] sm:min-h-[80vh] flex items-center justify-center pt-20 pb-0 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background pointer-events-none" />
       
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Subtle animated orbs - smooth, performant */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-[15%] left-[10%] w-64 h-64 sm:w-80 sm:h-80 bg-primary/10 rounded-full blur-3xl"
           animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
+            x: [0, 20, 0],
+            y: [0, -15, 0],
           }}
           transition={{
-            duration: 8,
+            duration: 12,
             repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
           }}
         />
         <motion.div
-          className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+          className="absolute bottom-[20%] right-[8%] w-72 h-72 sm:w-96 sm:h-96 bg-accent/8 rounded-full blur-3xl"
           animate={{
-            x: [0, -40, 0],
-            y: [0, 30, 0],
+            x: [0, -25, 0],
+            y: [0, 20, 0],
           }}
           transition={{
-            duration: 10,
+            duration: 15,
             repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
           }}
         />
       </div>
 
-      <div className="container mx-auto relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-balance"
+      {/* Content - centered on all viewports */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto">
+        <div className="flex flex-col items-center justify-center text-center min-w-0">
+          {/* CAPITAL UY - Main brand */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: easing }}
+              className="mb-6 sm:mb-8"
           >
-            Compra y vende{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
-              USDT
-            </span>{" "}
-            de forma segura
-          </motion.h1>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] 2xl:text-[8rem] font-bold tracking-tight leading-[0.9] select-none">
+              <span className="inline-block text-white">
+                CAPITAL
+              </span>
+              <span className="block sm:inline sm:ml-2 mt-1 sm:mt-0 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700">
+                UY
+              </span>
+            </h1>
+          </motion.div>
 
-          {/* Subtitle */}
+          {/* Decorative line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: easing }}
+            className="w-24 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mb-8 sm:mb-10 origin-center"
+          />
+
+          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty"
+            transition={{ duration: 0.5, delay: 0.4, ease: easing }}
+            className="text-xl sm:text-2xl md:text-3xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-relaxed"
           >
-            Tu plataforma de confianza para USDT en Uruguay.
-            Asesoramiento personalizado y las mejores cotizaciones del mercado.
+            Compra y vende{" "}
+            <span className="text-primary font-bold">USDT</span>
+            {" "}de forma segura en Uruguay
           </motion.p>
 
-          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6, ease: easing }}
+            className="text-base sm:text-lg text-muted-foreground/90 mt-4 max-w-2xl mx-auto font-light"
+          >
+            Tu plataforma de confianza. Asesoramiento personalizado y las mejores cotizaciones.
+          </motion.p>
         </div>
       </div>
-
-      </section>
+    </section>
   )
 }

@@ -26,7 +26,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="fixed inset-0 z-[100] bg-background flex items-center justify-center overflow-hidden"
         >
           {/* Background sweep animation */}
@@ -46,7 +46,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
           />
 
           {/* Logo and text container */}
-          <div className="relative z-10 flex flex-col items-center">
+          <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-4">
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5, y: 50 }}
@@ -63,17 +63,17 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                 alt="CapitalUY"
                 width={300}
                 height={150}
-                className="h-40 w-auto"
+                className="h-60 w-auto"
                 priority
               />
             </motion.div>
 
             {/* Tagline */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="text-lg text-muted-foreground mt-6"
+              transition={{ duration: 0.5, delay: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-base sm:text-lg text-muted-foreground mt-6"
             >
               Tu plataforma de confianza para USDT
             </motion.p>

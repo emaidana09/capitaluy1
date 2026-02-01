@@ -11,38 +11,38 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-lg border-b border-border">
-      <nav className="container mx-auto px-4 h-20 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
+      <nav className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between min-w-0">
+        {/* Logo - CAPITAL UY */}
+        <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0">
           <Image 
             src="/logo.png" 
             alt="CapitalUY" 
             width={180} 
             height={60} 
-            className="h-14 w-auto"
+            className="h-16 w-auto"
           />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6 shrink-0">
           <Link 
             href="/#cotizacion" 
-            className="text-foreground/80 hover:text-foreground transition-colors"
+            className="text-foreground/80 hover:text-foreground transition-colors duration-200"
           >
             Comerciar
           </Link>
 
           <Link 
             href="/aprender" 
-            className="text-foreground/80 hover:text-foreground transition-colors"
+            className="text-foreground/80 hover:text-foreground transition-colors duration-200"
           >
             Cursos
           </Link>
 
           <Link 
             href="/nosotros" 
-            className="text-foreground/80 hover:text-foreground transition-colors"
+            className="text-foreground/80 hover:text-foreground transition-colors duration-200"
           >
             Nosotros
           </Link>
@@ -78,7 +78,7 @@ export default function Header() {
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-        <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-4">
           <Link
             href="/#cotizacion"
             className="py-2 text-foreground/80 hover:text-foreground"

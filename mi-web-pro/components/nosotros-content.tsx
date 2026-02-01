@@ -47,8 +47,8 @@ const stats = [
 
 export default function NosotrosContent() {
   return (
-    <section className="py-20 px-4 relative overflow-hidden">
-      <div className="container mx-auto max-w-5xl">
+    <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="w-full max-w-5xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

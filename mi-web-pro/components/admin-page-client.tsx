@@ -50,7 +50,7 @@ export default function AdminPageClient() {
   return (
     <main className="min-h-screen bg-background">
       <Header />
-      <div className="fixed top-24 right-4 z-40">
+      <div className="fixed top-24 right-4 sm:right-6 lg:right-8 z-40">
         <Button
           variant="outline"
           size="sm"
@@ -63,7 +63,7 @@ export default function AdminPageClient() {
       </div>
       <div className="pt-20 pb-16 space-y-12">
         <AdminPricePanel />
-        <div className="container mx-auto max-w-6xl px-4">
+        <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <AdminConfigPanel />
         </div>
       </div>

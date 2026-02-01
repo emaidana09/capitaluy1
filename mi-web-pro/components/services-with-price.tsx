@@ -64,13 +64,13 @@ export default function ServicesWithPrice() {
   const usdt = data?.cryptos.find((c) => c.id === "usdt")
 
   return (
-    <section className="py-12 px-4" id="cotizacion">
-      <div className="container mx-auto">
+    <section className="pt-4 sm:pt-6 px-4 sm:px-6 lg:px-8" id="cotizacion">
+      <div className="w-full max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-8"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-3 text-balance">
@@ -93,11 +93,11 @@ export default function ServicesWithPrice() {
                 href={service.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                whileHover={{ scale: 1.02, y: -5 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{ duration: 0.4, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ scale: 1.02, y: -3 }}
                 whileTap={{ scale: 0.98 }}
                 className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-8 cursor-pointer group transition-all duration-300 ${service.borderColor} hover:shadow-xl flex flex-col min-h-[320px]`}
               >
@@ -154,8 +154,8 @@ export default function ServicesWithPrice() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
+          viewport={{ once: true, margin: "-30px" }}
+          transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 max-w-2xl mx-auto mt-8"
         >
           {stats.map((stat, i) => (

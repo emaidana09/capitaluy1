@@ -10,22 +10,22 @@ export default function Footer() {
   const config = useConfig()
   return (
     <footer className="bg-card border-t border-border" id="contacto">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid md:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <Link href="/" className="flex items-center gap-2 mb-4">
+            <Link href="/" className="inline-block mb-4">
               <Image 
                 src="/logo.png" 
                 alt="CapitalUY" 
                 width={200} 
                 height={70} 
-                className="h-16 w-auto"
+                className="h-20 w-auto"
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -45,7 +45,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/#cotizacion"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Comerciar
                 </Link>
@@ -53,7 +53,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/aprender"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Cursos
                 </Link>
@@ -61,7 +61,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/nosotros"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Nosotros
                 </Link>
@@ -69,7 +69,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/admin"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Admin
                 </Link>
@@ -126,7 +126,7 @@ export default function Footer() {
                 href={config.instagram_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all"
+                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all duration-200"
               >
                 <Instagram className="w-5 h-5" />
               </a>
@@ -134,7 +134,7 @@ export default function Footer() {
                 href={config.twitter_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all"
+                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all duration-200"
               >
                 <Twitter className="w-5 h-5" />
               </a>
@@ -142,7 +142,7 @@ export default function Footer() {
                 href={config.telegram_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all"
+                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all duration-200"
               >
                 <Send className="w-5 h-5" />
               </a>
