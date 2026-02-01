@@ -31,6 +31,7 @@ import {
   EyeOff,
   Edit3,
   X,
+  ExternalLink,
 } from "lucide-react"
 import useSWR, { mutate } from "swr"
 
@@ -231,7 +232,7 @@ export default function AdminPricePanel() {
                 Importar / Exportar Excel (CSV)
               </CardTitle>
               <CardDescription>
-                Descarga o sube un archivo CSV para actualizar todas las cotizaciones
+                Los precios se sincronizan con la hoja de Google. Descarga o sube CSV para actualizar.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -259,9 +260,20 @@ export default function AdminPricePanel() {
                   <Upload className="w-4 h-4" />
                   Importar CSV
                 </Button>
-                <div className="flex-1 min-w-[200px] p-3 rounded-lg bg-secondary/30 text-sm text-muted-foreground">
-                  <p className="font-medium mb-1">Formato del archivo:</p>
-                  <code className="text-xs">Symbol,Name,BuyPrice,SellPrice,Enabled</code>
+                <div className="flex-1 min-w-[200px] space-y-2">
+                  <div className="p-3 rounded-lg bg-secondary/30 text-sm text-muted-foreground">
+                    <p className="font-medium mb-1">Formato CSV:</p>
+                    <code className="text-xs">Symbol,Name,BuyPrice,SellPrice,Enabled</code>
+                  </div>
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1jnNmF47Y-aaMc6xsaRg2fNo31pG_KWpPIN1AVbGQD04/edit"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-sm text-primary hover:underline"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    Abrir hoja de Google
+                  </a>
                 </div>
               </div>
             </CardContent>

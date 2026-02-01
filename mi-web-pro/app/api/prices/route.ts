@@ -1,5 +1,6 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+import { getPricesFromSheet, writePricesToSheet, type CryptoPrice } from "@/lib/google-sheets"
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
@@ -16,30 +17,21 @@ async function isAdminAuthenticated(): Promise<boolean> {
   return !!(token && isValidToken(token))
 }
 
-export interface CryptoPrice {
-  id: string
-  symbol: string
-  name: string
-  buyPrice: number
-  sellPrice: number
-  enabled: boolean
-  lastUpdated: string
-}
-
-// In-memory storage for crypto prices (in production, use a database)
-let cryptoPrices: CryptoPrice[] = [
-  {
-    id: "usdt",
-    symbol: "USDT",
-    name: "Tether",
-    buyPrice: 43.50,
-    sellPrice: 42.80,
-    enabled: true,
-    lastUpdated: new Date().toISOString(),
-  },
+// Fallback in-memory when no Google Sheets
+const defaultPrices: CryptoPrice[] = [
+  { id: "usdt", symbol: "USDT", name: "Tether", buyPrice: 43.5, sellPrice: 42.8, enabled: true, lastUpdated: new Date().toISOString() },
 ]
+let cryptoPrices: CryptoPrice[] = [...defaultPrices]
 
 export async function GET() {
+  try {
+    const sheetPrices = await getPricesFromSheet()
+    if (sheetPrices && sheetPrices.length > 0) {
+      cryptoPrices = sheetPrices
+    }
+  } catch {
+    // Usar precios en memoria
+  }
   return NextResponse.json({
     cryptos: cryptoPrices,
     lastUpdated: new Date().toISOString(),
@@ -168,6 +160,8 @@ export async function POST(request: Request) {
           { status: 400 }
         )
     }
+
+    writePricesToSheet(cryptoPrices).catch(() => {})
 
     return NextResponse.json({
       cryptos: cryptoPrices,

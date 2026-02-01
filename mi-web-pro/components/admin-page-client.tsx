@@ -5,6 +5,7 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import AdminLogin from "@/components/admin-login"
 import AdminPricePanel from "@/components/admin-price-panel"
+import AdminConfigPanel from "@/components/admin-config-panel"
 import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -60,8 +61,11 @@ export default function AdminPageClient() {
           Cerrar sesion
         </Button>
       </div>
-      <div className="pt-20">
+      <div className="pt-20 pb-16 space-y-12">
         <AdminPricePanel />
+        <div className="container mx-auto max-w-6xl px-4">
+          <AdminConfigPanel />
+        </div>
       </div>
       <Footer />
     </main>

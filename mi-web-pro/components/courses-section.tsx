@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useConfig } from "@/lib/config-context"
 import {
   Clock,
   Users,
@@ -13,8 +14,6 @@ import {
   ArrowRight,
   CheckCircle2,
 } from "lucide-react"
-
-const WHATSAPP_NUMBER = "59899123456"
 
 const courses = [
   {
@@ -93,6 +92,7 @@ const cardVariants = {
 }
 
 export default function CoursesSection() {
+  const config = useConfig()
   return (
     <>
       {/* Hero Section */}
@@ -136,7 +136,7 @@ export default function CoursesSection() {
                 animate="visible"
                 variants={cardVariants}
               >
-                <CourseCard course={course} />
+                <CourseCard course={course} whatsappNumber={config.whatsapp_number} />
               </motion.div>
             ))}
           </div>
@@ -202,7 +202,7 @@ export default function CoursesSection() {
   )
 }
 
-function CourseCard({ course }: { course: (typeof courses)[0] }) {
+function CourseCard({ course, whatsappNumber }: { course: (typeof courses)[0]; whatsappNumber: string }) {
   return (
     <motion.div
       whileHover={{ y: -5 }}
@@ -268,7 +268,7 @@ function CourseCard({ course }: { course: (typeof courses)[0] }) {
             className="bg-primary hover:bg-primary/90 text-primary-foreground group/btn"
           >
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Hola, me interesa el curso: ${course.title}`)}`}
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, me interesa el curso: ${course.title}`)}`}
               target="_blank"
               rel="noopener noreferrer"
             >

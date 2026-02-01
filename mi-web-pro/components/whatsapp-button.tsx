@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion"
 import { MessageCircle } from "lucide-react"
-
-const WHATSAPP_NUMBER = "59899123456"
+import { useConfig } from "@/lib/config-context"
 
 export default function WhatsAppButton() {
+  const config = useConfig()
   return (
     <motion.a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, tengo una consulta sobre criptomonedas")}`}
+      href={`https://wa.me/${config.whatsapp_number}?text=${encodeURIComponent("Hola, tengo una consulta sobre criptomonedas")}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow"

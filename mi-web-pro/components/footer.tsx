@@ -4,10 +4,10 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { Mail, Phone, MapPin, Instagram, Twitter, Send } from "lucide-react"
-
-const WHATSAPP_NUMBER = "59899123456"
+import { useConfig } from "@/lib/config-context"
 
 export default function Footer() {
+  const config = useConfig()
   return (
     <footer className="bg-card border-t border-border" id="contacto">
       <div className="container mx-auto px-4 py-12">
@@ -29,8 +29,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Tu plataforma confiable para comprar y vender USDT 
-              y criptomonedas en Uruguay.
+              {config.footer_description}
             </p>
           </motion.div>
 
@@ -90,26 +89,26 @@ export default function Footer() {
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary" />
                 <a
-                  href="mailto:info@capitaluy.com"
+                  href={`mailto:${config.email}`}
                   className="hover:text-foreground transition-colors"
                 >
-                  info@capitaluy.com
+                  {config.email}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary" />
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                  href={`https://wa.me/${config.whatsapp_number}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground transition-colors"
                 >
-                  +598 99 123 456
+                  {config.phone_display}
                 </a>
               </li>
               <li className="flex items-start gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4 text-primary mt-0.5" />
-                <span>Montevideo, Uruguay</span>
+                <span>{config.address}</span>
               </li>
             </ul>
           </motion.div>
@@ -124,19 +123,25 @@ export default function Footer() {
             <h3 className="font-semibold text-foreground mb-4">Síguenos</h3>
             <div className="flex gap-3">
               <a
-                href="#"
+                href={config.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href={config.twitter_url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href={config.telegram_url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all"
               >
                 <Send className="w-5 h-5" />

@@ -3,8 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { Wallet, ArrowRightLeft, TrendingUp, TrendingDown, CheckCircle, Clock, Shield } from "lucide-react"
 import useSWR from "swr"
-
-const WHATSAPP_NUMBER = "59899123456"
+import { useConfig } from "@/lib/config-context"
 
 interface CryptoPrice {
   id: string
@@ -23,13 +22,13 @@ interface PriceData {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
-const services = [
+const getServices = (whatsapp: string) => [
   {
     id: "comprar",
     title: "Comprar",
     description: "Compra USDT de forma segura y rapida. Te guiamos en cada paso.",
     icon: Wallet,
-    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`,
+    href: `https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, me interesa comprar")}`,
     color: "from-accent/20 to-accent/5",
     iconColor: "text-accent",
     borderColor: "hover:border-accent/50",
@@ -40,7 +39,7 @@ const services = [
     title: "Vender",
     description: "Vende tus USDT al mejor precio. Proceso simple y directo.",
     icon: ArrowRightLeft,
-    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`,
+    href: `https://wa.me/${whatsapp}?text=${encodeURIComponent("Hola, me interesa vender")}`,
     color: "from-primary/20 to-primary/5",
     iconColor: "text-primary",
     borderColor: "hover:border-primary/50",
@@ -56,6 +55,8 @@ const stats = [
 ]
 
 export default function ServicesWithPrice() {
+  const config = useConfig()
+  const services = getServices(config.whatsapp_number)
   const { data, isLoading } = useSWR<PriceData>("/api/prices", fetcher, {
     refreshInterval: 30000,
   })
