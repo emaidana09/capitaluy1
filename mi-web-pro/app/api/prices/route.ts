@@ -1,6 +1,8 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { getPricesFromSheet, writePricesToSheet, type CryptoPrice } from "@/lib/google-sheets"
+import { database } from '@/lib/firebase'
+import type { CryptoPrice } from '@/lib/types'
+import { ref, get, set, update, remove } from 'firebase/database'
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
@@ -17,25 +19,26 @@ async function isAdminAuthenticated(): Promise<boolean> {
   return !!(token && isValidToken(token))
 }
 
-// Fallback in-memory when no Google Sheets
-const defaultPrices: CryptoPrice[] = [
-  { id: "usdt", symbol: "USDT", name: "Tether", buyPrice: 43.5, sellPrice: 42.8, enabled: true, lastUpdated: new Date().toISOString() },
-]
-let cryptoPrices: CryptoPrice[] = [...defaultPrices]
+async function readAllPrices(): Promise<CryptoPrice[]> {
+  try {
+    const snap = await get(ref(database, 'prices'))
+    if (!snap.exists()) return []
+    const val = snap.val()
+    const arr: CryptoPrice[] = Object.keys(val).map((k) => ({ ...(val[k] as any), id: k }))
+    arr.sort((a, b) => (String(a.symbol || '').localeCompare(String(b.symbol || ''))))
+    return arr
+  } catch (e) {
+    return []
+  }
+}
 
 export async function GET() {
   try {
-    const sheetPrices = await getPricesFromSheet()
-    if (sheetPrices && sheetPrices.length > 0) {
-      cryptoPrices = sheetPrices
-    }
-  } catch {
-    // Usar precios en memoria
+    const cryptos = await readAllPrices()
+    return NextResponse.json({ cryptos, lastUpdated: new Date().toISOString() })
+  } catch (e) {
+    return NextResponse.json({ cryptos: [], lastUpdated: new Date().toISOString() })
   }
-  return NextResponse.json({
-    cryptos: cryptoPrices,
-    lastUpdated: new Date().toISOString(),
-  })
 }
 
 export async function POST(request: Request) {
@@ -53,35 +56,21 @@ export async function POST(request: Request) {
 
     switch (action) {
       case "update": {
-        // Update a single crypto price
         const { id, buyPrice, sellPrice } = data
-        const index = cryptoPrices.findIndex((c) => c.id === id)
-        if (index === -1) {
-          return NextResponse.json(
-            { error: "Crypto not found" },
-            { status: 404 }
-          )
-        }
-        cryptoPrices[index] = {
-          ...cryptoPrices[index],
-          buyPrice,
-          sellPrice,
-          lastUpdated: new Date().toISOString(),
-        }
+        const node = ref(database, `prices/${id}`)
+        const cur = await get(node)
+        if (!cur.exists()) return NextResponse.json({ error: 'Crypto not found' }, { status: 404 })
+        await update(node, { buyPrice, sellPrice, lastUpdated: new Date().toISOString() })
         break
       }
 
       case "add": {
-        // Add a new crypto
         const { symbol, name, buyPrice, sellPrice } = data
         const newId = symbol.toLowerCase()
-        if (cryptoPrices.some((c) => c.id === newId)) {
-          return NextResponse.json(
-            { error: "Crypto already exists" },
-            { status: 400 }
-          )
-        }
-        cryptoPrices.push({
+        const node = ref(database, `prices/${newId}`)
+        const exists = await get(node)
+        if (exists.exists()) return NextResponse.json({ error: 'Crypto already exists' }, { status: 400 })
+        await set(node, {
           id: newId,
           symbol: symbol.toUpperCase(),
           name,
@@ -94,63 +83,52 @@ export async function POST(request: Request) {
       }
 
       case "delete": {
-        // Delete a crypto
         const { id } = data
-        cryptoPrices = cryptoPrices.filter((c) => c.id !== id)
+        await remove(ref(database, `prices/${id}`))
         break
       }
 
       case "toggle": {
-        // Toggle enabled status
         const { id } = data
-        const index = cryptoPrices.findIndex((c) => c.id === id)
-        if (index !== -1) {
-          cryptoPrices[index].enabled = !cryptoPrices[index].enabled
+        const node = ref(database, `prices/${id}`)
+        const cur = await get(node)
+        if (cur.exists()) {
+          const current = cur.val() as any
+          await update(node, { enabled: !current.enabled })
         }
         break
       }
 
       case "import": {
-        // Import from CSV data
         const { csvData } = data
-        const lines = csvData.trim().split("\n")
-        const newPrices: CryptoPrice[] = []
-
+        const lines = csvData.trim().split('\n')
+        const updates: Record<string, any> = {}
         for (let i = 1; i < lines.length; i++) {
-          const cols = lines[i].split(",").map((c: string) => c.trim())
+          const cols = lines[i].split(',').map((c: string) => c.trim())
           if (cols.length >= 4) {
-            newPrices.push({
-              id: cols[0].toLowerCase(),
+            const id = cols[0].toLowerCase()
+            updates[`/prices/${id}`] = {
+              id,
               symbol: cols[0].toUpperCase(),
               name: cols[1],
               buyPrice: Number.parseFloat(cols[2]) || 0,
               sellPrice: Number.parseFloat(cols[3]) || 0,
-              enabled: cols[4] !== "false",
-              lastUpdated: new Date().toISOString(),
-            })
-          }
-        }
-
-        if (newPrices.length > 0) {
-          cryptoPrices = newPrices
-        }
-        break
-      }
-
-      case "bulk_update": {
-        // Bulk update all prices
-        const { prices } = data
-        for (const price of prices) {
-          const index = cryptoPrices.findIndex((c) => c.id === price.id)
-          if (index !== -1) {
-            cryptoPrices[index] = {
-              ...cryptoPrices[index],
-              buyPrice: price.buyPrice,
-              sellPrice: price.sellPrice,
+              enabled: cols[4] !== 'false',
               lastUpdated: new Date().toISOString(),
             }
           }
         }
+        if (Object.keys(updates).length > 0) await update(ref(database), updates)
+        break
+      }
+
+      case "bulk_update": {
+        const { prices } = data
+        const updates: Record<string, any> = {}
+        for (const price of prices) {
+          updates[`/prices/${price.id}`] = { buyPrice: price.buyPrice, sellPrice: price.sellPrice, lastUpdated: new Date().toISOString() }
+        }
+        if (Object.keys(updates).length > 0) await update(ref(database), updates)
         break
       }
 
@@ -161,12 +139,8 @@ export async function POST(request: Request) {
         )
     }
 
-    writePricesToSheet(cryptoPrices).catch(() => {})
-
-    return NextResponse.json({
-      cryptos: cryptoPrices,
-      lastUpdated: new Date().toISOString(),
-    })
+    const cryptos = await readAllPrices()
+    return NextResponse.json({ cryptos, lastUpdated: new Date().toISOString() })
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to process request" },

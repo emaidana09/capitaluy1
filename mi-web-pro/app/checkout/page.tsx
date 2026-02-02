@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -52,6 +52,18 @@ function CheckoutContent() {
     : "---"
 
   const [amountUsd, setAmountUsd] = useState("")
+  const [highlighted, setHighlighted] = useState(false)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+
+  // Focus input and enable persistent highlight when arriving to checkout
+  useEffect(() => {
+    setHighlighted(true)
+    setTimeout(() => {
+      try {
+        inputRef.current?.focus()
+      } catch {}
+    }, 120)
+  }, [])
   const handleSend = () => {
     const message = buildMessage(type, price ?? 0, amountUsd.trim() || "[X]")
     window.open(
@@ -99,7 +111,7 @@ function CheckoutContent() {
                 )}
               </div>
               <div>
-                <h1 className="text-2xl font-bold">
+                <h1 className="text-2xl md:text-3xl lg:text-3xl font-bold uppercase tracking-tight">
                   {type === "buy" ? "COMPRA" : "VENTA"} DE USDT
                 </h1>
                 <p className="text-muted-foreground text-sm">
@@ -124,15 +136,14 @@ function CheckoutContent() {
                 placeholder="Ej: 100"
                 value={amountUsd}
                 onChange={(e) => setAmountUsd(e.target.value)}
-                className="text-lg"
+                className={`text-lg transition-shadow duration-200 ${highlighted ? "ring-2 ring-green-400/40 bg-green-50 border-green-300 text-green-900" : ""}`}
+                ref={inputRef}
               />
             </div>
 
-            <div className="rounded-lg bg-muted/50 border border-border p-4 mb-6">
-              <p className="text-xs text-muted-foreground mb-2">
-                Vista previa del mensaje:
-              </p>
-              <p className="text-sm text-foreground whitespace-pre-line font-mono">
+            <div className={`rounded-lg p-4 mb-6 ${highlighted ? "bg-green-50 border border-green-200" : "bg-muted/50 border border-border"}`}>
+              <p className="text-xs text-muted-foreground mb-2">Vista previa del mensaje:</p>
+              <p className="text-base md:text-lg text-green-900 whitespace-pre-line font-sans leading-relaxed font-medium break-words">
                 {messagePreview}
               </p>
             </div>

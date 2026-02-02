@@ -1,5 +1,7 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+import { database } from "@/lib/firebase"
+import { ref, get, push, set, update, remove } from "firebase/database"
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
@@ -34,7 +36,8 @@ const DEFAULT_COURSES: Course[] = [
   {
     id: "1",
     title: "Introduccion a las Criptomonedas",
-    description: "Aprende los conceptos basicos del mundo cripto: que es Bitcoin, blockchain, wallets y como empezar de forma segura.",
+    description:
+      "Aprende los conceptos basicos del mundo cripto: que es Bitcoin, blockchain, wallets y como empezar de forma segura.",
     level: "Principiante",
     levelColor: "bg-accent text-accent-foreground",
     duration: "4 horas",
@@ -42,12 +45,18 @@ const DEFAULT_COURSES: Course[] = [
     rating: 4.9,
     price: 2500,
     currency: "UYU",
-    features: ["Que es Bitcoin y las criptomonedas", "Como funciona la blockchain", "Crear tu primera wallet", "Seguridad basica"],
+    features: [
+      "Que es Bitcoin y las criptomonedas",
+      "Como funciona la blockchain",
+      "Crear tu primera wallet",
+      "Seguridad basica",
+    ],
   },
   {
     id: "2",
     title: "Trading de Criptomonedas",
-    description: "Domina las tecnicas de trading: analisis tecnico, gestion de riesgo y estrategias para operar en los mercados.",
+    description:
+      "Domina las tecnicas de trading: analisis tecnico, gestion de riesgo y estrategias para operar en los mercados.",
     level: "Intermedio",
     levelColor: "bg-chart-3 text-background",
     duration: "8 horas",
@@ -55,12 +64,18 @@ const DEFAULT_COURSES: Course[] = [
     rating: 4.8,
     price: 4500,
     currency: "UYU",
-    features: ["Analisis tecnico avanzado", "Indicadores y patrones", "Gestion de riesgo", "Estrategias de trading"],
+    features: [
+      "Analisis tecnico avanzado",
+      "Indicadores y patrones",
+      "Gestion de riesgo",
+      "Estrategias de trading",
+    ],
   },
   {
     id: "3",
     title: "DeFi y Finanzas Descentralizadas",
-    description: "Explora el mundo de las finanzas descentralizadas: protocolos DeFi, yield farming, staking y mas.",
+    description:
+      "Explora el mundo de las finanzas descentralizadas: protocolos DeFi, yield farming, staking y mas.",
     level: "Avanzado",
     levelColor: "bg-primary text-primary-foreground",
     duration: "6 horas",
@@ -68,19 +83,48 @@ const DEFAULT_COURSES: Course[] = [
     rating: 4.9,
     price: 5500,
     currency: "UYU",
-    features: ["Protocolos DeFi principales", "Yield farming y staking", "Liquidity pools", "Riesgos y seguridad"],
+    features: [
+      "Protocolos DeFi principales",
+      "Yield farming y staking",
+      "Liquidity pools",
+      "Riesgos y seguridad",
+    ],
   },
 ]
 
-let courses: Course[] = JSON.parse(JSON.stringify(DEFAULT_COURSES))
+const COURSES_PATH = 'courses'
 
-function nextId(): string {
-  const ids = courses.map((c) => parseInt(c.id, 10)).filter((n) => !Number.isNaN(n))
-  return String(Math.max(0, ...ids) + 1)
+let _seeded = false
+async function seedDefaultsIfEmpty() {
+  if (_seeded) return
+  const snap = await get(ref(database, COURSES_PATH))
+  if (!snap.exists()) {
+    const updates: Record<string, any> = {}
+    for (const c of DEFAULT_COURSES) {
+      const newKey = push(ref(database, COURSES_PATH)).key as string
+      updates[`${COURSES_PATH}/${newKey}`] = { ...c, id: newKey }
+    }
+    if (Object.keys(updates).length > 0) await update(ref(database), updates)
+  }
+  _seeded = true
 }
 
 export async function GET() {
-  return NextResponse.json({ courses })
+  try {
+    await seedDefaultsIfEmpty()
+    const snap = await get(ref(database, COURSES_PATH))
+    const courses: Course[] = []
+    if (snap.exists()) {
+      const val = snap.val()
+      for (const k of Object.keys(val)) {
+        courses.push({ ...(val[k] as any), id: k })
+      }
+      courses.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
+    }
+    return NextResponse.json({ courses })
+  } catch (e) {
+    return NextResponse.json({ error: "Error leyendo cursos" }, { status: 500 })
+  }
 }
 
 export async function POST(request: Request) {
@@ -95,8 +139,9 @@ export async function POST(request: Request) {
 
     switch (action) {
       case "add": {
-        const newCourse: Course = {
-          id: nextId(),
+        const newRef = push(ref(database, COURSES_PATH))
+        const newId = newRef.key as string
+        const payload = {
           title: course.title || "Nuevo curso",
           description: course.description || "",
           level: course.level || "Principiante",
@@ -107,24 +152,50 @@ export async function POST(request: Request) {
           price: course.price ?? 0,
           currency: course.currency || "UYU",
           features: Array.isArray(course.features) ? course.features : [],
+          id: newId,
         }
-        courses.push(newCourse)
-        return NextResponse.json({ success: true, courses, course: newCourse })
+        await set(newRef, payload)
+        const snap = await get(ref(database, COURSES_PATH))
+        const courses: Course[] = []
+        if (snap.exists()) {
+          const val = snap.val()
+          for (const k of Object.keys(val)) courses.push({ ...(val[k] as any), id: k })
+          courses.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
+        }
+        return NextResponse.json({ success: true, courses, course: payload })
       }
       case "update": {
-        const idx = courses.findIndex((c) => c.id === course.id)
-        if (idx === -1) return NextResponse.json({ error: "Curso no encontrado" }, { status: 404 })
-        courses[idx] = { ...courses[idx], ...course }
+        if (!course.id) return NextResponse.json({ error: "Falta id" }, { status: 400 })
+        const node = ref(database, `${COURSES_PATH}/${course.id}`)
+        const cur = await get(node)
+        if (!cur.exists()) return NextResponse.json({ error: "Curso no encontrado" }, { status: 404 })
+        await update(node, { ...course })
+        const snap = await get(ref(database, COURSES_PATH))
+        const courses: Course[] = []
+        if (snap.exists()) {
+          const val = snap.val()
+          for (const k of Object.keys(val)) courses.push({ ...(val[k] as any), id: k })
+          courses.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
+        }
         return NextResponse.json({ success: true, courses })
       }
       case "delete": {
-        courses = courses.filter((c) => c.id !== course.id)
+        if (!course.id) return NextResponse.json({ error: "Falta id" }, { status: 400 })
+        const node = ref(database, `${COURSES_PATH}/${course.id}`)
+        await remove(node)
+        const snap = await get(ref(database, COURSES_PATH))
+        const courses: Course[] = []
+        if (snap.exists()) {
+          const val = snap.val()
+          for (const k of Object.keys(val)) courses.push({ ...(val[k] as any), id: k })
+          courses.sort((a, b) => String(a.title || '').localeCompare(String(b.title || '')))
+        }
         return NextResponse.json({ success: true, courses })
       }
       default:
         return NextResponse.json({ error: "Accion no valida" }, { status: 400 })
     }
-  } catch {
-    return NextResponse.json({ error: "Error al procesar" }, { status: 500 })
+  } catch (err) {
+    return NextResponse.json({ error: "Error al procesar", details: String(err) }, { status: 500 })
   }
 }

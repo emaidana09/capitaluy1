@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ConfigProvider } from '@/lib/config-context'
+import ClientThemeProvider from '@/components/client-theme-provider'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -37,12 +38,29 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
+      <head>
+        {/* Inline script to synchronise theme class before React hydration */}
+        <script dangerouslySetInnerHTML={{ __html: `(() => {
+          try {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+              document.documentElement.classList.add('dark');
+            } else if (theme === 'light') {
+              document.documentElement.classList.remove('dark');
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.classList.add('dark');
+            }
+          } catch (e) { /* ignore */ }
+        })();` }} />
+      </head>
       <body className={`font-sans antialiased`}>
-        <ConfigProvider>
-          {children}
-          <Analytics />
-        </ConfigProvider>
+        <ClientThemeProvider>
+          <ConfigProvider>
+            {children}
+            <Analytics />
+          </ConfigProvider>
+        </ClientThemeProvider>
       </body>
     </html>
   )

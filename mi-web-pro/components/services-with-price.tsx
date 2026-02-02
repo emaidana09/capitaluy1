@@ -87,7 +87,7 @@ export default function ServicesWithPrice() {
             const PriceIcon = service.priceType === "buy" ? TrendingUp : TrendingDown
 
             return (
-              <Link key={service.id} href={service.href}>
+              <Link key={service.id} href={service.href} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ export default function ServicesWithPrice() {
                 transition={{ duration: 0.4, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
                 whileHover={{ scale: 1.02, y: -3 }}
                 whileTap={{ scale: 0.98 }}
-                className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-8 cursor-pointer group transition-all duration-300 ${service.borderColor} hover:shadow-xl flex flex-col min-h-[320px]`}
+                className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-8 cursor-pointer group transition-all duration-300 ${service.borderColor} hover:shadow-xl flex flex-col min-h-[320px] h-full`}
               >
                 <div className="flex items-start justify-between mb-6">
                   <motion.div

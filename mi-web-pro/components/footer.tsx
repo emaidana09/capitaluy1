@@ -7,6 +7,12 @@ import { useConfig } from "@/lib/config-context"
 
 export default function Footer() {
   const { config } = useConfig()
+  const normalize = (u: string | undefined) => {
+    if (!u) return "#"
+    const s = String(u).trim()
+    if (s === "#" || s === "") return "#"
+    return /^https?:\/\//i.test(s) ? s : `https://${s}`
+  }
   return (
     <footer className="bg-card border-t border-border" id="contacto">
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
@@ -18,9 +24,10 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <Link href="/" className="inline-block mb-4">
-              <span className="text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-                CAPITAL UY
+            <Link href="/" className="inline-block mb-2">
+              <span className="text-2xl font-bold tracking-tight">
+                <span className="text-foreground">CAPITAL</span>
+                <span className="ml-1 text-primary">UY</span>
               </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -35,7 +42,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="font-semibold text-foreground mb-4">Enlaces</h3>
+            <h3 className="font-semibold text-foreground mb-4">Menu</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -43,6 +50,14 @@ export default function Footer() {
                   className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Comerciar
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contacto"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                >
+                  Contacto
                 </Link>
               </li>
               <li>
@@ -118,7 +133,7 @@ export default function Footer() {
             <h3 className="font-semibold text-foreground mb-4">Síguenos</h3>
             <div className="flex gap-3">
               <a
-                href={config.instagram_url}
+                href={normalize(config.instagram_url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all duration-200"
@@ -126,7 +141,7 @@ export default function Footer() {
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href={config.twitter_url}
+                href={normalize(config.twitter_url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all duration-200"
@@ -134,7 +149,7 @@ export default function Footer() {
                 <Twitter className="w-5 h-5" />
               </a>
               <a
-                href={config.telegram_url}
+                href={normalize(config.telegram_url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-primary/20 transition-all duration-200"

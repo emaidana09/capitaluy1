@@ -1,7 +1,8 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { getConfigFromSheet, writeConfigToSheet, type SiteConfig } from "@/lib/google-sheets"
-import { DEFAULT_CONFIG } from "@/lib/config-context"
+import { database } from '@/lib/firebase'
+import { ref, get, update } from 'firebase/database'
+import { DEFAULT_CONFIG, type SiteConfig } from '@/lib/config-context'
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
@@ -18,8 +19,13 @@ async function isAdminAuthenticated(): Promise<boolean> {
   return !!(token && isValidToken(token))
 }
 
-// In-memory fallback when no Google Sheets
-let memoryConfig: SiteConfig | null = null
+let configCache: SiteConfig | null = null
+
+const configRefPath = 'config/site'
+
+function dbRef(path = '') {
+  return path ? ref(database, path) : ref(database)
+}
 
 /** Merge config: non-empty values override DEFAULT_CONFIG */
 function mergeWithDefaults(source: SiteConfig | null): SiteConfig {
@@ -36,12 +42,14 @@ function mergeWithDefaults(source: SiteConfig | null): SiteConfig {
 
 export async function GET() {
   try {
-    const sheetConfig = await getConfigFromSheet()
-    const config = mergeWithDefaults(sheetConfig ?? memoryConfig ?? null)
-    return NextResponse.json(config)
+    const snap = await get(dbRef(configRefPath))
+    const cfg = snap.exists() ? (snap.val() as any) : configCache
+    const config = mergeWithDefaults(cfg ?? null)
+    configCache = config
+    return new NextResponse(JSON.stringify(config), { headers: { 'Content-Type': 'application/json' } })
   } catch (error) {
-    console.error("Error in GET /api/config:", error)
-    return NextResponse.json(mergeWithDefaults(memoryConfig))
+    console.error('Error in GET /api/config:', error)
+    return new NextResponse(JSON.stringify(mergeWithDefaults(configCache)), { headers: { 'Content-Type': 'application/json' } })
   }
 }
 
@@ -67,14 +75,15 @@ export async function POST(request: Request) {
       footer_description: body.footer_description ? body.footer_description : DEFAULT_CONFIG.footer_description,
     }
 
-    memoryConfig = config
-    const written = await writeConfigToSheet(config)
-
-    return NextResponse.json({
-      success: true,
-      savedToSheet: written,
-      config,
-    })
+    try {
+      await update(dbRef(configRefPath), config)
+      configCache = config
+      return NextResponse.json({ success: true, config })
+    } catch (e) {
+      console.error("Error updating config in database:", e)
+      configCache = config
+      return NextResponse.json({ success: true, config, warning: "Failed to update database, but config updated in memory." })
+    }
   } catch (error) {
     console.error("Error in POST /api/config:", error); // Added more specific logging
     return NextResponse.json(

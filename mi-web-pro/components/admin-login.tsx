@@ -18,6 +18,7 @@ interface AdminLoginProps {
 export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [createMode, setCreateMode] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -28,20 +29,48 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
     setError(null)
 
     try {
-      const response = await fetch("/api/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "login", username, password }),
-      })
+      if (createMode) {
+        // Create admin first
+        const resCreate = await fetch("/api/auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "create", username, password }),
+        })
+        const createData = await resCreate.json()
+        if (!createData.success) {
+          setError(createData.error || "Error creando admin")
+          setIsLoading(false)
+          return
+        }
 
-      const data = await response.json()
-
-      if (data.success) {
-        onLoginSuccess()
+        // After creation, attempt login to set session cookie
+        const response = await fetch("/api/auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "login", username, password }),
+        })
+        const data = await response.json()
+        if (data.success) {
+          onLoginSuccess()
+        } else {
+          setError(data.error || "Cuenta creada, pero no se pudo iniciar sesion")
+        }
       } else {
-        setError(data.error || "Error al iniciar sesion")
+        const response = await fetch("/api/auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "login", username, password }),
+        })
+
+        const data = await response.json()
+
+        if (data.success) {
+          onLoginSuccess()
+        } else {
+          setError(data.error || "Error al iniciar sesion")
+        }
       }
-    } catch {
+    } catch (err) {
       setError("Error de conexion")
     } finally {
       setIsLoading(false)

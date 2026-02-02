@@ -1,7 +1,3 @@
-/* Google Sheets integration removed.
-   This file now only provides lightweight type definitions used elsewhere in the codebase.
-   Data persistence has been migrated to Firestore. */
-
 export type CryptoPrice = {
   id: string
   symbol: string

@@ -55,7 +55,7 @@ export default function CoursesSection() {
                 Criptomonedas
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
+            <p className="text-base md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
               Cursos disenados para todos los niveles. Desde
               principiantes hasta traders avanzados.
             </p>

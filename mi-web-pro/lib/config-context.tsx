@@ -1,17 +1,7 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-
-export interface SiteConfig {
-  whatsapp_number: string
-  email: string
-  phone_display: string
-  address: string
-  instagram_url: string
-  twitter_url: string
-  telegram_url: string
-  footer_description: string
-}
+import type { SiteConfig } from '@/lib/types'
 
 export const DEFAULT_CONFIG: SiteConfig = {
   whatsapp_number: "59899584364",

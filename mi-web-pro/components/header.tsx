@@ -5,10 +5,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Settings } from "lucide-react"
+import ThemeToggle from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
@@ -18,38 +20,47 @@ export default function Header() {
           <Image 
             src="/logo.png" 
             alt="CapitalUY" 
-            width={180} 
-            height={60} 
-            className="h-16 w-auto"
+            width={220} 
+            height={80} 
+            className="h-14 md:h-20 w-auto"
           />
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6 shrink-0">
-          <Link 
-            href="/#cotizacion" 
+          <Link
+            href="/#cotizacion"
             className="text-foreground/80 hover:text-foreground transition-colors duration-200"
           >
             Comerciar
           </Link>
 
-          <Link 
-            href="/aprender" 
+          <Link
+            href="/contacto"
             className="text-foreground/80 hover:text-foreground transition-colors duration-200"
           >
-            Cursos
+            Contacto
           </Link>
 
-          <Link 
-            href="/nosotros" 
+          <Link
+            href="/nosotros"
             className="text-foreground/80 hover:text-foreground transition-colors duration-200"
           >
             Nosotros
+          </Link>
+
+          <Link
+            href="/aprender"
+            className="text-foreground/80 hover:text-foreground transition-colors duration-200 flex items-center gap-2"
+          >
+            Cursos
+            <span className="text-xs text-muted-foreground">(próximamente)</span>
           </Link>
         </div>
 
         {/* Desktop Actions - Admin Only */}
         <div className="hidden md:flex items-center gap-3">
+          <ThemeToggle />
           <Link href="/admin">
             <Button variant="outline" className="border-border hover:bg-secondary bg-transparent gap-2">
               <Settings className="w-4 h-4" />
@@ -78,7 +89,7 @@ export default function Header() {
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-4">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-4">
           <Link
             href="/#cotizacion"
             className="py-2 text-foreground/80 hover:text-foreground"
@@ -87,11 +98,11 @@ export default function Header() {
             Comerciar
           </Link>
           <Link
-            href="/aprender"
+            href="/contacto"
             className="py-2 text-foreground/80 hover:text-foreground"
             onClick={() => setMobileMenuOpen(false)}
           >
-            Cursos
+            Contacto
           </Link>
           <Link
             href="/nosotros"
@@ -100,6 +111,15 @@ export default function Header() {
           >
             Nosotros
           </Link>
+          <Link
+            href="/aprender"
+            className="py-2 text-foreground/80 hover:text-foreground flex items-center gap-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Cursos
+            <span className="text-xs text-muted-foreground">(próximamente)</span>
+          </Link>
+          
           <div className="pt-4 border-t border-border">
             <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
               <Button variant="outline" className="w-full bg-transparent gap-2">

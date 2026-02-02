@@ -48,8 +48,8 @@ export default function Hero() {
               transition={{ duration: 0.7, ease: easing }}
               className="mb-6 sm:mb-8"
           >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7rem] 2xl:text-[8rem] font-bold tracking-tight leading-[0.9] select-none">
-              <span className="inline-block text-white">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[0.95] select-none">
+              <span className="inline-block text-foreground">
                 CAPITAL
               </span>
               <span className="block sm:inline sm:ml-2 mt-1 sm:mt-0 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700">
@@ -71,7 +71,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: easing }}
-            className="text-xl sm:text-2xl md:text-3xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-relaxed"
+            className="text-base sm:text-xl md:text-2xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-relaxed"
           >
             Compra y vende{" "}
             <span className="text-primary font-bold">USDT</span>

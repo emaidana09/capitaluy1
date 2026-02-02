@@ -2,35 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Wallet, ArrowRightLeft } from "lucide-react"
-
-const WHATSAPP_NUMBER = "59899123456" // Replace with actual WhatsApp number
-
-const services = [
-  {
-    id: "comprar",
-    title: "Comprar",
-    description:
-      "Compra USDT de forma segura y rapida. Nuestro equipo te guiara de manera personalizada para darte tranquilidad.",
-    icon: Wallet,
-    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`,
-    color: "from-primary/20 to-primary/5",
-    iconColor: "text-primary",
-    borderColor: "hover:border-primary/50",
-    glowColor: "group-hover:shadow-primary/20",
-  },
-  {
-    id: "vender",
-    title: "Vender",
-    description:
-      "Vende tus USDT al mejor precio del mercado. Te contamos como vender de forma simple y directa.",
-    icon: ArrowRightLeft,
-    href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`,
-    color: "from-accent/20 to-accent/5",
-    iconColor: "text-accent",
-    borderColor: "hover:border-accent/50",
-    glowColor: "group-hover:shadow-accent/20",
-  },
-]
+import { useConfig } from "@/lib/config-context"
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -54,6 +26,35 @@ const iconVariants = {
 }
 
 export default function ServiceCards() {
+  const { config } = useConfig()
+  const WHATSAPP_NUMBER = config.whatsapp_number
+
+  const services = [
+    {
+      id: "comprar",
+      title: "Comprar",
+      description:
+        "Compra USDT de forma segura y rapida. Nuestro equipo te guiara de manera personalizada para darte tranquilidad.",
+      icon: Wallet,
+      href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa comprar")}`,
+      color: "from-primary/20 to-primary/5",
+      iconColor: "text-primary",
+      borderColor: "hover:border-primary/50",
+      glowColor: "group-hover:shadow-primary/20",
+    },
+    {
+      id: "vender",
+      title: "Vender",
+      description:
+        "Vende tus USDT al mejor precio del mercado. Te contamos como vender de forma simple y directa.",
+      icon: ArrowRightLeft,
+      href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, me interesa vender")}`,
+      color: "from-accent/20 to-accent/5",
+      iconColor: "text-accent",
+      borderColor: "hover:border-accent/50",
+      glowColor: "group-hover:shadow-accent/20",
+    },
+  ]
   return (
     <section className="py-20 px-4" id="servicios">
       <div className="container mx-auto">
