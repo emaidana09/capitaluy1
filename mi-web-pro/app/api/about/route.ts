@@ -23,6 +23,7 @@ export interface AboutContent {
   historyText: string
   commitmentTitle: string
   commitmentText: string
+  commitmentHomeText: string
   stats: { value: string; label: string }[]
   features: { title: string; description: string }[]
 }
@@ -34,6 +35,7 @@ const DEFAULT_ABOUT: AboutContent = {
   historyText: "CapitalUY nacio con la mision de simplificar el acceso a las criptomonedas en Uruguay. Identificamos la necesidad de una plataforma confiable donde las personas pudieran comprar y vender USDT de forma rapida, segura y con asesoramiento personalizado.\n\nHoy nos enorgullece haber completado mas de 463 operaciones en los ultimos 30 dias, con una tasa de exito del 97.27% y un tiempo promedio de liberacion de solo 3.12 minutos. Cada transaccion refuerza nuestro compromiso con la transparencia y la mejor experiencia del usuario.",
   commitmentTitle: "Nuestro Compromiso",
   commitmentText: "Nos dedicamos a brindarte la mejor experiencia en compra y venta de USDT. Atencion personalizada por WhatsApp, precios competitivos y un proceso simple y directo sin complicaciones. Tu seguridad y satisfaccion son nuestra prioridad.",
+  commitmentHomeText: "Con mas de 463 operaciones completadas en los ultimos 30 dias y un 97.27% de tasa de exito, nos dedicamos a brindarte la mejor experiencia en compra y venta de USDT. Nuestro tiempo promedio de pago es de solo 3.12 minutos.",
   stats: [
     { value: "463+", label: "Operaciones en 30 dias" },
     { value: "97.27%", label: "Tasa de Completadas" },
@@ -51,7 +53,8 @@ const DEFAULT_ABOUT: AboutContent = {
 let aboutContent: AboutContent = JSON.parse(JSON.stringify(DEFAULT_ABOUT))
 
 export async function GET() {
-  return NextResponse.json(aboutContent)
+  const merged = { ...DEFAULT_ABOUT, ...aboutContent }
+  return NextResponse.json(merged)
 }
 
 export async function POST(request: Request) {

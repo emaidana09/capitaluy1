@@ -68,7 +68,7 @@ export default function AdminAboutPanel() {
       <CardHeader>
         <CardTitle>Contenido Sobre Nosotros</CardTitle>
         <CardDescription>
-          Edita el texto de la pagina Sobre Nosotros (no depende de Google Sheets)
+          Edita el texto de la pagina Sobre Nosotros y la seccion Nuestro Compromiso en la pagina principal
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -137,6 +137,18 @@ export default function AdminAboutPanel() {
               value={about.commitmentText}
               onChange={(e) => setAbout({ ...about, commitmentText: e.target.value })}
             />
+          </div>
+          <div>
+            <Label>Nuestro Compromiso (texto en pagina principal)</Label>
+            <textarea
+              className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input"
+              value={about.commitmentHomeText ?? ""}
+              onChange={(e) => setAbout({ ...about, commitmentHomeText: e.target.value })}
+              placeholder="Con mas de 463 operaciones completadas..."
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Parrafo de la seccion Nuestro Compromiso en la pagina de inicio
+            </p>
           </div>
 
           <div>
