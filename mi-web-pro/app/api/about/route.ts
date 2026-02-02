@@ -1,5 +1,7 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
+import { database } from "@/lib/firebase"
+import { ref, get, set } from "firebase/database"
 
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
@@ -50,11 +52,29 @@ const DEFAULT_ABOUT: AboutContent = {
   ],
 }
 
-let aboutContent: AboutContent = JSON.parse(JSON.stringify(DEFAULT_ABOUT))
+const ABOUT_DB_KEY = "aboutContent"
+
+async function readStoredAbout(): Promise<Partial<AboutContent> | null> {
+  try {
+    const snapshot = await get(ref(database, ABOUT_DB_KEY))
+    return snapshot.exists() ? (snapshot.val() as Partial<AboutContent>) : null
+  } catch {
+    return null
+  }
+}
+
+async function writeStoredAbout(data: AboutContent) {
+  await set(ref(database, ABOUT_DB_KEY), data)
+}
 
 export async function GET() {
-  const merged = { ...DEFAULT_ABOUT, ...aboutContent }
-  return NextResponse.json(merged)
+  try {
+    const stored = await readStoredAbout()
+    const merged = { ...DEFAULT_ABOUT, ...(stored ?? {}) }
+    return NextResponse.json(merged)
+  } catch {
+    return NextResponse.json(DEFAULT_ABOUT)
+  }
 }
 
 export async function POST(request: Request) {
@@ -65,9 +85,11 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    aboutContent = { ...aboutContent, ...body }
-    return NextResponse.json({ success: true, about: aboutContent })
-  } catch {
+    const stored = await readStoredAbout()
+    const newAbout: AboutContent = { ...DEFAULT_ABOUT, ...(stored ?? {}), ...body }
+    await writeStoredAbout(newAbout)
+    return NextResponse.json({ success: true, about: newAbout })
+  } catch (err) {
     return NextResponse.json({ error: "Error al guardar" }, { status: 500 })
   }
 }

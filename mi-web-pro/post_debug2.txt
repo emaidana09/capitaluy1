@@ -1,0 +1,9 @@
+HTTP/1.1 500 Internal Server Error
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+content-type: application/json
+Date: Mon, 02 Feb 2026 21:46:40 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Transfer-Encoding: chunked
+
+{"error":"Error al guardar","details":"SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)"}

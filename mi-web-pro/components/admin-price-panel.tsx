@@ -232,7 +232,7 @@ export default function AdminPricePanel() {
                 Importar / Exportar Excel (CSV)
               </CardTitle>
               <CardDescription>
-                Los precios se sincronizan con la hoja de Google. Descarga o sube CSV para actualizar.
+                Usa CSV para exportar/importar precios.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -265,15 +265,6 @@ export default function AdminPricePanel() {
                     <p className="font-medium mb-1">Formato CSV:</p>
                     <code className="text-xs">Symbol,Name,BuyPrice,SellPrice,Enabled</code>
                   </div>
-                  <a
-                    href="https://docs.google.com/spreadsheets/d/1jnNmF47Y-aaMc6xsaRg2fNo31pG_KWpPIN1AVbGQD04/edit"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm text-primary hover:underline"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Abrir hoja de Google
-                  </a>
                 </div>
               </div>
             </CardContent>
@@ -545,7 +536,7 @@ export default function AdminPricePanel() {
               </h3>
               <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside">
                 <li>Descarga el archivo CSV haciendo clic en &quot;Descargar CSV&quot;</li>
-                <li>Abre el archivo con Excel, Google Sheets o cualquier editor de hojas de calculo</li>
+                <li>Abre el archivo con Excel u otro editor de hojas de cálculo</li>
                 <li>Modifica los precios de compra (BuyPrice) y venta (SellPrice) segun necesites</li>
                 <li>Guarda el archivo en formato CSV</li>
                 <li>Sube el archivo usando &quot;Importar CSV&quot;</li>

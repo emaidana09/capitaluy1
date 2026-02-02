@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
 import { getDatabase } from 'firebase/database'
 import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -30,9 +29,8 @@ try {
   analytics = null
 }
 
-// Exports for Firestore, Realtime Database and Auth
-const firestore = getFirestore(app)
+// Exports for Realtime Database and Auth (Firestore removed)
 const database = getDatabase(app)
 const auth = getAuth(app)
 
-export { app as firebaseApp, analytics, firestore, database, auth }
+export { app as firebaseApp, analytics, database, auth }
