@@ -14,44 +14,45 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
-      <nav className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between min-w-0">
+      <nav className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center min-w-0">
         {/* Logo - CAPITAL UY */}
-        <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0">
-          <Image 
-            src="/logo.png" 
-            alt="CapitalUY" 
-            width={220} 
-            height={80} 
-            className="h-14 md:h-20 w-auto"
-          />
-        </Link>
+        <div className="flex-1 flex items-center">
+          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0">
+            <Image 
+              src="/logo.png" 
+              alt="CapitalUY" 
+              width={220} 
+              height={80} 
+              className="h-14 md:h-20 w-auto"
+            />
+          </Link>
+        </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6 shrink-0">
+        {/* Desktop Navigation - centrado */}
+        <div className="hidden md:flex flex-1 items-center justify-center gap-6">
           <Link
             href="/#cotizacion"
-            className="text-foreground/80 hover:text-foreground transition-colors duration-200"
+            className="text-foreground/80 hover:text-primary transition-colors duration-200"
           >
             Comerciar
           </Link>
-
           <Link
             href="/contacto"
-            className="text-foreground/80 hover:text-foreground transition-colors duration-200"
+            className="text-foreground/80 hover:text-primary transition-colors duration-200"
           >
             Contacto
           </Link>
 
           <Link
             href="/nosotros"
-            className="text-foreground/80 hover:text-foreground transition-colors duration-200"
+            className="text-foreground/80 hover:text-primary transition-colors duration-200"
           >
             Nosotros
           </Link>
 
           <Link
             href="/aprender"
-            className="text-foreground/80 hover:text-foreground transition-colors duration-200 flex items-center gap-2"
+            className="text-foreground/80 hover:text-primary transition-colors duration-200 flex items-center gap-2"
           >
             Cursos
             <span className="text-xs text-accent">(próximamente)</span>
@@ -59,7 +60,7 @@ export default function Header() {
         </div>
 
         {/* Desktop Actions - Admin Only */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex flex-1 items-center justify-end gap-3">
           <ThemeToggle />
           <Link href="/admin">
             <Button variant="outline" className="border-border hover:bg-secondary bg-transparent gap-2">
@@ -92,28 +93,28 @@ export default function Header() {
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-4">
           <Link
             href="/#cotizacion"
-            className="py-2 text-foreground/80 hover:text-foreground"
+            className="py-2 text-foreground/80 hover:text-primary"
             onClick={() => setMobileMenuOpen(false)}
           >
             Comerciar
           </Link>
           <Link
             href="/contacto"
-            className="py-2 text-foreground/80 hover:text-foreground"
+            className="py-2 text-foreground/80 hover:text-primary"
             onClick={() => setMobileMenuOpen(false)}
           >
             Contacto
           </Link>
           <Link
             href="/nosotros"
-            className="py-2 text-foreground/80 hover:text-foreground"
+            className="py-2 text-foreground/80 hover:text-primary"
             onClick={() => setMobileMenuOpen(false)}
           >
             Nosotros
           </Link>
           <Link
             href="/aprender"
-            className="py-2 text-foreground/80 hover:text-foreground flex items-center gap-2"
+            className="py-2 text-foreground/80 hover:text-primary flex items-center gap-2"
             onClick={() => setMobileMenuOpen(false)}
           >
             Cursos
