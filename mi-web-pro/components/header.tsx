@@ -54,7 +54,7 @@ export default function Header() {
             className="text-foreground/80 hover:text-foreground transition-colors duration-200 flex items-center gap-2"
           >
             Cursos
-            <span className="text-xs text-muted-foreground">(próximamente)</span>
+            <span className="text-xs text-accent">(próximamente)</span>
           </Link>
         </div>
 
@@ -117,7 +117,7 @@ export default function Header() {
             onClick={() => setMobileMenuOpen(false)}
           >
             Cursos
-            <span className="text-xs text-muted-foreground">(próximamente)</span>
+            <span className="text-xs text-accent">(próximamente)</span>
           </Link>
           
           <div className="pt-4 border-t border-border">

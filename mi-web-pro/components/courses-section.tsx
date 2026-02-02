@@ -153,9 +153,13 @@ function CourseCard({ course, whatsappNumber }: { course: Course; whatsappNumber
     >
       {/* Course Image Placeholder */}
       <div className="h-40 bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <BookOpen className="w-16 h-16 text-primary/30" />
-        </div>
+        {course.images && course.images.length > 0 ? (
+          <img src={course.images[0].data} alt={course.images[0].name} className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <BookOpen className="w-16 h-16 text-primary/30" />
+          </div>
+        )}
         <Badge className={`absolute top-4 left-4 ${course.levelColor}`}>
           {course.level}
         </Badge>
@@ -171,7 +175,7 @@ function CourseCard({ course, whatsappNumber }: { course: Course; whatsappNumber
 
         {/* Features */}
         <ul className="space-y-2 mb-4">
-          {course.features.slice(0, 3).map((feature) => (
+          {(course.features || []).slice(0, 3).map((feature) => (
             <li
               key={feature}
               className="flex items-center gap-2 text-sm text-muted-foreground"

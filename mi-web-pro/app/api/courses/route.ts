@@ -30,6 +30,7 @@ export interface Course {
   price: number
   currency: string
   features: string[]
+  images?: { name: string; data: string }[]
 }
 
 const DEFAULT_COURSES: Course[] = [
@@ -51,6 +52,7 @@ const DEFAULT_COURSES: Course[] = [
       "Crear tu primera wallet",
       "Seguridad basica",
     ],
+    images: [],
   },
   {
     id: "2",
@@ -70,6 +72,7 @@ const DEFAULT_COURSES: Course[] = [
       "Gestion de riesgo",
       "Estrategias de trading",
     ],
+    images: [],
   },
   {
     id: "3",
@@ -89,6 +92,7 @@ const DEFAULT_COURSES: Course[] = [
       "Liquidity pools",
       "Riesgos y seguridad",
     ],
+    images: [],
   },
 ]
 
@@ -152,6 +156,7 @@ export async function POST(request: Request) {
           price: course.price ?? 0,
           currency: course.currency || "UYU",
           features: Array.isArray(course.features) ? course.features : [],
+          images: Array.isArray(course.images) ? course.images : [],
           id: newId,
         }
         await set(newRef, payload)

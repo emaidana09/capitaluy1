@@ -1,11 +1,11 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
-import { firestore } from "@/lib/firebase"
-import { collection, getDocs, addDoc, query, where } from "firebase/firestore"
+import { database } from "@/lib/firebase"
+import { ref, get, set } from "firebase/database"
 
-// Default admin credentials - used only if no admin exists in Firestore
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin"
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "capitaluy2024"
+// Default admin credentials - used only if no admin exists in RTDB
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "rodriguez@capital-uy.com"
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "gewNlEVtA5Hcl3V71RvkT"
 const SESSION_SECRET = process.env.SESSION_SECRET || "capitaluy-secret-key-2024"
 
 // Simple session token generator
@@ -31,15 +31,15 @@ export async function POST(request: Request) {
     const { action, username, password } = body
 
     if (action === "login") {
-      // First try to find admin in Firestore
+      // First try to find admin in RTDB
+      let adminExists = false
+      let dbAdmin: any = null
       try {
-        const adminsCol = collection(firestore, "admins")
-        const q = query(adminsCol, where("username", "==", username))
-        const snap = await getDocs(q)
-        if (!snap.empty) {
-          const doc = snap.docs[0]
-          const admin = doc.data() as any
-          if (admin.password === password) {
+        const snap = await get(ref(database, "admins/default"))
+        if (snap.exists()) {
+          adminExists = true
+          dbAdmin = snap.val()
+          if (dbAdmin.username === username && dbAdmin.password === password) {
             const token = generateSessionToken()
             const cookieStore = await cookies()
             cookieStore.set("admin_session", token, {
@@ -54,10 +54,10 @@ export async function POST(request: Request) {
           return NextResponse.json({ success: false, error: "Credenciales incorrectas" }, { status: 401 })
         }
       } catch (e) {
-        // ignore and fallback to env credentials
+        console.error("Error reading admin from RTDB:", e)
       }
 
-      // Fallback to env credentials if no admin in Firestore
+      // Fallback to env credentials if no admin in RTDB
       if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
         const token = generateSessionToken()
         const cookieStore = await cookies()
@@ -68,6 +68,15 @@ export async function POST(request: Request) {
           maxAge: 60 * 60 * 24, // 24 hours
           path: "/",
         })
+
+        // Auto-save credentials to RTDB on first login
+        if (!adminExists) {
+          try {
+            await set(ref(database, "admins/default"), { username: ADMIN_USERNAME, password: ADMIN_PASSWORD })
+          } catch (e) {
+            console.error("Error saving admin to RTDB:", e)
+          }
+        }
 
         return NextResponse.json({ success: true, message: "Login exitoso" })
       }
@@ -82,24 +91,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, message: "Sesion cerrada" })
     }
 
-    // Create admin account if none exist (or when explicitly requested). This allows
-    // setting up an admin from the admin UI on first run. If admins already exist,
-    // creation requires an authenticated session.
+    // Create or update admin account in RTDB
     if (action === "create") {
-      const adminsCol = collection(firestore, "admins")
-      const snap = await getDocs(adminsCol)
       const cookieStore = await cookies()
       const token = cookieStore.get("admin_session")?.value
       const authenticated = token && isValidToken(token)
 
-      if (!snap.empty && !authenticated) {
-        return NextResponse.json({ success: false, error: "No autorizado para crear admin" }, { status: 401 })
+      // Check if admin already exists
+      try {
+        const snap = await get(ref(database, "admins/default"))
+        // If admin exists and no authentication, deny
+        if (snap.exists() && !authenticated) {
+          return NextResponse.json({ success: false, error: "No autorizado para crear admin" }, { status: 401 })
+        }
+      } catch (e) {
+        // ignore
       }
 
-      // create admin
+      // Create/update admin
       const newAdmin = { username: username || ADMIN_USERNAME, password: password || ADMIN_PASSWORD }
-      await addDoc(adminsCol, newAdmin)
-      return NextResponse.json({ success: true, message: "Admin creado" })
+      await set(ref(database, "admins/default"), newAdmin)
+      return NextResponse.json({ success: true, message: "Admin creado/actualizado" })
     }
 
     if (action === "check") {

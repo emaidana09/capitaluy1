@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -196,7 +196,35 @@ function AddCourseForm({
     price: 0,
     currency: "UYU",
     features: [],
+    images: [],
   })
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files) return
+    const toAdd: { name: string; data: string }[] = []
+    Array.from(files).forEach((f) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const data = String(reader.result || "")
+        toAdd.push({ name: f.name, data })
+        setCourse((prev) => ({ ...prev, images: [...(prev.images || []), ...toAdd] }))
+      }
+      reader.readAsDataURL(f)
+    })
+  }
+
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    handleFiles(e.dataTransfer.files)
+  }
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
   return (
     <form
@@ -269,6 +297,35 @@ function AddCourseForm({
           Cancelar
         </Button>
       </div>
+      <div>
+        <Label>Imagenes (arrastra desde una carpeta)</Label>
+        <div
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          className="p-3 border border-dashed rounded-md flex flex-wrap gap-2"
+        >
+          {(course.images || []).map((img, i) => (
+            <div key={i} className="w-20 h-20 overflow-hidden rounded-md border">
+              <img src={img.data} alt={img.name} className="w-full h-full object-cover" />
+            </div>
+          ))}
+          <button
+            type="button"
+            className="px-3 py-1 border rounded text-sm text-foreground/80"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Seleccionar
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+        </div>
+      </div>
     </form>
   )
 }
@@ -283,6 +340,32 @@ function EditCourseForm({
   onCancel: () => void
 }) {
   const [c, setC] = useState<Course>({ ...course })
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files) return
+    const toAdd: { name: string; data: string }[] = []
+    Array.from(files).forEach((f) => {
+      const reader = new FileReader()
+      reader.onload = () => {
+        const data = String(reader.result || "")
+        toAdd.push({ name: f.name, data })
+        setC((prev) => ({ ...prev, images: [...(prev.images || []), ...toAdd] }))
+      }
+      reader.readAsDataURL(f)
+    })
+  }
+
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    handleFiles(e.dataTransfer.files)
+  }
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
   return (
     <form
@@ -348,6 +431,42 @@ function EditCourseForm({
         <Button type="button" variant="outline" onClick={onCancel}>
           Cancelar
         </Button>
+      </div>
+      <div>
+        <Label>Imagenes (arrastra desde una carpeta)</Label>
+        <div
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          className="p-3 border border-dashed rounded-md flex flex-wrap gap-2"
+        >
+          {(c.images || []).map((img, i) => (
+            <div key={i} className="w-20 h-20 overflow-hidden rounded-md border relative">
+              <img src={img.data} alt={img.name} className="w-full h-full object-cover" />
+              <button
+                type="button"
+                onClick={() => setC({ ...c, images: c.images?.filter((_, idx) => idx !== i) || [] })}
+                className="absolute top-1 right-1 bg-black/40 text-white rounded px-1 text-xs"
+              >
+                x
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="px-3 py-1 border rounded text-sm text-foreground/80"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            Seleccionar
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+        </div>
       </div>
     </form>
   )

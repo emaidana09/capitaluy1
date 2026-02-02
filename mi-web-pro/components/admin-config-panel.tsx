@@ -21,7 +21,7 @@ interface SiteConfig {
 
 const defaultConfig: SiteConfig = {
   whatsapp_number: "59899123456",
-  email: "info@capitaluy.com",
+  email: "info@capital-uy.com",
   phone_display: "+598 99 123 456",
   address: "Montevideo, Uruguay",
   instagram_url: "#",
@@ -100,17 +100,6 @@ export default function AdminConfigPanel() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* Warning if Google Sheets not configured */}
-        {!isLoading && JSON.stringify(config) === JSON.stringify(defaultConfig) && (
-          <div className="flex items-start gap-3 p-4 rounded-lg bg-yellow-400/10 text-yellow-400 border border-yellow-400/20 mb-6">
-            <AlertCircle className="w-5 h-5 shrink-0" />
-            <div>
-              <p className="font-semibold mb-1">Integracion con Google Sheets no configurada o incorrecta.</p>
-              <p className="text-sm mb-2">Los cambios se guardaran solo en esta sesion del navegador y se perderan al reiniciar el servidor.</p>
-              <p className="text-sm">Por favor, configura las variables de entorno (`GOOGLE_SHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`) y comparte la hoja de Google con el email de la cuenta de servicio como editor. Asegurate que la hoja "Config" existe y tiene columnas Q (Key) y R (Value).</p>
-            </div>
-          </div>
-        )}
         <form onSubmit={handleSave} className="space-y-6">
           {status && (
             <div
@@ -154,7 +143,7 @@ export default function AdminConfigPanel() {
               type="email"
               value={config.email}
               onChange={(e) => setConfig({ ...config, email: e.target.value })}
-              placeholder="info@capitaluy.com"
+              placeholder="info@capital-uy.com"
             />
           </div>
 

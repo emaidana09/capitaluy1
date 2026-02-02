@@ -5,7 +5,7 @@ import type { SiteConfig } from '@/lib/types'
 
 export const DEFAULT_CONFIG: SiteConfig = {
   whatsapp_number: "59899584364",
-  email: "info@capitaluy.com",
+  email: "info@capital-uy.com",
   phone_display: "+598 99 584 364",
   address: "Montevideo, Uruguay",
   instagram_url: "#",
