@@ -115,7 +115,7 @@ function CheckoutContent() {
                   {type === "buy" ? "COMPRA" : "VENTA"} DE USDT
                 </h1>
                 <p className="text-white text-sm">
-                  Cotización actual: ${cotizacion} UYU / USDT
+                  Cotización actual: <span className="text-green-600 font-bold glow-green">${cotizacion} UYU / USDT</span>
                 </p>
               </div>
             </div>

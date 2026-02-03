@@ -69,7 +69,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="text-gray-400 cursor-not-allowed flex items-center gap-2">
+                <span className="text-gray-700 dark:text-gray-500 cursor-not-allowed flex items-center gap-2">
                   Cursos
                   <span className="text-xs text-accent">(Próximamente)</span>
                 </span>
