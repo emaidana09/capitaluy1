@@ -198,5 +198,9 @@ function useFirstLoad() {
 }
 
 export default function CheckoutPage() {
-  return <CheckoutContent />
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
+      <CheckoutContent />
+    </Suspense>
+  )
 }
