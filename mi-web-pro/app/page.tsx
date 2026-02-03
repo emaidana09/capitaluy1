@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Header from "@/components/header"
 import Hero from "@/components/hero"
 import ServicesWithPrice from "@/components/services-with-price"
@@ -11,10 +11,26 @@ import IntroAnimation from "@/components/intro-animation"
 
 export default function Home() {
   const [showContent, setShowContent] = useState(false)
+  const [showIntro, setShowIntro] = useState(false)
+
+  useEffect(() => {
+    const alreadyPlayed = localStorage.getItem("introPlayed")
+    if (!alreadyPlayed) {
+      setShowIntro(true)
+    } else {
+      setShowContent(true)
+    }
+  }, [])
 
   return (
     <>
-      <IntroAnimation onComplete={() => setShowContent(true)} />
+      {showIntro && (
+        <IntroAnimation onComplete={() => {
+          setShowContent(true)
+          setShowIntro(false)
+          localStorage.setItem("introPlayed", "true")
+        }} />
+      )}
       {showContent && (
         <main className="min-h-screen bg-background w-full overflow-x-hidden">
           <Header />

@@ -49,10 +49,10 @@ export default function Hero() {
               className="mb-6 sm:mb-8"
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[0.95] select-none">
-              <span className="inline-block text-foreground">
+              <span className="inline-block text-white text-[2.8rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
                 CAPITAL
               </span>
-              <span className="block sm:inline sm:ml-2 mt-1 sm:mt-0 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700">
+              <span className="inline-block ml-4 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 text-[2.8rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold">
                 UY
               </span>
             </h1>

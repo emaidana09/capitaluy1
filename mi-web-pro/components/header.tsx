@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -10,7 +11,16 @@ import { cn } from "@/lib/utils"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showAdmin, setShowAdmin] = useState(false)
+  const pathname = usePathname()
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "F2") setShowAdmin((v) => !v)
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [])
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
@@ -31,43 +41,60 @@ export default function Header() {
         {/* Desktop Navigation - centrado */}
         <div className="hidden md:flex flex-1 items-center justify-center gap-6">
           <Link
-            href="/#cotizacion"
-            className="text-foreground/80 hover:text-primary transition-colors duration-200"
+            href="/"
+            className={
+              pathname === "/" || pathname === "/checkout"
+                ? "text-white dark:text-capital font-bold relative px-2 transition-colors duration-200"
+                : "text-foreground/80 hover:text-white transition-colors duration-200"
+            }
           >
             Comerciar
+            {(pathname === "/" || pathname === "/checkout") && (
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-0 animate-grow-bar bg-white dark:bg-capital origin-center" />
+            )}
+          </Link>
+          <Link
+            href="/nosotros"
+            className={
+              pathname === "/nosotros"
+                ? "text-white dark:text-white font-bold relative px-2 transition-colors duration-200"
+                : "text-foreground/80 hover:text-white transition-colors duration-200"
+            }
+          >
+            Nosotros
+            {pathname === "/nosotros" && (
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-0 animate-grow-bar bg-white origin-center" />
+            )}
           </Link>
           <Link
             href="/contacto"
-            className="text-foreground/80 hover:text-primary transition-colors duration-200"
+            className={
+              pathname === "/contacto"
+                ? "text-white dark:text-white font-bold relative px-2 transition-colors duration-200"
+                : "text-foreground/80 hover:text-white transition-colors duration-200"
+            }
           >
             Contacto
+            {pathname === "/contacto" && (
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-0 animate-grow-bar bg-white origin-center" />
+            )}
           </Link>
-
-          <Link
-            href="/nosotros"
-            className="text-foreground/80 hover:text-primary transition-colors duration-200"
-          >
-            Nosotros
-          </Link>
-
-          <Link
-            href="/aprender"
-            className="text-foreground/80 hover:text-primary transition-colors duration-200 flex items-center gap-2"
-          >
+          <span className="text-gray-400 cursor-not-allowed flex items-center gap-2">
             Cursos
-            <span className="text-xs text-accent">(próximamente)</span>
-          </Link>
+            <span className="text-xs text-accent">(Próximamente)</span>
+          </span>
         </div>
 
         {/* Desktop Actions - Admin Only */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-3">
-          <ThemeToggle />
-          <Link href="/admin">
-            <Button variant="outline" className="border-border hover:bg-secondary bg-transparent gap-2">
-              <Settings className="w-4 h-4" />
-              Admin
-            </Button>
-          </Link>
+          <div style={{ visibility: showAdmin ? "visible" : "hidden" }}>
+            <Link href="/admin">
+              <Button variant="outline" className="border-border hover:bg-secondary bg-transparent gap-2">
+                <Settings className="w-4 h-4" />
+                Admin
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -76,9 +103,9 @@ export default function Header() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? (
-            <X className="w-6 h-6" />
+            <X className="w-6 h-6 text-capital" />
           ) : (
-            <Menu className="w-6 h-6" />
+            <Menu className="w-6 h-6 text-capital drop-shadow-lg" />
           )}
         </button>
       </nav>
@@ -112,14 +139,10 @@ export default function Header() {
           >
             Nosotros
           </Link>
-          <Link
-            href="/aprender"
-            className="py-2 text-foreground/80 hover:text-primary flex items-center gap-2"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+          <span className="py-2 text-gray-400 cursor-not-allowed flex items-center gap-2">
             Cursos
-            <span className="text-xs text-accent">(próximamente)</span>
-          </Link>
+            <span className="text-xs text-accent">(Próximamente)</span>
+          </span>
           
           <div className="pt-4 border-t border-border">
             <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>

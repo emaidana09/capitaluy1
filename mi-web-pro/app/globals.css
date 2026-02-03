@@ -1,3 +1,11 @@
+@keyframes grow-bar {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.animate-grow-bar {
+  animation: grow-bar 0.5s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
 @import 'tailwindcss';
 @import 'tw-animate-css';
 

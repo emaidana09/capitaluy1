@@ -46,26 +46,10 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/#cotizacion"
+                  href="/"
                   className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
                   Comerciar
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contacto"
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-                >
-                  Contacto
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/aprender"
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-                >
-                  Cursos
                 </Link>
               </li>
               <li>
@@ -78,11 +62,17 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/admin"
+                  href="/contacto"
                   className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                 >
-                  Admin
+                  Contacto
                 </Link>
+              </li>
+              <li>
+                <span className="text-gray-400 cursor-not-allowed flex items-center gap-2">
+                  Cursos
+                  <span className="text-xs text-accent">(Próximamente)</span>
+                </span>
               </li>
             </ul>
           </motion.div>
@@ -111,14 +101,10 @@ export default function Footer() {
                   href={`https://wa.me/${config.whatsapp_number}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-foreground transition-colors"
+                  className="hover:text-foreground transition-colors font-semibold text-lg"
                 >
-                  {config.phone_display}
+                  {config.phone_display ? config.phone_display : config.whatsapp_number}
                 </a>
-              </li>
-              <li className="flex items-start gap-2 text-muted-foreground">
-                <MapPin className="w-4 h-4 text-primary mt-0.5" />
-                <span>{config.address}</span>
               </li>
             </ul>
           </motion.div>

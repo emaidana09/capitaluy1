@@ -40,6 +40,12 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        {/* OG tags for social sharing */}
+        <meta property="og:title" content="CapitalUY - Compra y Venta de USDT en Uruguay" />
+        <meta property="og:description" content="Tu plataforma confiable para comprar y vender USDT y criptomonedas en Uruguay." />
+        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:url" content="https://capitaluy.com/" />
+        <meta property="og:type" content="website" />
         {/* Inline script to synchronise theme class before React hydration */}
         <script dangerouslySetInnerHTML={{ __html: `(() => {
           try {

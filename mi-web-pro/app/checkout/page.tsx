@@ -79,7 +79,7 @@ function CheckoutContent() {
   )
 
   return (
-    <main className="min-h-screen bg-background w-full overflow-x-hidden">
+    <main className="min-h-screen bg-background dark:bg-black w-full overflow-x-hidden">
       <Header />
       <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-lg mx-auto">
@@ -94,7 +94,7 @@ function CheckoutContent() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-border bg-card p-6 sm:p-8"
+            className="rounded-2xl border border-border bg-card dark:bg-neutral-900 p-6 sm:p-8"
           >
             <div className="flex items-center gap-3 mb-6">
               <div
@@ -130,20 +130,26 @@ function CheckoutContent() {
                 Monto a {type === "buy" ? "comprar" : "vender"} (USD)
               </Label>
               <Input
-                id="amount"
-                type="text"
-                inputMode="numeric"
-                placeholder="Ej: 100"
-                value={amountUsd}
-                onChange={(e) => setAmountUsd(e.target.value)}
-                className={`text-lg transition-shadow duration-200 ${highlighted ? "ring-2 ring-green-400/40 bg-green-50 border-green-300 text-green-900" : ""}`}
-                ref={inputRef}
+                  id="amount"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.01"
+                  min="0"
+                  placeholder="Ej: 100"
+                  value={amountUsd}
+                  onChange={(e) => {
+                    // Permitir solo números y decimales
+                    const val = e.target.value.replace(/[^\d.]/g, "")
+                    setAmountUsd(val)
+                  }}
+                  className={`text-lg transition-shadow duration-200 ${highlighted ? "ring-2 ring-green-400/40 bg-green-50 border-green-300 text-green-900" : ""} dark:text-white`}
+                  ref={inputRef}
               />
             </div>
 
-            <div className={`rounded-lg p-4 mb-6 ${highlighted ? "bg-green-50 border border-green-200" : "bg-muted/50 border border-border"}`}>
+            <div className={`rounded-lg p-4 mb-6 ${highlighted ? "bg-green-50 border border-green-200" : "bg-muted/50 border border-border"} dark:!bg-neutral-950 dark:!border-white`}>
               <p className="text-xs text-muted-foreground mb-2">Vista previa del mensaje:</p>
-              <p className="text-base md:text-lg text-green-900 whitespace-pre-line font-sans leading-relaxed font-medium break-words">
+              <p className="text-base md:text-lg text-green-900 dark:text-white whitespace-pre-line font-sans leading-relaxed font-medium break-words">
                 {messagePreview}
               </p>
             </div>
