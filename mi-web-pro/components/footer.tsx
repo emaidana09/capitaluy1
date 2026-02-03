@@ -101,7 +101,7 @@ export default function Footer() {
                   href={`https://wa.me/${config.whatsapp_number}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-foreground transition-colors font-semibold text-lg"
+                  className="hover:text-foreground transition-colors"
                 >
                   {config.phone_display ? config.phone_display : config.whatsapp_number}
                 </a>

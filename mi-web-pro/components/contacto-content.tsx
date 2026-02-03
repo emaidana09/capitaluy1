@@ -38,7 +38,7 @@ export default function ContactContent() {
                 <Phone className="w-5 h-5 text-primary" />
                 <h3 className="font-semibold">WhatsApp</h3>
               </div>
-              <a href={waLink} target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline">{config.whatsapp_number}</a>
+              <a href={waLink} target="_blank" rel="noopener noreferrer" className="text-foreground hover:underline">{config.phone_display}</a>
               <p className="text-sm text-muted-foreground mt-2">Respondemos rápido durante horario laboral.</p>
             </div>
 

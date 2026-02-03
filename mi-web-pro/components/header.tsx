@@ -44,44 +44,44 @@ export default function Header() {
             href="/"
             className={
               pathname === "/" || pathname === "/checkout"
-                ? "text-white dark:text-capital font-bold relative px-2 transition-colors duration-200"
-                : "text-foreground/80 hover:text-white transition-colors duration-200"
+                ? "text-white dark:text-capital font-bold relative px-3 transition-colors duration-200"
+                : "text-foreground/80 hover:text-white relative px-3 transition-colors duration-200"
             }
           >
             Comerciar
             {(pathname === "/" || pathname === "/checkout") && (
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-0 animate-grow-bar bg-white dark:bg-capital origin-center" />
+              <span className="absolute left-0 right-0 bottom-0 h-0.5 w-full animate-grow-bar bg-white dark:bg-capital origin-center" />
             )}
           </Link>
           <Link
             href="/nosotros"
             className={
               pathname === "/nosotros"
-                ? "text-white dark:text-white font-bold relative px-2 transition-colors duration-200"
-                : "text-foreground/80 hover:text-white transition-colors duration-200"
+                ? "text-white dark:text-white font-bold relative px-3 transition-colors duration-200"
+                : "text-foreground/80 hover:text-white relative px-3 transition-colors duration-200"
             }
           >
             Nosotros
             {pathname === "/nosotros" && (
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-0 animate-grow-bar bg-white origin-center" />
+              <span className="absolute left-0 right-0 bottom-0 h-0.5 w-full animate-grow-bar bg-white origin-center" />
             )}
           </Link>
           <Link
             href="/contacto"
             className={
               pathname === "/contacto"
-                ? "text-white dark:text-white font-bold relative px-2 transition-colors duration-200"
-                : "text-foreground/80 hover:text-white transition-colors duration-200"
+                ? "text-white dark:text-white font-bold relative px-3 transition-colors duration-200"
+                : "text-foreground/80 hover:text-white relative px-3 transition-colors duration-200"
             }
           >
             Contacto
             {pathname === "/contacto" && (
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-0.5 w-0 animate-grow-bar bg-white origin-center" />
+              <span className="absolute left-0 right-0 bottom-0 h-0.5 w-full animate-grow-bar bg-white origin-center" />
             )}
           </Link>
-          <span className="text-gray-400 cursor-not-allowed flex items-center gap-2">
-            Cursos
-            <span className="text-xs text-accent">(Próximamente)</span>
+          <span className="text-gray-600 dark:text-gray-500 cursor-not-allowed flex items-center gap-2">
+            <span className="line-through decoration-2 decoration-gray-500">Cursos</span>
+            <span className="text-xs text-accent not-italic">(Próximamente)</span>
           </span>
         </div>
 

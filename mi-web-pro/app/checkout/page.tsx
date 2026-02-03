@@ -114,7 +114,7 @@ function CheckoutContent() {
                 <h1 className="text-2xl md:text-3xl lg:text-3xl font-bold uppercase tracking-tight">
                   {type === "buy" ? "COMPRA" : "VENTA"} DE USDT
                 </h1>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-white text-sm">
                   Cotización actual: ${cotizacion} UYU / USDT
                 </p>
               </div>
@@ -149,7 +149,7 @@ function CheckoutContent() {
 
             <div className={`rounded-lg p-4 mb-6 ${highlighted ? "bg-green-50 border border-green-200" : "bg-muted/50 border border-border"} dark:!bg-neutral-950 dark:!border-white`}>
               <p className="text-xs text-muted-foreground mb-2">Vista previa del mensaje:</p>
-              <p className="text-base md:text-lg text-green-900 dark:text-white whitespace-pre-line font-sans leading-relaxed font-medium break-words">
+              <p className="message-preview-small text-green-900 dark:text-white whitespace-pre-line font-sans leading-relaxed font-medium break-words">
                 {messagePreview}
               </p>
             </div>
@@ -169,6 +169,8 @@ function CheckoutContent() {
     </main>
   )
 }
+
+import "./custom-checkout.css"
 
 export default function CheckoutPage() {
   return (
