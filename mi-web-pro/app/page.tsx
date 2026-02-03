@@ -14,11 +14,27 @@ export default function Home() {
   const [showIntro, setShowIntro] = useState(false)
 
   useEffect(() => {
-    const alreadyPlayed = localStorage.getItem("introPlayed")
-    if (!alreadyPlayed) {
-      setShowIntro(true)
-    } else {
-      setShowContent(true)
+    if (typeof window !== 'undefined') {
+      // Detectar refresh real o ingreso directo y limpiar flag SOLO en refresh
+      let isReload = false;
+      if (window.performance && window.performance.getEntriesByType) {
+        const navs = window.performance.getEntriesByType("navigation");
+        if (navs.length > 0 && navs[0].type === "reload") {
+          isReload = true;
+        }
+      } else if (window.performance && window.performance.navigation) {
+        isReload = window.performance.navigation.type === 1;
+      }
+      if (isReload) {
+        window.sessionStorage.removeItem('home_intro_played');
+      }
+
+      // Si el flag no existe, mostrar intro (pero NO setearlo aquí)
+      if (!window.sessionStorage.getItem('home_intro_played')) {
+        setShowIntro(true)
+      } else {
+        setShowContent(true)
+      }
     }
   }, [])
 
@@ -28,7 +44,9 @@ export default function Home() {
         <IntroAnimation onComplete={() => {
           setShowContent(true)
           setShowIntro(false)
-          localStorage.setItem("introPlayed", "true")
+          if (typeof window !== 'undefined') {
+            window.sessionStorage.setItem('home_intro_played', '1')
+          }
         }} />
       )}
       {showContent && (

@@ -172,14 +172,31 @@ function CheckoutContent() {
 
 import "./custom-checkout.css"
 
+
+
+// Mostrar loader solo en el primer render de la vida de la página (refresh o ingreso directo)
+
+// Loader en cada refresh real o ingreso directo usando sessionStorage
+function useFirstLoad() {
+  const [firstLoad, setFirstLoad] = useState(false)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Si no hay flag, es refresh o ingreso directo
+      if (!window.sessionStorage.getItem('checkout_visited')) {
+        setFirstLoad(true)
+        window.sessionStorage.setItem('checkout_visited', '1')
+      }
+      // Limpiar flag en cada refresh real
+      const clearFlag = () => {
+        window.sessionStorage.removeItem('checkout_visited')
+      }
+      window.addEventListener('beforeunload', clearFlag)
+      return () => window.removeEventListener('beforeunload', clearFlag)
+    }
+  }, [])
+  return firstLoad
+}
+
 export default function CheckoutPage() {
-  return (
-    <Suspense fallback={
-      <main className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
-      </main>
-    }>
-      <CheckoutContent />
-    </Suspense>
-  )
+  return <CheckoutContent />
 }

@@ -39,7 +39,7 @@ export default function Header() {
         </div>
 
         {/* Desktop Navigation - centrado */}
-        <div className="hidden md:flex flex-1 items-center justify-center gap-6">
+        <div className="hidden md:flex flex-1 items-center justify-center gap-7">
           <Link
             href="/"
             className={
@@ -79,8 +79,8 @@ export default function Header() {
               <span className="absolute left-0 right-0 bottom-0 h-0.5 w-full animate-grow-bar bg-white origin-center" />
             )}
           </Link>
-          <span className="text-gray-600 dark:text-gray-500 cursor-not-allowed flex items-center gap-2">
-            <span className="line-through decoration-2 decoration-gray-500">Cursos</span>
+          <span className="text-gray-600 dark:text-gray-500 cursor-not-allowed flex items-center gap-2 px-3">
+            <span>Cursos</span>
             <span className="text-xs text-accent not-italic">(Próximamente)</span>
           </span>
         </div>
