@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Settings } from "lucide-react"
+import { Menu, X, Settings, Square } from "lucide-react"
 import ThemeToggle from "@/components/theme-toggle"
 import { cn } from "@/lib/utils"
 
@@ -98,11 +98,12 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Toggle - right aligned, square button, menu icon */}
         <button
-          className="md:hidden p-3 rounded-full border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute left-2 top-1/2 -translate-y-1/2 z-20"
+          className="md:hidden p-3 border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-2 top-1/2 -translate-y-1/2 z-20"
           aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{ borderRadius: 0 }}
         >
           {mobileMenuOpen ? (
             <X className="w-7 h-7 text-primary" />
