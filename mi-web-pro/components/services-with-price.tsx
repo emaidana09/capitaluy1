@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
+import { useEffect, useState } from "react"
 import { Wallet, ArrowRightLeft, TrendingUp, TrendingDown, CheckCircle, Clock, Shield } from "lucide-react"
 import useSWR from "swr"
 
@@ -62,23 +63,43 @@ export default function ServicesWithPrice() {
 
   const usdt = data?.cryptos.find((c) => c.id === "usdt")
 
+  // Detectar si es mobile (ancho <= 600px)
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 600)
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
   return (
     <section className="pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 scroll-mt-24 overflow-visible" id="cotizacion">
       <div className="w-full max-w-5xl mx-auto overflow-visible">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-center mb-8 overflow-visible px-3 py-2"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-3 overflow-visible leading-tight min-h-[1.2em] py-1">
-            Cotizacion USDT
-          </h2>
-          <p className="text-muted-foreground">
-            Precios actualizados en tiempo real
-          </p>
-        </motion.div>
+        {isMobile ? (
+          <div className="text-center mb-8 overflow-visible px-3 py-2">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 overflow-visible leading-tight min-h-[1.2em] py-1">
+              Cotizacion USDT
+            </h2>
+            <p className="text-muted-foreground">
+              Precios actualizados en tiempo real
+            </p>
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-center mb-8 overflow-visible px-3 py-2"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-3 overflow-visible leading-tight min-h-[1.2em] py-1">
+              Cotizacion USDT
+            </h2>
+            <p className="text-muted-foreground">
+              Precios actualizados en tiempo real
+            </p>
+          </motion.div>
+        )}
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {services.map((service, i) => {
@@ -86,62 +107,93 @@ export default function ServicesWithPrice() {
             const price = service.priceType === "buy" ? usdt?.buyPrice : usdt?.sellPrice
             const PriceIcon = service.priceType === "buy" ? TrendingUp : TrendingDown
 
+            if (isMobile) {
+              return (
+                <Link key={service.id} href={service.href} className="h-full">
+                  <div className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-6 cursor-pointer group transition-all duration-300 ${service.borderColor} flex flex-col min-h-[220px] h-full`}>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`w-12 h-12 rounded-xl bg-secondary/50 flex items-center justify-center ${service.iconColor}`}>
+                        <Icon className="w-7 h-7" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <PriceIcon className={`w-5 h-5 ${service.iconColor}`} />
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-muted-foreground text-xs mb-4 flex-1">
+                      {service.description}
+                    </p>
+                    <div className="pt-2 border-t border-border/50 mt-auto">
+                      <div className="flex items-baseline gap-2">
+                        <span className={`text-2xl font-bold ${service.iconColor}`}>
+                          {isLoading ? (
+                            <span className="animate-pulse">---</span>
+                          ) : (
+                            `$${price?.toLocaleString("es-UY", { minimumFractionDigits: 2 }) || "---"}`
+                          )}
+                        </span>
+                        <span className="text-muted-foreground text-xs">UYU / USDT</span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              )
+            }
+
             return (
               <Link key={service.id} href={service.href} className="h-full">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-30px" }}
-                transition={{ duration: 0.4, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
-                whileHover={{ scale: 1.02, y: -3 }}
-                whileTap={{ scale: 0.98 }}
-                className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-8 cursor-pointer group transition-all duration-300 ${service.borderColor} hover:shadow-xl flex flex-col min-h-[320px] h-full`}
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
-                    className={`w-16 h-16 rounded-xl bg-secondary/50 flex items-center justify-center ${service.iconColor}`}
-                  >
-                    <Icon className="w-8 h-8" />
-                  </motion.div>
-                  <div className="flex items-center gap-2">
-                    <PriceIcon className={`w-5 h-5 ${service.iconColor}`} />
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-30px" }}
+                  transition={{ duration: 0.4, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  whileHover={{ scale: 1.02, y: -3 }}
+                  whileTap={{ scale: 0.98 }}
+                  className={`relative overflow-hidden rounded-xl border border-border bg-gradient-to-b ${service.color} p-8 cursor-pointer group transition-all duration-300 ${service.borderColor} hover:shadow-xl flex flex-col min-h-[320px] h-full`}
+                >
+                  <div className="flex items-start justify-between mb-6">
+                    <motion.div
+                      whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                      className={`w-16 h-16 rounded-xl bg-secondary/50 flex items-center justify-center ${service.iconColor}`}
+                    >
+                      <Icon className="w-8 h-8" />
+                    </motion.div>
+                    <div className="flex items-center gap-2">
+                      <PriceIcon className={`w-5 h-5 ${service.iconColor}`} />
+                    </div>
                   </div>
-                </div>
-
-                <h3 className="text-2xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
-                  {service.title}
-                </h3>
-
-                <p className="text-muted-foreground text-sm mb-6 flex-1">
-                  {service.description}
-                </p>
-
-                {/* Price Display */}
-                <div className="pt-4 border-t border-border/50 mt-auto">
-                  <div className="flex items-baseline gap-2">
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={`price-${price}`}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className={`text-3xl md:text-4xl font-bold ${service.iconColor}`}
-                      >
-                        {isLoading ? (
-                          <span className="animate-pulse">---</span>
-                        ) : (
-                          `$${price?.toLocaleString("es-UY", { minimumFractionDigits: 2 }) || "---"}`
-                        )}
-                      </motion.span>
-                    </AnimatePresence>
-                    <span className="text-muted-foreground text-sm">UYU / USDT</span>
+                  <h3 className="text-2xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-6 flex-1">
+                    {service.description}
+                  </p>
+                  {/* Price Display */}
+                  <div className="pt-4 border-t border-border/50 mt-auto">
+                    <div className="flex items-baseline gap-2">
+                      <AnimatePresence mode="wait">
+                        <motion.span
+                          key={`price-${price}`}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className={`text-3xl md:text-4xl font-bold ${service.iconColor}`}
+                        >
+                          {isLoading ? (
+                            <span className="animate-pulse">---</span>
+                          ) : (
+                            `$${price?.toLocaleString("es-UY", { minimumFractionDigits: 2 }) || "---"}`
+                          )}
+                        </motion.span>
+                      </AnimatePresence>
+                      <span className="text-muted-foreground text-sm">UYU / USDT</span>
+                    </div>
                   </div>
-                </div>
-
-                {/* Hover effects */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </motion.div>
+                  {/* Hover effects */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.div>
               </Link>
             )
           })}
