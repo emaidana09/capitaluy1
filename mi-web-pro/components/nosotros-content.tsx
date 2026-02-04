@@ -150,7 +150,7 @@ export default function NosotrosContent() {
           transition={{ duration: 0.6 }}
           className="mb-16 max-w-2xl mx-auto"
         >
-          <CryptoCoins3D />
+          {/* <CryptoCoins3D /> Animación 3D deshabilitada en Nosotros por requerimiento */}
         </motion.div>
 
         {/* CTA */}
@@ -161,10 +161,14 @@ export default function NosotrosContent() {
           className="text-center"
         >
           <p className="text-muted-foreground mb-4">Listo para operar?</p>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90">
-            <Link href="/#cotizacion" className="gap-2">
-              Ver cotizacion actual
-              <ArrowRight className="w-4 h-4" />
+          <Button
+            asChild
+            size="xl"
+            className="bg-gradient-to-r from-primary to-accent text-lg px-8 py-5 rounded-2xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-accent hover:to-primary hover:shadow-2xl group"
+          >
+            <Link href="/#cotizacion" className="flex items-center gap-3 font-bold tracking-wide">
+              Ver cotización actual
+              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </Button>
         </motion.div>

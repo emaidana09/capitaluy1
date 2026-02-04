@@ -24,16 +24,17 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
-      <nav className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center min-w-0">
+      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-20 flex items-center min-w-0 relative">
         {/* Logo - CAPITAL UY */}
-        <div className="flex-1 flex items-center">
+        <div className="flex-1 flex items-center justify-center md:justify-start">
           <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0">
             <Image 
               src="/logo.png" 
               alt="CapitalUY" 
               width={220} 
               height={80} 
-              className="h-14 md:h-20 w-auto"
+              className="h-16 w-auto md:h-20 transition-all duration-200 mx-auto"
+              priority
             />
           </Link>
         </div>
@@ -99,13 +100,14 @@ export default function Header() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-3 rounded-full border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute left-2 top-1/2 -translate-y-1/2 z-20"
+          aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? (
-            <X className="w-6 h-6 text-capital" />
+            <X className="w-7 h-7 text-primary" />
           ) : (
-            <Menu className="w-6 h-6 text-capital drop-shadow-lg" />
+            <Menu className="w-7 h-7 text-primary drop-shadow-lg" />
           )}
         </button>
       </nav>
