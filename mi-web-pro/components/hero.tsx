@@ -48,11 +48,11 @@ export default function Hero() {
               transition={{ duration: 0.7, ease: easing }}
               className="mb-6 sm:mb-8"
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[0.95] select-none">
+            <h1 className="text-[2.8rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[1.05] select-none">
               <span className="inline-block text-white text-[2.8rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
                 CAPITAL
               </span>
-              <span className="inline-block ml-4 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 text-[2.8rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold">
+              <span className="inline-block ml-1 pt-2 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 text-[2.8rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold overflow-visible">
                 UY
               </span>
             </h1>
@@ -71,7 +71,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: easing }}
-            className="text-base sm:text-xl md:text-2xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-relaxed"
+            className="text-sm sm:text-xl md:text-2xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-relaxed"
           >
             Compra y vende{" "}
             <span className="text-primary font-bold">USDT</span>
@@ -82,7 +82,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6, ease: easing }}
-            className="text-base sm:text-lg text-muted-foreground/90 mt-4 max-w-2xl mx-auto font-light"
+            className="text-xs sm:text-lg text-muted-foreground/90 mt-4 max-w-2xl mx-auto font-light"
           >
             Tu plataforma de confianza. Asesoramiento personalizado y las mejores cotizaciones.
           </motion.p>

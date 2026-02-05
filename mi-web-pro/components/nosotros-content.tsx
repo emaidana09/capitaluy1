@@ -47,16 +47,16 @@ export default function NosotrosContent() {
   const statIcons = [TrendingUp, CheckCircle, Clock, Shield]
 
   return (
-    <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section className="pt-10 sm:pt-14 pb-20 sm:pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <div className="w-full max-w-5xl mx-auto">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-balance">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-balance">
             {content.title}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
@@ -163,12 +163,12 @@ export default function NosotrosContent() {
           <p className="text-muted-foreground mb-4">Listo para operar?</p>
           <Button
             asChild
-            size="xl"
-            className="bg-gradient-to-r from-primary to-accent text-lg px-8 py-5 rounded-2xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-accent hover:to-primary hover:shadow-2xl group"
+            size="lg"
+            className="bg-gradient-to-r from-primary to-accent text-base px-6 py-3 rounded-xl shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-accent hover:to-primary hover:shadow-2xl group"
           >
-            <Link href="/#cotizacion" className="flex items-center gap-3 font-bold tracking-wide">
+            <Link href="/#cotizacion" className="flex items-center gap-2 font-bold tracking-wide">
               Ver cotización actual
-              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </Button>
         </motion.div>

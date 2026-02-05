@@ -73,7 +73,7 @@ export default function ServicesWithPrice() {
   }, [])
 
   return (
-    <section className="pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 scroll-mt-24 overflow-visible" id="cotizacion">
+    <section className="pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 scroll-mt-24 sm:scroll-mt-40 overflow-visible" id="cotizacion">
       <div className="w-full max-w-5xl mx-auto overflow-visible">
         {isMobile ? (
           <div className="text-center mb-8 overflow-visible px-3 py-2">

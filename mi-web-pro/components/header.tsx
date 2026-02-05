@@ -120,36 +120,50 @@ export default function Header() {
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-4">
-          <Link
-            href="/#cotizacion"
-            className="py-2 text-foreground/80 hover:text-primary"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Comerciar
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-2 items-center">
+          {/* Logo y CapitalUY grande */}
+          <Link href="/" className="flex flex-col items-center mb-2" onClick={() => setMobileMenuOpen(false)}>
+            <Image 
+              src="/logo.png" 
+              alt="CapitalUY" 
+              width={120} 
+              height={40} 
+              className="h-12 w-auto mb-1" 
+              priority
+            />
+            <span className="text-3xl font-extrabold tracking-tight text-white leading-tight">Capital<span className="text-green-400">UY</span></span>
           </Link>
-          <Link
-            href="/contacto"
-            className="py-2 text-foreground/80 hover:text-primary"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Contacto
-          </Link>
-          <Link
-            href="/nosotros"
-            className="py-2 text-foreground/80 hover:text-primary"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Nosotros
-          </Link>
-          <span className="py-2 text-gray-400 cursor-not-allowed flex items-center gap-2">
-            Cursos
-            <span className="text-xs text-accent">(Próximamente)</span>
-          </span>
-          
-          <div className="pt-4 border-t border-border">
+          {/* Menú móvil ordenado igual que web */}
+          <nav className="w-full flex flex-col gap-1 mt-2">
+            <Link
+              href="/#cotizacion"
+              className="py-2 text-base text-foreground/80 hover:text-primary"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Comerciar
+            </Link>
+            <Link
+              href="/nosotros"
+              className="py-2 text-base text-foreground/80 hover:text-primary"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Nosotros
+            </Link>
+            <Link
+              href="/contacto"
+              className="py-2 text-base text-foreground/80 hover:text-primary"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Contacto
+            </Link>
+            <span className="py-2 text-base text-gray-400 cursor-not-allowed flex items-center gap-2">
+              Cursos
+              <span className="text-xs text-accent">(Próximamente)</span>
+            </span>
+          </nav>
+          <div className="pt-4 border-t border-border w-full">
             <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="outline" className="w-full bg-transparent gap-2">
+              <Button variant="outline" className="w-full bg-transparent gap-2 text-sm">
                 <Settings className="w-4 h-4" />
                 Admin
               </Button>
