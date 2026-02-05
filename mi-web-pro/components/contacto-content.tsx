@@ -1,10 +1,12 @@
 "use client"
 
+
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import { useConfig } from "@/lib/config-context"
 import { Mail, Phone, MapPin, Instagram, Twitter, Send } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function ContactContent() {
   const { config } = useConfig()
@@ -16,6 +18,17 @@ export default function ContactContent() {
     return /^https?:\/\//i.test(s) ? s : `https://${s}`
   }
 
+  const [contactMsg, setContactMsg] = useState({
+    contact_message_title: "",
+    contact_message_body: ""
+  })
+
+  useEffect(() => {
+    fetch("/api/contact-message")
+      .then(res => res.json())
+      .then(setContactMsg)
+  }, [])
+
   return (
     <main className="min-h-screen bg-background w-full overflow-x-hidden">
       <Header />
@@ -23,16 +36,6 @@ export default function ContactContent() {
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <h1 className="text-3xl md:text-4xl font-bold mb-4">Contacto</h1>
-          <div className="flex justify-center mb-6">
-            <div className="px-6 py-4 rounded-2xl bg-green-600/60 shadow-md border border-green-700/60 backdrop-blur-sm animate-slide-up-fade">
-              <p className="text-lg md:text-xl font-bold text-white text-center mb-1">
-                ¿Querés formar parte de nuestra cartera de clientes?
-              </p>
-              <p className="text-base md:text-lg text-white text-center font-normal">
-                Los comerciantes recurrentes obtienen la mejor cotización del mercado.
-              </p>
-            </div>
-          </div>
           <p className="text-muted-foreground mb-8">Si tenes dudas o queres coordinar una operacion, contactanos por cualquiera de los canales abajo.</p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -69,6 +72,16 @@ export default function ContactContent() {
                   <Twitter className="w-6 h-6" />
                 </a>
               </div>
+            </div>
+          </div>
+          <div className="flex justify-center mt-8 mb-6">
+            <div className="px-6 py-4 rounded-2xl bg-green-600/60 shadow-md border border-green-700/60 backdrop-blur-sm animate-slide-up-fade">
+              <p className="text-lg md:text-xl font-bold text-white text-center mb-1">
+                {contactMsg.contact_message_title}
+              </p>
+              <p className="text-base md:text-lg text-white text-center font-normal">
+                {contactMsg.contact_message_body}
+              </p>
             </div>
           </div>
         </div>

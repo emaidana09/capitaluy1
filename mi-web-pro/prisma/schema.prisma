@@ -1,0 +1,15 @@
+// Prisma schema for siteConfig table
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model SiteConfig {
+  key   String @id
+  value String
+}
