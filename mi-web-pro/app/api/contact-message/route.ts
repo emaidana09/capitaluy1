@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-const FIREBASE_DB_URL = process.env.FIREBASE_DB_URL
+import { database } from "@/lib/firebase"
+import { ref, set, get } from "firebase/database"
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,14 +9,7 @@ export async function POST(req: NextRequest) {
     if (!contact_message_title || !contact_message_body) {
       return NextResponse.json({ success: false, error: "Campos requeridos" }, { status: 400 })
     }
-    if (!FIREBASE_DB_URL) {
-      return NextResponse.json({ success: false, error: "FIREBASE_DB_URL no definida" }, { status: 500 })
-    }
-    await fetch(`${FIREBASE_DB_URL}/contact_message.json`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contact_message_title, contact_message_body })
-    })
+    await set(ref(database, "contact_message"), { contact_message_title, contact_message_body })
     return NextResponse.json({ success: true })
   } catch (e) {
     return NextResponse.json({ success: false, error: "Error de servidor" }, { status: 500 })
@@ -24,11 +18,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    if (!FIREBASE_DB_URL) {
-      return NextResponse.json({ contact_message_title: "", contact_message_body: "" })
-    }
-    const res = await fetch(`${FIREBASE_DB_URL}/contact_message.json`)
-    const data = await res.json()
+    const snapshot = await get(ref(database, "contact_message"))
+    const data = snapshot.exists() ? snapshot.val() : { contact_message_title: "", contact_message_body: "" }
     return NextResponse.json(data)
   } catch (e) {
     return NextResponse.json({ contact_message_title: "", contact_message_body: "" })
