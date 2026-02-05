@@ -33,7 +33,7 @@ export default function Header() {
               alt="CapitalUY" 
               width={220} 
               height={80} 
-              className="h-16 w-auto md:h-20 transition-all duration-200 mx-auto"
+              className="h-20 w-auto md:h-20 transition-all duration-200 mx-auto"
               priority
             />
           </Link>
@@ -100,7 +100,7 @@ export default function Header() {
 
         {/* Mobile Menu Toggle - right aligned, square button, menu icon */}
         <button
-          className="md:hidden p-3 border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-10 top-1/2 -translate-y-1/2 z-20"
+          className="md:hidden p-3 border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-4 top-1/2 -translate-y-1/2 z-20"
           aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{ borderRadius: 0 }}
@@ -120,17 +120,9 @@ export default function Header() {
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-2 items-center">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-col gap-2 items-center">
           {/* Logo y CapitalUY grande */}
-          <Link href="/" className="flex flex-col items-center mb-2" onClick={() => setMobileMenuOpen(false)}>
-            <Image 
-              src="/logo.png" 
-              alt="CapitalUY" 
-              width={120} 
-              height={40} 
-              className="h-12 w-auto mb-1" 
-              priority
-            />
+          <Link href="/" className="flex flex-col items-center mb-0 mt-2" onClick={() => setMobileMenuOpen(false)}>
             <span className="text-3xl font-extrabold tracking-tight text-white leading-tight">Capital<span className="text-green-400">UY</span></span>
           </Link>
           {/* Menú móvil ordenado igual que web */}

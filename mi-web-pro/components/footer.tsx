@@ -16,7 +16,7 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t border-border" id="contacto">
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="flex flex-col md:flex-row md:justify-center md:items-start gap-8 lg:gap-12 text-center md:text-left">
+        <div className="flex flex-col md:flex-row md:justify-center md:items-start gap-8 lg:gap-12 text-left">
           {/* Brand */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -24,13 +24,13 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <Link href="/" className="inline-block mb-2">
+            <Link href="/" className="inline-block mb-2 text-left pl-0">
               <span className="text-2xl font-bold tracking-tight">
-                <span className="text-foreground">CAPITAL</span>
-                <span className="ml-1 text-primary">UY</span>
+                <span className="text-foreground">Capital</span>
+                <span className="text-primary">UY</span>
               </span>
             </Link>
-            <p className="text-muted-foreground text-sm leading-relaxed text-pretty text-justify max-w-xs mx-auto md:mx-0">
+            <p className="text-muted-foreground text-sm leading-relaxed text-pretty text-justify max-w-xs pl-0">
               {config.footer_description}
             </p>
           </motion.div>
@@ -42,7 +42,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="font-semibold text-foreground mb-4">Menu</h3>
+            <h3 className="font-semibold text-foreground mb-4 text-left">Menu</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -84,7 +84,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="font-semibold text-foreground mb-4">Contacto</h3>
+            <h3 className="font-semibold text-foreground mb-4 text-left">Contacto</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-muted-foreground min-w-0">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
@@ -117,8 +117,8 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="font-semibold text-white mb-4 text-center">Seguinos</h3>
-            <div className="flex gap-6 justify-center items-center">
+            <h3 className="font-semibold text-white mb-4 text-left">Seguinos</h3>
+            <div className="flex gap-6 items-center">
               <a
                 href={normalize(config.instagram_url)}
                 target="_blank"
@@ -152,9 +152,9 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground"
+          className="border-t border-border mt-8 pt-8 text-left text-sm text-muted-foreground"
         >
-          <p className="mx-auto w-full text-center">
+          <p className="mx-auto w-full text-left">
             &copy; {new Date().getFullYear()} CapitalUY. Todos los derechos reservados.
           </p>
         </motion.div>
