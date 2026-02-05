@@ -6,6 +6,8 @@ import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import { useConfig } from "@/lib/config-context"
 import { Mail, Phone, MapPin, Instagram, Twitter, Send } from "lucide-react"
+// ...existing code...
+import clsx from "clsx"
 import { useEffect, useState } from "react"
 
 export default function ContactContent() {
@@ -18,15 +20,21 @@ export default function ContactContent() {
     return /^https?:\/\//i.test(s) ? s : `https://${s}`
   }
 
+
   const [contactMsg, setContactMsg] = useState({
     contact_message_title: "",
     contact_message_body: ""
   })
 
+  // Animación para la box de frecuencia
+  const [showFrecuencia, setShowFrecuencia] = useState(false)
   useEffect(() => {
     fetch("/api/contact-message")
       .then(res => res.json())
       .then(setContactMsg)
+    // Mostrar la box después de 1 segundo
+    const timer = setTimeout(() => setShowFrecuencia(true), 1000)
+    return () => clearTimeout(timer)
   }, [])
 
   return (
@@ -56,32 +64,36 @@ export default function ContactContent() {
               <p className="text-sm text-muted-foreground mt-2">Respondemos rápido durante horario laboral.</p>
             </div>
 
+            {/* ...existing code... (eliminada la caja de la grilla) */}
+
             <div className="p-6 rounded-lg border border-border bg-card">
               <div className="flex items-center gap-3 mb-4">
-                <Send className="w-5 h-5 text-white" />
+                <Send className="w-5 h-5 text-green-500" />
                 <h3 className="font-semibold text-white">Redes</h3>
               </div>
               <div className="mt-2 flex gap-4 justify-start items-center">
-                <a href={normalize(config.instagram_url)} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors">
+                <a href={normalize(config.instagram_url)} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700 transition-colors">
                   <Instagram className="w-6 h-6" />
                 </a>
-                <a href={normalize(config.telegram_url)} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors">
+                <a href={normalize(config.telegram_url)} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700 transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M9.993 15.545l-.396 4.01c.567 0 .813-.244 1.112-.538l2.67-2.553 5.543 4.04c1.016.56 1.747.265 2.01-.94l3.644-17.07c.334-1.53-.553-2.13-1.54-1.77L1.36 9.13c-1.49.58-1.47 1.41-.254 1.78l4.37 1.364 10.16-6.41c.478-.309.913-.137.555.172"/></svg>
                 </a>
-                <a href={normalize(config.twitter_url)} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors">
+                <a href={normalize(config.twitter_url)} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700 transition-colors">
                   <Twitter className="w-6 h-6" />
                 </a>
               </div>
             </div>
           </div>
           <div className="flex justify-center mt-8 mb-6">
-            <div className="relative overflow-hidden rounded-xl border border-border bg-gradient-to-b from-green-900 via-green-800 to-black p-8 w-full max-w-md shadow-xl">
+            <div
+              className="relative overflow-hidden rounded-xl border border-border bg-gradient-to-b from-green-900 via-green-800 to-black p-8 w-full max-w-md shadow-xl animate-slide-up-fade"
+            >
               <div className="relative z-10">
                 <p className="text-2xl font-bold text-green-100 text-center mb-2">
-                  {contactMsg.contact_message_title}
+                  {contactMsg.contact_message_title || "Comercias con frecuencia?"}
                 </p>
                 <p className="text-base md:text-lg text-green-200 text-center font-normal">
-                  {contactMsg.contact_message_body}
+                  {contactMsg.contact_message_body || "Ofrecemos descuentos y la mejor cotizacion del Uruguay para nuestros clientes regulares."}
                 </p>
               </div>
               {/* Decorativo: Glow verde arriba derecha */}
