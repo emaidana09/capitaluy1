@@ -58,30 +58,36 @@ export default function ContactContent() {
 
             <div className="p-6 rounded-lg border border-border bg-card">
               <div className="flex items-center gap-3 mb-4">
-                <Send className="w-5 h-5 text-green-500" />
-                <h3 className="font-semibold text-green-100">Redes</h3>
+                <Send className="w-5 h-5 text-white" />
+                <h3 className="font-semibold text-white">Redes</h3>
               </div>
-              <div className="mt-2 flex gap-4">
-                <a href={normalize(config.instagram_url)} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 transition-colors">
+              <div className="mt-2 flex gap-4 justify-start items-center">
+                <a href={normalize(config.instagram_url)} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors">
                   <Instagram className="w-6 h-6" />
                 </a>
-                <a href={normalize(config.telegram_url)} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 transition-colors">
+                <a href={normalize(config.telegram_url)} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M9.993 15.545l-.396 4.01c.567 0 .813-.244 1.112-.538l2.67-2.553 5.543 4.04c1.016.56 1.747.265 2.01-.94l3.644-17.07c.334-1.53-.553-2.13-1.54-1.77L1.36 9.13c-1.49.58-1.47 1.41-.254 1.78l4.37 1.364 10.16-6.41c.478-.309.913-.137.555.172"/></svg>
                 </a>
-                <a href={normalize(config.twitter_url)} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:text-green-300 transition-colors">
+                <a href={normalize(config.twitter_url)} target="_blank" rel="noopener noreferrer" className="text-white hover:text-primary transition-colors">
                   <Twitter className="w-6 h-6" />
                 </a>
               </div>
             </div>
           </div>
           <div className="flex justify-center mt-8 mb-6">
-            <div className="px-6 py-4 rounded-2xl bg-green-600/60 shadow-md border border-green-700/60 backdrop-blur-sm animate-slide-up-fade">
-              <p className="text-lg md:text-xl font-bold text-white text-center mb-1">
-                {contactMsg.contact_message_title}
-              </p>
-              <p className="text-base md:text-lg text-white text-center font-normal">
-                {contactMsg.contact_message_body}
-              </p>
+            <div className="relative overflow-hidden rounded-xl border border-border bg-gradient-to-b from-green-900 via-green-800 to-black p-8 w-full max-w-md shadow-xl">
+              <div className="relative z-10">
+                <p className="text-2xl font-bold text-green-100 text-center mb-2">
+                  {contactMsg.contact_message_title}
+                </p>
+                <p className="text-base md:text-lg text-green-200 text-center font-normal">
+                  {contactMsg.contact_message_body}
+                </p>
+              </div>
+              {/* Decorativo: Glow verde arriba derecha */}
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-400/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-80 pointer-events-none" />
+              {/* Decorativo: Glow verde abajo izquierda */}
+              <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-green-400/10 to-transparent rounded-full translate-y-1/2 -translate-x-1/2 opacity-60 pointer-events-none" />
             </div>
           </div>
         </div>
