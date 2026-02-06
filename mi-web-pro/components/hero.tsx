@@ -43,10 +43,11 @@ export default function Hero() {
         <div className="flex flex-col items-center justify-center text-center min-w-0">
           {/* CAPITAL UY - Main brand */}
             <motion.div
+              style={{ marginTop: '0' }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: easing }}
-              className="mb-6 sm:mb-8"
+              className="mb-1 sm:mb-3"
           >
             <h1 className="text-[4rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[1.05] select-none">
               <span className="inline-block text-white text-[4rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
