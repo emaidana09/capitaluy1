@@ -52,7 +52,7 @@ export default function Hero() {
               <span className="inline-block text-white text-[4rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
                 Capital
               </span>
-              <span className="inline-block ml-1 pt-2 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 text-[4rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold overflow-visible">
+              <span className="inline-block ml-[10px] pt-2 text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 text-[4rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold overflow-visible">
                 UY
               </span>
             </h1>
