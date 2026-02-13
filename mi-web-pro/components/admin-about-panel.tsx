@@ -1,3 +1,4 @@
+"use client"
           <div>
             <Label>Referencias (nombre|descripcion, una por linea, max 3)</Label>
             <textarea
@@ -14,7 +15,6 @@
               placeholder="Juan Perez|Excelente servicio y atención"
             />
           </div>
-"use client"
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
