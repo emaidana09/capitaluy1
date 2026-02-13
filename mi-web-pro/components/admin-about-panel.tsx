@@ -1,20 +1,4 @@
 "use client"
-          <div>
-            <Label>Referencias (nombre|descripcion, una por linea, max 3)</Label>
-            <textarea
-              className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
-              value={(about.references ?? []).map((r) => `${r.name}|${r.description}`).join("\n")}
-              onChange={(e) => {
-                const lines = e.target.value.split("\n").filter(Boolean)
-                const references = lines.slice(0, 3).map((line) => {
-                  const [name, description] = line.split("|").map((s) => s.trim())
-                  return { name: name || "", description: description || "" }
-                })
-                setAbout({ ...about, references })
-              }}
-              placeholder="Juan Perez|Excelente servicio y atención"
-            />
-          </div>
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
@@ -46,6 +30,34 @@ export default function AdminAboutPanel() {
     fetchAbout()
   }, [])
 
+  // ...existing code...
+
+  return (
+    <Card>
+      <CardContent>
+        <form onSubmit={handleSave}>
+          {/* ...otros campos... */}
+          <div>
+            <Label>Referencias (nombre|descripcion, una por linea, max 3)</Label>
+            <textarea
+              className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
+              value={(about?.references ?? []).map((r) => `${r.name}|${r.description}`).join("\n")}
+              onChange={(e) => {
+                const lines = e.target.value.split("\n").filter(Boolean)
+                const references = lines.slice(0, 3).map((line) => {
+                  const [name, description] = line.split("|").map((s) => s.trim())
+                  return { name: name || "", description: description || "" }
+                })
+                setAbout({ ...about, references })
+              }}
+              placeholder="Juan Perez|Excelente servicio y atención"
+            />
+          </div>
+          {/* ...otros campos... */}
+        </form>
+      </CardContent>
+    </Card>
+  )
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!about) return
