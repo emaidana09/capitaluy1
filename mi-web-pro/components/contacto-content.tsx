@@ -5,9 +5,8 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
 import { useConfig } from "@/lib/config-context"
-import { Mail, Phone, MapPin, Instagram, Twitter, Send } from "lucide-react"
+import { Mail, Phone, Instagram, Twitter, Send } from "lucide-react"
 // ...existing code...
-import clsx from "clsx"
 import { useEffect, useState } from "react"
 
 export default function ContactContent() {
@@ -20,21 +19,36 @@ export default function ContactContent() {
     return /^https?:\/\//i.test(s) ? s : `https://${s}`
   }
 
+  const [contactMsg, setContactMsg] = useState<{
+    contact_message_title: string
+    contact_message_body: string
+  } | null>(null)
+  const [isMessageLoading, setIsMessageLoading] = useState(true)
 
-  const [contactMsg, setContactMsg] = useState({
-    contact_message_title: "",
-    contact_message_body: ""
-  })
-
-  // Animación para la box de frecuencia
-  const [showFrecuencia, setShowFrecuencia] = useState(false)
   useEffect(() => {
-    fetch("/api/contact-message")
-      .then(res => res.json())
-      .then(setContactMsg)
-    // Mostrar la box después de 1 segundo
-    const timer = setTimeout(() => setShowFrecuencia(true), 1000)
-    return () => clearTimeout(timer)
+    let mounted = true
+    const loadContactMessage = async () => {
+      try {
+        const res = await fetch("/api/contact-message", { cache: "no-store" })
+        const data = await res.json()
+        if (mounted) {
+          setContactMsg(data)
+        }
+      } catch {
+        if (mounted) {
+          setContactMsg(null)
+        }
+      } finally {
+        if (mounted) {
+          setIsMessageLoading(false)
+        }
+      }
+    }
+
+    loadContactMessage()
+    return () => {
+      mounted = false
+    }
   }, [])
 
   return (
@@ -89,12 +103,22 @@ export default function ContactContent() {
               className="relative overflow-hidden rounded-xl border border-border bg-gradient-to-b from-green-900 via-green-800 to-black p-8 w-full max-w-md shadow-xl animate-slide-up-fade"
             >
               <div className="relative z-10">
-                <p className="text-2xl font-bold text-green-100 text-center mb-2">
-                  {contactMsg.contact_message_title || "Comercias con frecuencia?"}
-                </p>
-                <p className="text-base md:text-lg text-green-200 text-center font-normal">
-                  {contactMsg.contact_message_body || "Ofrecemos descuentos y la mejor cotizacion del Uruguay para nuestros clientes regulares."}
-                </p>
+                {isMessageLoading ? (
+                  <>
+                    <div className="h-8 w-56 rounded bg-green-100/20 mx-auto mb-3 animate-pulse" />
+                    <div className="h-5 w-72 rounded bg-green-100/20 mx-auto mb-2 animate-pulse" />
+                    <div className="h-5 w-64 rounded bg-green-100/20 mx-auto animate-pulse" />
+                  </>
+                ) : (
+                  <>
+                    <p className="text-2xl font-bold text-green-100 text-center mb-2">
+                      {contactMsg?.contact_message_title}
+                    </p>
+                    <p className="text-base md:text-lg text-green-200 text-center font-normal">
+                      {contactMsg?.contact_message_body}
+                    </p>
+                  </>
+                )}
               </div>
               {/* Decorativo: Glow verde arriba derecha */}
               <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-400/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/2 opacity-80 pointer-events-none" />

@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState, type FormEvent } from "react"
+import { mutate } from "swr"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,13 +11,14 @@ import type { AboutContent } from "@/app/api/about/route"
 
 export default function AdminAboutPanel() {
   const [about, setAbout] = useState<AboutContent | null>(null)
+  const [referencesText, setReferencesText] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null)
 
   const fetchAbout = async () => {
     try {
-      const res = await fetch("/api/about")
+      const res = await fetch("/api/about", { cache: "no-store" })
       const data = await res.json()
       setAbout(data)
     } catch {
@@ -30,61 +32,49 @@ export default function AdminAboutPanel() {
     fetchAbout()
   }, [])
 
-  // ...existing code...
+  useEffect(() => {
+    if (!about) return
+    setReferencesText((about.references ?? []).map((r) => `${r.name}|${r.description}`).join("\n"))
+  }, [about])
 
-  return (
-    <Card>
-      <CardContent>
-        <form onSubmit={handleSave}>
-          {/* ...otros campos... */}
-          <div>
-            <Label>Referencias (nombre|descripcion, una por linea, max 3)</Label>
-            <textarea
-              className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
-              value={(about?.references ?? []).map((r) => `${r.name}|${r.description}`).join("\n")}
-              onChange={(e) => {
-                const lines = e.target.value.split("\n").filter(Boolean)
-                const references = lines.slice(0, 3).map((line) => {
-                  const [name, description] = line.split("|").map((s) => s.trim())
-                  return { name: name || "", description: description || "" }
-                })
-                setAbout({ ...about, references })
-              }}
-              placeholder="Juan Perez|Excelente servicio y atención"
-            />
-          </div>
-          {/* ...otros campos... */}
-        </form>
-      </CardContent>
-    </Card>
-  )
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: FormEvent) => {
     e.preventDefault()
     if (!about) return
+
     setIsSaving(true)
     setStatus(null)
+
     try {
+      const references = referencesText
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .slice(0, 6)
+        .map((line) => {
+          const [name, description] = line.split("|").map((s) => s.trim())
+          return { name: name || "", description: description || "" }
+        })
+
+      const payload: AboutContent = {
+        ...about,
+        references,
+      }
+
       const res = await fetch("/api/about", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(about),
+        body: JSON.stringify(payload),
       })
+
       const data = await res.json()
-      if (typeof window !== "undefined") {
-        // @ts-ignore
-        if (window.mutate) window.mutate("/api/about")
-        try {
-          const mod = await import("swr")
-          if (mod.mutate) mod.mutate("/api/about")
-        } catch {}
-      }
       if (data.success) {
+        await mutate("/api/about")
         setStatus({ type: "success", message: "Contenido guardado" })
       } else {
         setStatus({ type: "error", message: data.error || "Error" })
       }
     } catch {
-      setStatus({ type: "error", message: "Error de conexion" })
+      setStatus({ type: "error", message: "Error de conexión" })
     } finally {
       setIsSaving(false)
       setTimeout(() => setStatus(null), 3000)
@@ -104,9 +94,10 @@ export default function AdminAboutPanel() {
       <CardHeader>
         <CardTitle>Contenido Sobre Nosotros</CardTitle>
         <CardDescription>
-          Edita el texto de la pagina Sobre Nosotros y la seccion Nuestro Compromiso en la pagina principal
+          Edita el contenido de Nosotros y la sección Nuestro Compromiso de la página principal
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <form onSubmit={handleSave} className="space-y-6">
           {status && (
@@ -127,15 +118,16 @@ export default function AdminAboutPanel() {
           )}
 
           <div>
-            <Label>Titulo principal</Label>
+            <Label>Título principal</Label>
             <Input
               value={about.title}
               onChange={(e) => setAbout({ ...about, title: e.target.value })}
               placeholder="Sobre Nosotros"
             />
           </div>
+
           <div>
-            <Label>Introduccion</Label>
+            <Label>Introducción</Label>
             <Input
               value={about.intro}
               onChange={(e) => setAbout({ ...about, intro: e.target.value })}
@@ -144,12 +136,13 @@ export default function AdminAboutPanel() {
           </div>
 
           <div>
-            <Label>Titulo seccion Historia</Label>
+            <Label>Título sección Historia</Label>
             <Input
               value={about.historyTitle}
               onChange={(e) => setAbout({ ...about, historyTitle: e.target.value })}
             />
           </div>
+
           <div>
             <Label>Texto Historia</Label>
             <textarea
@@ -160,38 +153,37 @@ export default function AdminAboutPanel() {
           </div>
 
           <div>
-            <Label>Titulo seccion Compromiso</Label>
+            <Label>Título sección Compromiso</Label>
             <Input
               value={about.commitmentTitle}
               onChange={(e) => setAbout({ ...about, commitmentTitle: e.target.value })}
             />
           </div>
+
           <div>
-            <Label>Texto Compromiso</Label>
+            <Label>Texto Compromiso (página Nosotros)</Label>
             <textarea
               className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input"
               value={about.commitmentText}
               onChange={(e) => setAbout({ ...about, commitmentText: e.target.value })}
             />
           </div>
+
           <div>
-            <Label>Nuestro Compromiso (texto en pagina principal)</Label>
+            <Label>Texto Compromiso (página principal)</Label>
             <textarea
               className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input"
               value={about.commitmentHomeText ?? ""}
               onChange={(e) => setAbout({ ...about, commitmentHomeText: e.target.value })}
-              placeholder="Con mas de 463 operaciones completadas..."
+              placeholder="Con más de 463 operaciones completadas..."
             />
-            <p className="text-xs text-muted-foreground mt-1">
-              Parrafo de la seccion Nuestro Compromiso en la pagina de inicio
-            </p>
           </div>
 
           <div>
-            <Label>Estadisticas (4 items: valor|etiqueta, uno por linea)</Label>
+            <Label>Estadísticas (4 items: valor|etiqueta, uno por línea)</Label>
             <textarea
               className="w-full min-h-[100px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
-              value={about.stats.map((s) => `${s.value}|${s.label}`).join("\n")}
+              value={(about.stats ?? []).map((s) => `${s.value}|${s.label}`).join("\n")}
               onChange={(e) => {
                 const lines = e.target.value.split("\n").filter(Boolean)
                 const stats = lines.slice(0, 4).map((line) => {
@@ -200,15 +192,15 @@ export default function AdminAboutPanel() {
                 })
                 setAbout({ ...about, stats })
               }}
-              placeholder="463+|Operaciones en 30 dias"
+              placeholder="463+|Operaciones en 30 días"
             />
           </div>
 
           <div>
-            <Label>Caracteristicas (titulo|descripcion, una por linea)</Label>
+            <Label>Características (título|descripción, una por línea)</Label>
             <textarea
               className="w-full min-h-[100px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
-              value={about.features.map((f) => `${f.title}|${f.description}`).join("\n")}
+              value={(about.features ?? []).map((f) => `${f.title}|${f.description}`).join("\n")}
               onChange={(e) => {
                 const lines = e.target.value.split("\n").filter(Boolean)
                 const features = lines.map((line) => {
@@ -218,6 +210,16 @@ export default function AdminAboutPanel() {
                 setAbout({ ...about, features })
               }}
               placeholder="100% Seguro|Transacciones protegidas"
+            />
+          </div>
+
+          <div>
+            <Label>Referencias (nombre|descripción, una por línea, máx 6)</Label>
+            <textarea
+              className="w-full min-h-[120px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
+              value={referencesText}
+              onChange={(e) => setReferencesText(e.target.value)}
+              placeholder="Juan Pérez|Excelente servicio y atención"
             />
           </div>
 

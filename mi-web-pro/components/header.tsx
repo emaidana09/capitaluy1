@@ -5,8 +5,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Settings, Square } from "lucide-react"
-import ThemeToggle from "@/components/theme-toggle"
+import { Menu, X, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export default function Header() {
@@ -24,7 +23,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
-      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-20 flex items-center min-w-0 relative justify-between">
+      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pr-14 md:pr-8 h-20 flex items-center min-w-0 relative justify-between">
         {/* Logo - CAPITAL UY */}
         <div className="flex-1 flex items-center justify-center">
           <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0 mx-auto pl-2 md:pl-0">
@@ -100,10 +99,9 @@ export default function Header() {
 
         {/* Mobile Menu Toggle - right aligned, square button, menu icon */}
         <button
-          className="md:hidden p-3 border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-2 top-1/2 -translate-y-1/2 z-20"
+          className="md:hidden p-2.5 rounded-md border border-border bg-background/85 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-2 top-1/2 -translate-y-1/2 z-20"
           aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{ borderRadius: 0 }}
         >
           {mobileMenuOpen ? (
             <X className="w-7 h-7 text-primary" />
@@ -120,35 +118,35 @@ export default function Header() {
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         )}
       >
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-2 flex flex-col gap-2 items-center">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-3 items-center">
           {/* Logo y CapitalUY grande */}
-          <Link href="/" className="flex flex-col items-center mb-0 mt-2" onClick={() => setMobileMenuOpen(false)}>
-            <span className="text-3xl font-extrabold tracking-tight text-white leading-tight">Capital<span className="text-green-400">UY</span></span>
+          <Link href="/" className="flex flex-col items-center mb-0 mt-1" onClick={() => setMobileMenuOpen(false)}>
+            <span className="text-3xl font-extrabold tracking-tight text-white leading-tight">Capital <span className="text-green-400">UY</span></span>
           </Link>
           {/* Menú móvil ordenado igual que web */}
-          <nav className="w-full flex flex-col gap-1 mt-2">
+          <nav className="w-full flex flex-col gap-1 mt-1">
             <Link
               href="/#cotizacion"
-              className="py-2 text-base text-foreground/80 hover:text-primary"
+              className="py-2 px-3 rounded-md text-base text-center text-foreground/80 hover:text-primary hover:bg-secondary/40"
               onClick={() => setMobileMenuOpen(false)}
             >
               Comerciar
             </Link>
             <Link
               href="/nosotros"
-              className="py-2 text-base text-foreground/80 hover:text-primary"
+              className="py-2 px-3 rounded-md text-base text-center text-foreground/80 hover:text-primary hover:bg-secondary/40"
               onClick={() => setMobileMenuOpen(false)}
             >
               Nosotros
             </Link>
             <Link
               href="/contacto"
-              className="py-2 text-base text-foreground/80 hover:text-primary"
+              className="py-2 px-3 rounded-md text-base text-center text-foreground/80 hover:text-primary hover:bg-secondary/40"
               onClick={() => setMobileMenuOpen(false)}
             >
               Contacto
             </Link>
-            <span className="py-2 text-base text-gray-400 cursor-not-allowed flex items-center gap-2">
+            <span className="py-2 px-3 text-base text-gray-400 cursor-not-allowed flex items-center justify-center gap-2">
               Cursos
               <span className="text-xs text-accent">(Próximamente)</span>
             </span>

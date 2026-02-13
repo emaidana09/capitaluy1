@@ -27,11 +27,39 @@ const defaultContent = {
     { title: "Soporte Personalizado", description: "Atencion directa por WhatsApp" },
     { title: "Sin complicaciones", description: "Proceso simple y directo" },
   ],
+  references: [
+    { name: "Juan Perez", description: "Excelente servicio y atención" },
+    { name: "Maria Gomez", description: "Rápido y seguro, muy recomendable" },
+    { name: "Carlos Ruiz", description: "Siempre cumplen, muy confiable" },
+  ],
 }
 
 export default function SupportSection() {
-  const { data } = useSWR<AboutContent>("/api/about", fetcher)
+  const { data, error } = useSWR<AboutContent>("/api/about", fetcher)
+  if (!data && !error) {
+    return (
+      <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden" id="nosotros">
+        <div className="w-full max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+            <div className="space-y-4">
+              <div className="h-8 w-56 rounded bg-muted animate-pulse" />
+              <div className="h-5 w-full rounded bg-muted animate-pulse" />
+              <div className="h-5 w-5/6 rounded bg-muted animate-pulse" />
+              <div className="grid sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="h-20 rounded-lg bg-muted animate-pulse" />
+                ))}
+              </div>
+            </div>
+            <div className="h-[400px] rounded-2xl bg-muted animate-pulse" />
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   const content = data ?? defaultContent
+  const references = (content.references?.length ? content.references : defaultContent.references).slice(0, 3)
   return (
     <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden" id="nosotros">
       <div className="w-full max-w-6xl mx-auto">
@@ -49,6 +77,21 @@ export default function SupportSection() {
             <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 leading-relaxed text-pretty">
               {content.commitmentHomeText || content.commitmentText}
             </p>
+
+            {references.length > 0 && (
+              <div className="grid gap-3 mb-6 sm:mb-8">
+                {references.map((ref) => (
+                  <div
+                    key={ref.name}
+                    className="relative overflow-hidden rounded-lg border border-border bg-card/60 p-4"
+                  >
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
+                    <p className="font-semibold text-foreground pl-3">{ref.name}</p>
+                    <p className="text-sm text-muted-foreground pl-3">{ref.description}</p>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
               {(content.features || defaultContent.features).map((feature, i) => {

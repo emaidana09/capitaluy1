@@ -23,6 +23,10 @@ interface PriceData {
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
+interface AboutData {
+  stats?: { value: string; label: string }[]
+}
+
 const getServices = () => [
   {
     id: "comprar",
@@ -48,11 +52,11 @@ const getServices = () => [
   },
 ]
 
-const stats = [
-  { value: "463+", label: "Operaciones en 30 dias", icon: TrendingUp },
-  { value: "97.27%", label: "Tasa completada", icon: CheckCircle },
-  { value: "3.78 min", label: "Tiempo promedio", icon: Clock },
-  { value: "100%", label: "Feedback positivo", icon: Shield },
+const defaultStats = [
+  { value: "463+", label: "Operaciones en 30 dias" },
+  { value: "97.27%", label: "Tasa completada" },
+  { value: "3.78 min", label: "Tiempo promedio" },
+  { value: "100%", label: "Feedback positivo" },
 ]
 
 export default function ServicesWithPrice() {
@@ -60,8 +64,13 @@ export default function ServicesWithPrice() {
   const { data, isLoading } = useSWR<PriceData>("/api/prices", fetcher, {
     refreshInterval: 30000,
   })
+  const { data: aboutData } = useSWR<AboutData>("/api/about", fetcher)
 
   const usdt = data?.cryptos.find((c) => c.id === "usdt")
+  const stats = (aboutData?.stats?.length ? aboutData.stats.slice(0, 4) : defaultStats).map((stat, index) => ({
+    ...stat,
+    icon: [TrendingUp, CheckCircle, Clock, Shield][index] ?? Shield,
+  }))
 
   // Detectar si es mobile (ancho <= 600px)
   const [isMobile, setIsMobile] = useState(false)
@@ -73,14 +82,14 @@ export default function ServicesWithPrice() {
   }, [])
 
   return (
-    <section className="pt-2 sm:pt-8 px-2 sm:px-6 lg:px-8 scroll-mt-24 sm:scroll-mt-40 overflow-visible" id="cotizacion">
+    <section className="pt-0 sm:pt-8 px-2 sm:px-6 lg:px-8 scroll-mt-24 sm:scroll-mt-40 overflow-visible" id="cotizacion">
       <div className="w-full max-w-5xl mx-auto overflow-visible">
         {isMobile ? (
-          <div className="text-center mb-6 overflow-visible px-1 py-1">
-            <h2 className="text-4xl font-extrabold mb-2 overflow-visible leading-tight min-h-[1.2em] py-0 tracking-tight">
+          <div className="text-center mb-5 overflow-visible px-2 py-1">
+            <h2 className="text-3xl font-extrabold mb-1 overflow-visible leading-tight min-h-[1.2em] tracking-tight">
               Cotización USDT
             </h2>
-            <p className="text-muted-foreground text-base font-medium">
+            <p className="text-muted-foreground text-sm font-medium">
               Precios actualizados en tiempo real
             </p>
           </div>
@@ -119,10 +128,10 @@ export default function ServicesWithPrice() {
                         <PriceIcon className={`w-5 h-5 ${service.iconColor}`} />
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                    <h3 className="text-lg font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
                       {service.title}
                     </h3>
-                    <p className="text-muted-foreground text-xs mb-4 flex-1">
+                    <p className="text-muted-foreground text-sm mb-4 flex-1 leading-relaxed">
                       {service.description}
                     </p>
                     <div className="pt-2 border-t border-border/50 mt-auto">

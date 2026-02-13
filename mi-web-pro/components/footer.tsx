@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Mail, Phone, MapPin, Instagram, Twitter, Send } from "lucide-react"
+import { Mail, Phone, Instagram, Twitter, Send } from "lucide-react"
 import { useConfig } from "@/lib/config-context"
 
 export default function Footer() {
@@ -16,7 +16,7 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t border-border" id="contacto">
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <div className="flex flex-col md:flex-row md:justify-center md:items-start gap-8 lg:gap-12 text-left">
+        <div className="flex flex-col md:flex-row md:justify-center md:items-start gap-8 lg:gap-12 text-center md:text-left">
           {/* Brand */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -24,13 +24,14 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <Link href="/" className="inline-block mb-2 text-left pl-0">
+            <Link href="/" className="inline-block mb-2 text-center md:text-left pl-0">
               <span className="text-2xl font-bold tracking-tight">
                 <span className="text-foreground">Capital</span>
+                <span className="text-foreground"> </span>
                 <span className="text-primary">UY</span>
               </span>
             </Link>
-            <p className="text-muted-foreground text-sm leading-relaxed text-pretty text-justify max-w-xs pl-0">
+            <p className="text-muted-foreground text-sm leading-relaxed text-pretty text-center md:text-left max-w-xs mx-auto md:mx-0 pl-0">
               {config.footer_description}
             </p>
           </motion.div>
@@ -42,7 +43,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3 className="font-semibold text-foreground mb-4 text-left">Menu</h3>
+            <h3 className="font-semibold text-foreground mb-4 text-center md:text-left">Menu</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -69,7 +70,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <span className="text-gray-700 dark:text-gray-500 cursor-not-allowed flex items-center gap-2">
+                <span className="text-gray-700 dark:text-gray-500 cursor-not-allowed flex items-center justify-center md:justify-start gap-2">
                   Cursos
                   <span className="text-xs text-accent">(Próximamente)</span>
                 </span>
@@ -84,9 +85,9 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="font-semibold text-foreground mb-4 text-left">Contacto</h3>
+            <h3 className="font-semibold text-foreground mb-4 text-center md:text-left">Contacto</h3>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-muted-foreground min-w-0">
+              <li className="flex items-center justify-center md:justify-start gap-2 text-muted-foreground min-w-0">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
                 <a
                   href={`mailto:${config.email}`}
@@ -96,7 +97,7 @@ export default function Footer() {
                   {config.email}
                 </a>
               </li>
-              <li className="flex items-center gap-2 text-muted-foreground">
+              <li className="flex items-center justify-center md:justify-start gap-2 text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary" />
                 <a
                   href={`https://wa.me/${config.whatsapp_number}`}
@@ -117,8 +118,8 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="font-semibold text-white mb-4 text-left">Seguinos</h3>
-            <div className="flex gap-6 items-center">
+            <h3 className="font-semibold text-foreground mb-4 text-center md:text-left">Seguinos</h3>
+            <div className="flex gap-6 items-center justify-center md:justify-start">
               <a
                 href="https://t.me/capitaluy"
                 target="_blank"
@@ -154,9 +155,9 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="border-t border-border mt-8 pt-8 text-left text-sm text-muted-foreground"
+          className="border-t border-border mt-8 pt-8 text-center md:text-left text-sm text-muted-foreground"
         >
-          <p className="mx-auto w-full text-left">
+          <p className="mx-auto w-full text-center md:text-left">
             &copy; {new Date().getFullYear()} Capital UY. Todos los derechos reservados.
           </p>
         </motion.div>
