@@ -73,14 +73,14 @@ export default function ServicesWithPrice() {
   }, [])
 
   return (
-    <section className="pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 scroll-mt-24 sm:scroll-mt-40 overflow-visible" id="cotizacion">
+    <section className="pt-2 sm:pt-8 px-2 sm:px-6 lg:px-8 scroll-mt-24 sm:scroll-mt-40 overflow-visible" id="cotizacion">
       <div className="w-full max-w-5xl mx-auto overflow-visible">
         {isMobile ? (
-          <div className="text-center mb-8 overflow-visible px-3 py-2">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 overflow-visible leading-tight min-h-[1.2em] py-1">
-              Cotizacion USDT
+          <div className="text-center mb-6 overflow-visible px-1 py-1">
+            <h2 className="text-4xl font-extrabold mb-2 overflow-visible leading-tight min-h-[1.2em] py-0 tracking-tight">
+              Cotización USDT
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-base font-medium">
               Precios actualizados en tiempo real
             </p>
           </div>

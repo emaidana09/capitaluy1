@@ -28,6 +28,7 @@ export interface AboutContent {
   commitmentHomeText: string
   stats: { value: string; label: string }[]
   features: { title: string; description: string }[]
+  references?: { name: string; description: string }[]
 }
 
 const DEFAULT_ABOUT: AboutContent = {
@@ -49,6 +50,11 @@ const DEFAULT_ABOUT: AboutContent = {
     { title: "Rapido", description: "Tiempo promedio de pago: 3.12 minutos" },
     { title: "Soporte Personalizado", description: "Atencion directa por WhatsApp" },
     { title: "Sin complicaciones", description: "Proceso simple y directo" },
+  ],
+  references: [
+    { name: "Juan Perez", description: "Excelente servicio y atención" },
+    { name: "Maria Gomez", description: "Rápido y seguro, muy recomendable" },
+    { name: "Carlos Ruiz", description: "Siempre cumplen, muy confiable" },
   ],
 }
 

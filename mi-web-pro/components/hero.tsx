@@ -70,7 +70,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: easing }}
-            className="text-lg sm:text-2xl md:text-3xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-tight mb-2"
+            className="text-lg sm:text-2xl md:text-3xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-tight mb-2 whitespace-pre-line"
           >
             Compra y vende{" "}
             <span className="text-primary font-bold">USDT</span>
@@ -81,7 +81,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6, ease: easing }}
-            className="text-base sm:text-xl md:text-2xl text-muted-foreground/90 mt-2 max-w-2xl mx-auto font-light"
+            className="text-base sm:text-xl md:text-2xl text-muted-foreground/90 mt-2 max-w-2xl mx-auto font-light whitespace-pre-line"
           >
             Tu plataforma de confianza. Asesoramiento personalizado y las mejores cotizaciones.
           </motion.p>

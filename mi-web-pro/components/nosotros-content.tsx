@@ -108,6 +108,28 @@ export default function NosotrosContent() {
           })}
         </div>
 
+        {/* Referencias */}
+        {content.references && content.references.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-16"
+          >
+            <h2 className="text-2xl font-bold mb-8">Referencias</h2>
+            <div className="flex flex-row justify-center gap-8">
+              {content.references.slice(0, 3).map((ref, i) => (
+                <div key={i} className="flex flex-col items-center px-4">
+                  <div className="h-32 w-1 bg-primary mb-4" />
+                  <div className="text-lg font-semibold text-primary mb-2">{ref.name}</div>
+                  <div className="text-base text-muted-foreground text-center">{ref.description}</div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
         {/* Features */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

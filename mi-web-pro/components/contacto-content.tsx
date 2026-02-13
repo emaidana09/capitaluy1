@@ -72,13 +72,13 @@ export default function ContactContent() {
                 <h3 className="font-semibold text-white">Redes</h3>
               </div>
               <div className="mt-2 flex gap-4 justify-start items-center">
-                <a href={normalize(config.instagram_url)} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700 transition-colors">
+                <a href="https://t.me/capitaluy" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-500 transition-colors">
+                  <Send className="w-6 h-6" />
+                </a>
+                <a href={normalize(config.instagram_url)} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-500 transition-colors" style={{ filter: 'grayscale(1)' }}>
                   <Instagram className="w-6 h-6" />
                 </a>
-                <a href={normalize(config.telegram_url)} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6"><path d="M9.993 15.545l-.396 4.01c.567 0 .813-.244 1.112-.538l2.67-2.553 5.543 4.04c1.016.56 1.747.265 2.01-.94l3.644-17.07c.334-1.53-.553-2.13-1.54-1.77L1.36 9.13c-1.49.58-1.47 1.41-.254 1.78l4.37 1.364 10.16-6.41c.478-.309.913-.137.555.172"/></svg>
-                </a>
-                <a href={normalize(config.twitter_url)} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-700 transition-colors">
+                <a href={normalize(config.twitter_url)} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-500 transition-colors" style={{ filter: 'grayscale(1)' }}>
                   <Twitter className="w-6 h-6" />
                 </a>
               </div>

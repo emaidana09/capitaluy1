@@ -1,3 +1,19 @@
+          <div>
+            <Label>Referencias (nombre|descripcion, una por linea, max 3)</Label>
+            <textarea
+              className="w-full min-h-[80px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
+              value={(about.references ?? []).map((r) => `${r.name}|${r.description}`).join("\n")}
+              onChange={(e) => {
+                const lines = e.target.value.split("\n").filter(Boolean)
+                const references = lines.slice(0, 3).map((line) => {
+                  const [name, description] = line.split("|").map((s) => s.trim())
+                  return { name: name || "", description: description || "" }
+                })
+                setAbout({ ...about, references })
+              }}
+              placeholder="Juan Perez|Excelente servicio y atención"
+            />
+          </div>
 "use client"
 
 import { useState, useEffect } from "react"
@@ -42,6 +58,14 @@ export default function AdminAboutPanel() {
         body: JSON.stringify(about),
       })
       const data = await res.json()
+      if (typeof window !== "undefined") {
+        // @ts-ignore
+        if (window.mutate) window.mutate("/api/about")
+        try {
+          const mod = await import("swr")
+          if (mod.mutate) mod.mutate("/api/about")
+        } catch {}
+      }
       if (data.success) {
         setStatus({ type: "success", message: "Contenido guardado" })
       } else {

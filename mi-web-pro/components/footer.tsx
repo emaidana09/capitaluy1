@@ -120,10 +120,19 @@ export default function Footer() {
             <h3 className="font-semibold text-white mb-4 text-left">Seguinos</h3>
             <div className="flex gap-6 items-center">
               <a
+                href="https://t.me/capitaluy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-blue-400 hover:text-blue-500 transition-all duration-200"
+              >
+                <Send className="w-6 h-6" />
+              </a>
+              <a
                 href={normalize(config.instagram_url)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-white hover:text-primary hover:bg-primary/20 transition-all duration-200"
+                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-gray-400 hover:text-gray-500 transition-all duration-200"
+                style={{ filter: 'grayscale(1)' }}
               >
                 <Instagram className="w-6 h-6" />
               </a>
@@ -131,17 +140,10 @@ export default function Footer() {
                 href={normalize(config.twitter_url)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-white hover:text-primary hover:bg-primary/20 transition-all duration-200"
+                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-gray-400 hover:text-gray-500 transition-all duration-200"
+                style={{ filter: 'grayscale(1)' }}
               >
                 <Twitter className="w-6 h-6" />
-              </a>
-              <a
-                href={normalize(config.telegram_url)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center text-white hover:text-primary hover:bg-primary/20 transition-all duration-200"
-              >
-                <Send className="w-6 h-6" />
               </a>
             </div>
           </motion.div>
@@ -155,7 +157,7 @@ export default function Footer() {
           className="border-t border-border mt-8 pt-8 text-left text-sm text-muted-foreground"
         >
           <p className="mx-auto w-full text-left">
-            &copy; {new Date().getFullYear()} CapitalUY. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Capital UY. Todos los derechos reservados.
           </p>
         </motion.div>
       </div>

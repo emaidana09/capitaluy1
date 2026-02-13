@@ -24,16 +24,16 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
-      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-20 flex items-center min-w-0 relative">
+      <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 h-20 flex items-center min-w-0 relative justify-between">
         {/* Logo - CAPITAL UY */}
         <div className="flex-1 flex items-center justify-center">
-          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0 mx-auto">
+          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0 mx-auto pl-2 md:pl-0">
             <Image 
               src="/logo.png" 
               alt="CapitalUY" 
               width={220} 
               height={80} 
-              className="h-20 w-auto md:h-20 transition-all duration-200 mx-auto"
+              className="h-16 w-auto md:h-20 transition-all duration-200 mx-auto"
               priority
             />
           </Link>
@@ -46,7 +46,7 @@ export default function Header() {
             className={
               pathname === "/" || pathname === "/checkout"
                 ? "text-white dark:text-capital font-bold relative px-3 transition-colors duration-200"
-                : "text-foreground/80 hover:text-white relative px-3 transition-colors duration-200"
+                : "text-gray-400 hover:text-white relative px-3 transition-colors duration-200"
             }
           >
             Comerciar
@@ -59,7 +59,7 @@ export default function Header() {
             className={
               pathname === "/nosotros"
                 ? "text-white dark:text-white font-bold relative px-3 transition-colors duration-200"
-                : "text-foreground/80 hover:text-white relative px-3 transition-colors duration-200"
+                : "text-gray-400 hover:text-white relative px-3 transition-colors duration-200"
             }
           >
             Nosotros
@@ -72,7 +72,7 @@ export default function Header() {
             className={
               pathname === "/contacto"
                 ? "text-white dark:text-white font-bold relative px-3 transition-colors duration-200"
-                : "text-foreground/80 hover:text-white relative px-3 transition-colors duration-200"
+                : "text-gray-400 hover:text-white relative px-3 transition-colors duration-200"
             }
           >
             Contacto
@@ -100,7 +100,7 @@ export default function Header() {
 
         {/* Mobile Menu Toggle - right aligned, square button, menu icon */}
         <button
-          className="md:hidden p-3 border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-4 top-1/2 -translate-y-1/2 z-20"
+          className="md:hidden p-3 border border-border bg-background/80 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary absolute right-2 top-1/2 -translate-y-1/2 z-20"
           aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           style={{ borderRadius: 0 }}
@@ -154,12 +154,7 @@ export default function Header() {
             </span>
           </nav>
           <div className="pt-4 border-t border-border w-full">
-            <Link href="/admin" onClick={() => setMobileMenuOpen(false)}>
-              <Button variant="outline" className="w-full bg-transparent gap-2 text-sm">
-                <Settings className="w-4 h-4" />
-                Admin
-              </Button>
-            </Link>
+            {/* Admin oculto en menú móvil, solo visible en desktop/footer. Si se requiere mostrarlo aquí, descomentar el siguiente bloque. */}
           </div>
         </div>
       </div>
