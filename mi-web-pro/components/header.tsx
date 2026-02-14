@@ -21,6 +21,18 @@ export default function Header() {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [])
 
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (typeof document === "undefined") return
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [mobileMenuOpen])
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
       <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pr-14 md:pr-8 h-20 flex items-center min-w-0 relative justify-between">
@@ -114,46 +126,39 @@ export default function Header() {
       {/* Mobile Menu */}
       <div
         className={cn(
-          "md:hidden absolute top-20 left-0 right-0 bg-background border-b border-border transition-all duration-300",
-          mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          "md:hidden fixed top-20 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border transition-all duration-300",
+          "max-h-[calc(100vh-5rem)] overflow-y-auto",
+          mobileMenuOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
         )}
       >
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-3 items-center">
-          {/* Logo y CapitalUY grande */}
-          <Link href="/" className="flex flex-col items-center mb-0 mt-1" onClick={() => setMobileMenuOpen(false)}>
-            <span className="text-3xl font-extrabold tracking-tight text-white leading-tight">Capital <span className="text-green-400">UY</span></span>
-          </Link>
-          {/* Menú móvil ordenado igual que web */}
-          <nav className="w-full flex flex-col gap-1 mt-1">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4">
+          <nav className="w-full flex flex-col gap-1">
             <Link
               href="/#cotizacion"
-              className="py-2 px-3 rounded-md text-base text-center text-foreground/80 hover:text-primary hover:bg-secondary/40"
+              className="py-3 px-3 rounded-md text-base text-left text-foreground/85 hover:text-primary hover:bg-secondary/40"
               onClick={() => setMobileMenuOpen(false)}
             >
               Comerciar
             </Link>
             <Link
               href="/nosotros"
-              className="py-2 px-3 rounded-md text-base text-center text-foreground/80 hover:text-primary hover:bg-secondary/40"
+              className="py-3 px-3 rounded-md text-base text-left text-foreground/85 hover:text-primary hover:bg-secondary/40"
               onClick={() => setMobileMenuOpen(false)}
             >
               Nosotros
             </Link>
             <Link
               href="/contacto"
-              className="py-2 px-3 rounded-md text-base text-center text-foreground/80 hover:text-primary hover:bg-secondary/40"
+              className="py-3 px-3 rounded-md text-base text-left text-foreground/85 hover:text-primary hover:bg-secondary/40"
               onClick={() => setMobileMenuOpen(false)}
             >
               Contacto
             </Link>
-            <span className="py-2 px-3 text-base text-gray-400 cursor-not-allowed flex items-center justify-center gap-2">
+            <span className="py-3 px-3 text-base text-gray-400 cursor-not-allowed flex items-center gap-2">
               Cursos
               <span className="text-xs text-accent">(Próximamente)</span>
             </span>
           </nav>
-          <div className="pt-4 border-t border-border w-full">
-            {/* Admin oculto en menú móvil, solo visible en desktop/footer. Si se requiere mostrarlo aquí, descomentar el siguiente bloque. */}
-          </div>
         </div>
       </div>
     </header>

@@ -73,7 +73,7 @@ export default function NosotrosContent() {
       )
     })
     .slice(0, 9)
-  const referenceColumns = [0, 1, 2].map((columnIndex) =>
+  const desktopReferenceColumns = [0, 1, 2].map((columnIndex) =>
     references.filter((_, index) => index % 3 === columnIndex)
   )
 
@@ -160,8 +160,42 @@ export default function NosotrosContent() {
         {references.length > 0 && (
           <div className="mb-16">
             <h2 className="text-2xl font-bold mb-8 text-center md:text-left">Referencias</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:h-[620px] overflow-hidden">
-              {referenceColumns.map((column, columnIndex) => (
+            <div className="md:hidden relative overflow-hidden h-[620px]">
+              <div className="reference-track reference-track-mobile">
+                {[...references, ...references].map((ref, i) => {
+                  const initials = ref.name
+                    .split(" ")
+                    .filter(Boolean)
+                    .map((part) => part[0])
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()
+
+                  return (
+                    <div
+                      key={`mobile-${i}-${ref.name}`}
+                      className="mb-6 min-h-[190px] rounded-2xl border border-border bg-card/80 p-6 text-left shadow-sm"
+                    >
+                      <p className="text-lg leading-relaxed text-muted-foreground">
+                        {ref.description}
+                      </p>
+                      <div className="mt-6 flex items-center gap-3 min-w-0">
+                        <div className="h-10 w-10 rounded-full bg-primary/20 text-primary flex items-center justify-center text-sm font-bold shrink-0">
+                          {initials}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-semibold text-foreground truncate">{ref.name}</p>
+                          <p className="text-sm text-muted-foreground">Cliente verificado</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="hidden md:grid md:grid-cols-3 gap-6 md:h-[620px] overflow-hidden">
+              {desktopReferenceColumns.map((column, columnIndex) => (
                 <div key={columnIndex} className="relative overflow-hidden">
                   <div className={`reference-track reference-track-${columnIndex}`}>
                     {[...column, ...column].map((ref, i) => {
@@ -214,9 +248,17 @@ export default function NosotrosContent() {
                 will-change: transform;
               }
 
+              .reference-track-mobile {
+                animation-duration: 40s;
+              }
+
               @media (max-width: 767px) {
                 .reference-track {
-                  animation: none;
+                  animation-name: referencesUp;
+                  animation-timing-function: linear;
+                  animation-iteration-count: infinite;
+                  animation-duration: 36s;
+                  will-change: transform;
                 }
               }
 

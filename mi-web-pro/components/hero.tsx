@@ -6,7 +6,7 @@ const easing = [0.25, 0.46, 0.45, 0.94]
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[65vh] sm:min-h-[60vh] flex items-center justify-center pt-20 pb-0 px-4 sm:px-6 lg:px-8">
+    <section className="relative min-h-[62vh] sm:min-h-[60vh] flex items-center justify-center pt-24 sm:pt-20 pb-2 sm:pb-0 px-4 sm:px-6 lg:px-8">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background pointer-events-none" />
       
@@ -47,12 +47,12 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: easing }}
-              className="mb-1 sm:mb-3"
+              className="mb-2 sm:mb-3"
           >
-            <h1 className="text-[4rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[1.05] select-none">
-              <span className="inline-block text-white text-[5rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
+            <h1 className="text-[3.45rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[1.05] select-none">
+              <span className="inline-block text-white text-[3.45rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
                 Capital
-                <span className="text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 font-extrabold overflow-visible align-baseline ml-0 text-[5rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem]">UY</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 font-extrabold overflow-visible align-baseline ml-0 text-[3.45rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem]">UY</span>
               </span>
             </h1>
           </motion.div>
@@ -62,7 +62,7 @@ export default function Hero() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.7, delay: 0.2, ease: easing }}
-            className="w-24 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mb-8 sm:mb-10 origin-center"
+            className="w-20 sm:w-24 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent mb-6 sm:mb-10 origin-center"
           />
 
           {/* Tagline */}
@@ -70,7 +70,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: easing }}
-            className="text-lg sm:text-2xl md:text-3xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-tight mb-2 whitespace-pre-line"
+            className="text-[2rem] sm:text-2xl md:text-3xl text-foreground max-w-3xl mx-auto text-pretty font-semibold leading-tight mb-2 whitespace-pre-line"
           >
             Compra y vende{" "}
             <span className="text-primary font-bold">USDT</span>
@@ -81,7 +81,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6, ease: easing }}
-            className="text-base sm:text-xl md:text-2xl text-muted-foreground/90 mt-2 max-w-2xl mx-auto font-light whitespace-pre-line"
+            className="text-base sm:text-xl md:text-2xl text-muted-foreground/90 mt-2 max-w-2xl mx-auto font-light whitespace-pre-line px-2 sm:px-0"
           >
             Tu plataforma de confianza. Asesoramiento personalizado y las mejores cotizaciones.
           </motion.p>
