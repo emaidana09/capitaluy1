@@ -21,18 +21,6 @@ const featureIcons = [Shield, Clock, Headphones, Zap]
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
-const fallbackReferences = [
-  { name: "Sofía Martínez", description: "Atención impecable y operación muy clara." },
-  { name: "Matías Pereira", description: "Cobro rápido y comunicación excelente." },
-  { name: "Camila Rodríguez", description: "Todo el proceso fue seguro y transparente." },
-  { name: "Federico Álvarez", description: "Muy buena cotización y respuesta inmediata." },
-  { name: "Valentina Suárez", description: "Servicio serio, ordenado y sin sorpresas." },
-  { name: "Nicolás Fernández", description: "Recomendable, se nota el profesionalismo." },
-  { name: "Lucía Cabrera", description: "Operé varias veces y siempre salió perfecto." },
-  { name: "Agustín Silva", description: "Rápido, simple y con excelente soporte." },
-  { name: "Martina González", description: "Muy buena experiencia de principio a fin." },
-]
-
 export default function NosotrosContent() {
   const { data: about, error } = useSWR<AboutContent>("/api/about", fetcher)
   const content = about ?? {
@@ -60,10 +48,12 @@ export default function NosotrosContent() {
       { name: "Carlos Gómez", description: "Muy recomendable, todo perfecto." },
       { name: "Ana Torres", description: "Transparencia y buen precio." },
     ],
+    referencesTitle: "Referencias",
+    referenceBadgeText: "Cliente verificado",
   }
 
   const statIcons = [TrendingUp, CheckCircle, Clock, Shield]
-  const references = [...(content.references ?? []), ...fallbackReferences]
+  const references = [...(content.references ?? [])]
     .filter((ref, index, list) => {
       const normalizedName = ref.name.trim().toLowerCase()
       return (
@@ -159,7 +149,7 @@ export default function NosotrosContent() {
         {/* Referencias */}
         {references.length > 0 && (
           <div className="mb-16">
-            <h2 className="text-2xl font-bold mb-8 text-center md:text-left">Referencias</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center md:text-left">{content.referencesTitle || "Referencias"}</h2>
             <div className="md:hidden relative overflow-hidden h-[620px]">
               <div className="reference-track reference-track-mobile">
                 {[...references, ...references].map((ref, i) => {
@@ -185,7 +175,7 @@ export default function NosotrosContent() {
                         </div>
                         <div className="min-w-0">
                           <p className="font-semibold text-foreground truncate">{ref.name}</p>
-                          <p className="text-sm text-muted-foreground">Cliente verificado</p>
+                          <p className="text-sm text-muted-foreground">{content.referenceBadgeText || "Cliente verificado"}</p>
                         </div>
                       </div>
                     </div>
@@ -221,7 +211,7 @@ export default function NosotrosContent() {
                             </div>
                             <div className="min-w-0">
                               <p className="font-semibold text-foreground truncate">{ref.name}</p>
-                              <p className="text-sm text-muted-foreground">Cliente verificado</p>
+                              <p className="text-sm text-muted-foreground">{content.referenceBadgeText || "Cliente verificado"}</p>
                             </div>
                           </div>
                         </div>

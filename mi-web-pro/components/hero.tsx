@@ -49,10 +49,10 @@ export default function Hero() {
               transition={{ duration: 0.7, ease: easing }}
               className="mb-2 sm:mb-3"
           >
-            <h1 className="text-[3.45rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[1.05] select-none">
-              <span className="inline-block text-white text-[3.45rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
+            <h1 className="text-[3.9rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.5rem] font-bold tracking-tight leading-[1.05] select-none">
+              <span className="inline-block text-white text-[3.9rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem] font-extrabold drop-shadow-lg">
                 Capital
-                <span className="text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 font-extrabold overflow-visible align-baseline ml-0 text-[3.45rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem]">UY</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-green-300 via-green-500 to-green-700 drop-shadow-lg shadow-green-700/40 font-extrabold overflow-visible align-baseline ml-0 text-[3.9rem] sm:text-[4.5rem] md:text-[6rem] lg:text-[7rem] xl:text-[7.5rem] 2xl:text-[8rem]">UY</span>
               </span>
             </h1>
           </motion.div>

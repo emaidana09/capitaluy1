@@ -29,6 +29,8 @@ export interface AboutContent {
   stats: { value: string; label: string }[]
   features: { title: string; description: string }[]
   references?: { name: string; description: string }[]
+  referencesTitle?: string
+  referenceBadgeText?: string
 }
 
 const DEFAULT_ABOUT: AboutContent = {
@@ -56,6 +58,8 @@ const DEFAULT_ABOUT: AboutContent = {
     { name: "Maria Gomez", description: "Rápido y seguro, muy recomendable" },
     { name: "Carlos Ruiz", description: "Siempre cumplen, muy confiable" },
   ],
+  referencesTitle: "Referencias",
+  referenceBadgeText: "Cliente verificado",
 }
 
 const ABOUT_DB_KEY = "aboutContent"

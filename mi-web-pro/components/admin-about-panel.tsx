@@ -49,11 +49,11 @@ export default function AdminAboutPanel() {
         .split("\n")
         .map((line) => line.trim())
         .filter(Boolean)
-        .slice(0, 6)
         .map((line) => {
           const [name, description] = line.split("|").map((s) => s.trim())
           return { name: name || "", description: description || "" }
         })
+        .filter((item) => item.name.length > 0 && item.description.length > 0)
 
       const payload: AboutContent = {
         ...about,
@@ -214,7 +214,25 @@ export default function AdminAboutPanel() {
           </div>
 
           <div>
-            <Label>Referencias (nombre|descripción, una por línea, máx 6)</Label>
+            <Label>Título sección Referencias</Label>
+            <Input
+              value={about.referencesTitle ?? "Referencias"}
+              onChange={(e) => setAbout({ ...about, referencesTitle: e.target.value })}
+              placeholder="Referencias"
+            />
+          </div>
+
+          <div>
+            <Label>Texto de etiqueta en tarjetas de referencias</Label>
+            <Input
+              value={about.referenceBadgeText ?? "Cliente verificado"}
+              onChange={(e) => setAbout({ ...about, referenceBadgeText: e.target.value })}
+              placeholder="Cliente verificado"
+            />
+          </div>
+
+          <div>
+            <Label>Referencias (nombre|descripción, una por línea)</Label>
             <textarea
               className="w-full min-h-[120px] px-3 py-2 rounded-md border border-input bg-input font-mono text-sm"
               value={referencesText}

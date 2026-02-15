@@ -38,7 +38,7 @@ export default function Header() {
       <nav className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 pr-14 md:pr-8 h-20 flex items-center min-w-0 relative justify-between">
         {/* Logo - CAPITAL UY */}
         <div className="flex-1 flex items-center justify-center">
-          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0 mx-auto pl-2 md:pl-0">
+          <Link href="/" className="flex items-center gap-2 group min-w-0 shrink-0 mx-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <Image 
               src="/logo.png" 
               alt="CapitalUY" 
