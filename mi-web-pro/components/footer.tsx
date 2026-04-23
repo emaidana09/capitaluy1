@@ -16,7 +16,6 @@ export default function Footer() {
   }
   return (
     <>
-      <ConveyorBanner />
       <footer className="bg-card border-t border-border" id="contacto">
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="flex flex-col md:flex-row md:justify-center md:items-start gap-8 lg:gap-12 text-left">
@@ -152,18 +151,25 @@ export default function Footer() {
             </div>
           </motion.div>
         </div>
-
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="border-t border-border mt-6 pt-6 text-left md:text-left text-sm text-muted-foreground"
+          className="border-t border-border mt-4 pt-4 text-left md:text-left text-sm text-muted-foreground"
         >
           <p className="mx-auto w-full text-left md:text-left">
             &copy; {new Date().getFullYear()} Capital UY. Todos los derechos reservados.
           </p>
         </motion.div>
+        {/* Conveyor banner placed AFTER rights text, right-aligned and separate block */}
+        <div className="w-full">
+          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
+            <div className="text-right">
+              <ConveyorBanner />
+            </div>
+          </div>
+        </div>
       </div>
       </footer>
     </>
