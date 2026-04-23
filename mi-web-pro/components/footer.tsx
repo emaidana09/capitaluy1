@@ -164,8 +164,8 @@ export default function Footer() {
         </motion.div>
         {/* Conveyor banner placed AFTER rights text, right-aligned and separate block */}
         <div className="w-full">
-          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
-            <div className="text-right">
+          <div className="mx-auto w-full text-left md:text-left">
+            <div className="w-full text-left">
               <ConveyorBanner />
             </div>
           </div>
