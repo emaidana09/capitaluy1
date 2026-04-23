@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { Mail, Phone, Instagram, Twitter, Send } from "lucide-react"
 import { useConfig } from "@/lib/config-context"
+import ConveyorBanner from "./conveyor-banner"
 
 export default function Footer() {
   const { config } = useConfig()
@@ -14,8 +15,10 @@ export default function Footer() {
     return /^https?:\/\//i.test(s) ? s : `https://${s}`
   }
   return (
-    <footer className="bg-card border-t border-border" id="contacto">
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <>
+      <ConveyorBanner />
+      <footer className="bg-card border-t border-border" id="contacto">
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="flex flex-col md:flex-row md:justify-center md:items-start gap-8 lg:gap-12 text-left">
           {/* Brand */}
           <motion.div
@@ -155,13 +158,14 @@ export default function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="border-t border-border mt-8 pt-8 text-left md:text-left text-sm text-muted-foreground"
+          className="border-t border-border mt-6 pt-6 text-left md:text-left text-sm text-muted-foreground"
         >
           <p className="mx-auto w-full text-left md:text-left">
             &copy; {new Date().getFullYear()} Capital UY. Todos los derechos reservados.
           </p>
         </motion.div>
       </div>
-    </footer>
+      </footer>
+    </>
   )
 }

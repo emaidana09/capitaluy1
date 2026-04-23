@@ -169,6 +169,77 @@ html.dark {
   .text-muted-foreground { color: color-mix(in oklab, var(--foreground) 60%, transparent); }
 }
 
+/* Conveyor banner styles - seamless horizontal loop */
+@keyframes conveyor {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(var(--conveyor-half) * -1)); }
+}
+.conveyor-banner {
+  background: transparent;
+  color: #fff; /* white text */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  pointer-events: none; /* don't block interactions */
+  z-index: 10;
+}
+.conveyor-inner {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  justify-content: center;
+}
+.conveyor-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.conveyor-frame {
+  display: inline-block;
+  background: #000;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.conveyor-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  will-change: transform;
+  animation: conveyor 28s linear infinite;
+}
+.conveyor-item {
+  flex: 0 0 auto;
+  padding: 0.25rem 0.75rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+.conveyor-brand {
+  color: #22c55e; /* green */
+}
+.conveyor-rest {
+  color: #fff;
+  margin-left: 0.5rem;
+}
+
+/* reduce gap between banner and footer by overlapping slightly */
+.conveyor-banner { margin-bottom: -8px; }
+.conveyor-sep {
+  width: 1px;
+  height: 1.25rem;
+  background: #fff;
+  opacity: 0.12;
+  margin: 0 0.5rem;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .conveyor-track { animation: none; }
+}
+
 /* Smooth animations - GPU accelerated */
 @layer utilities {
   .animate-smooth {
